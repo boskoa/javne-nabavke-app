@@ -37,7 +37,8 @@ router.get('/:id', async (req, res, next) => {
     const procedure = await Procedure.findByPk(req.params.id, {
       include: [
         { model: User, attributes: ['name'] },
-        { model: ContractingAuthority, attributes: ['name'] }
+        { model: ContractingAuthority, attributes: ['name'] },
+        { model: Requirement, attributes: ['name', 'canDo', 'done'] }
       ]
     })
     if (procedure) {
@@ -106,11 +107,11 @@ router.delete('/:id', tokenExtractor, async (req, res, next) => {
     })
 
     if (!(procedureToDelete.requirements[0] || procedureToDelete.notifications[0])) {
-      procedureToDelete.destroy({ where: { id: req.params.id } })
+      procedureToDelete.destroy({ where: { id: req.params.id } }) //doesn't need argument
       res.status(200).end()
     } else {
       res.status(401).json({
-        error: 'There are requirements and/or notifications connected to this user.'
+        error: 'There are requirements and/or notifications connected to this procedure.'
       })
     }
   } catch (error) {

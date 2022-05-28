@@ -29,6 +29,7 @@ Requirement.init({
   }
 }, {
   sequelize,
+  timestamps: false,
   underscored: true,
   modelName: 'requirement'
 })
