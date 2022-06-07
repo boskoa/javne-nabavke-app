@@ -20,7 +20,7 @@ const MyDrawer = styled(Drawer)(({ theme }) => ({
     paddingTop: 10,
     width: drawerWidth,
     boxSizing: 'border-box',
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.dark,
     color: theme.palette.secondary.contrastText
   },
   '& .Mui-selected': {
@@ -52,7 +52,7 @@ const Navbar = () => {
       id: 2,
       icon: <PersonIcon />,
       label: 'Korisnici',
-      router: 'route'
+      router: '/users'
     },
     {
       id: 3,

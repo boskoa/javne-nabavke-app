@@ -6,11 +6,18 @@ const User = require('../models/user')
 
 router.post('/', async (req, res, next) => {
   try {
+    if (req.body.username === '' || req.body.password === '') {
+      return res.status(401).json({ error: 'No credentials entered' })
+    }
     const user = await User.findOne({
       where: {
         username: req.body.username
       }
     })
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' })
+    }
 
     if (user.disabled) {
       return res.status(401).json({ error: 'Account disabled' })

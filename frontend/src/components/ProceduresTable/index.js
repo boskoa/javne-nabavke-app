@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -7,35 +6,44 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import { useState, useEffect } from 'react'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { styled } from '@mui/system'
+import { useSelector, useDispatch } from 'react-redux'
+import { change } from '../../reducers/pathReducer'
 
-import procedureService from '../../services/procedures'
-import { useDispatch, useSelector } from 'react-redux'
-import { initProcedures } from '../../reducers/procedureReducer'
+const ColumnLabel = styled('span')({
+  '&:hover': {
+    color: 'blue',
+    cursor: 'pointer'
+  }
+})
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'name', label: 'Naziv', minWidth: 170 },
+  { id: 'code', label: 'Ugovorni organ', minWidth: 130 },
   {
     id: 'population',
-    label: 'Population',
+    label: 'Rok za predaju',
     minWidth: 170,
     align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    format: (value) => new Date(value).toString()
   },
   {
     id: 'size',
     label: 'Size\u00a0(km\u00b2)',
     minWidth: 170,
     align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    format: (value) => value.toLocaleString('en-US')
   },
   {
     id: 'density',
     label: 'Density',
     minWidth: 170,
     align: 'right',
-    format: (value) => value.toFixed(2),
-  },
+    format: (value) => value.toFixed(2)
+  }
 ]
 
 function createData(name, code, population, size) {
@@ -44,7 +52,7 @@ function createData(name, code, population, size) {
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
+  createData('India', 'IN', 202205061200, 3287263),
   createData('China', 'CN', 1403500365, 9596961),
   createData('Italy', 'IT', 60483973, 301340),
   createData('United States', 'US', 327167434, 9833520),
@@ -58,27 +66,38 @@ const rows = [
   createData('United Kingdom', 'GB', 67545757, 242495),
   createData('Russia', 'RU', 146793744, 17098246),
   createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  createData('Brazil', 'BR', 210147125, 8515767)
 ]
 
-export default function ProceduresTable() {
+const ProceduresTable = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortCriterium, setSortCriterium] = useState('size') //staviti ključ "rok za predaju"
+  const [sortAscending, setSortAscending] = useState(false)
   const dispatch = useDispatch()
 
-  const initializeProcedures = async () => {
-    const procedures = await procedureService.getAll()
-    dispatch(initProcedures(procedures))
-  }
-
   useEffect(() => {
-    initializeProcedures()
+    console.log('POSTUPCI', change.toString())
+    dispatch(change('Postupci'))
   }, [])
 
-
-  const procs = useSelector(state => state.procedureReducer)
+  const procs = useSelector(state => state.procedure.data)
   console.log(procs)
+  /*
+  const procedures = useSelector(state => state.procedures.data.map((proc) => {
+    return {
+      name: proc.name,
+      authority: proc.authority,
+      amount: proc.amount,
+      deadline: proc.deadline,
+      startDate: proc.startDate,
+      status: proc.status
+    }
+  }))
 
+
+  const sortingFunction = (a, b) => (sortAscending ? a - b : b - a)
+*/
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
@@ -99,8 +118,20 @@ export default function ProceduresTable() {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  onClick={() => {
+                    setSortCriterium(column.id)
+                    setSortAscending(!sortAscending)
+                    console.log(sortAscending, sortCriterium)
+                  }}
                 >
-                  {column.label}
+                  <ColumnLabel>{column.label}</ColumnLabel>
+                  {column.id === sortCriterium ? (
+                    sortAscending ? (
+                      <KeyboardArrowUpIcon sx={{ position: 'absolute' }} />
+                    ) : (
+                      <KeyboardArrowDownIcon sx={{ position: 'absolute' }} />
+                    )
+                  ) : null}
                 </TableCell>
               ))}
             </TableRow>
@@ -108,6 +139,7 @@ export default function ProceduresTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              //.sort(sortingFunction)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -139,3 +171,5 @@ export default function ProceduresTable() {
     </Paper>
   )
 }
+
+export default ProceduresTable
