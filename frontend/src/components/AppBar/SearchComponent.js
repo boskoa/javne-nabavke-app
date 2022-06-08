@@ -3,6 +3,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import { IconButton } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { searchString } from '../../reducers/searchReducer'
 
 const Search = styled('div', {
   shouldForwardProp: (prop) => prop !== 'showSearch'
@@ -15,7 +17,7 @@ const Search = styled('div', {
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: 350,
+  width: 400,
   alignItems: 'center',
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'flex' : 'none',
@@ -54,12 +56,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '100%',
     },
   },
 }))
 
 const SearchComponent = ({ showSearch, setShowSearch }) => {
+  const dispatch = useDispatch()
+
   return (
     <Search showSearch={showSearch}>
       <SearchIconWrapper>
@@ -68,6 +72,7 @@ const SearchComponent = ({ showSearch, setShowSearch }) => {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
+        onChange={(e) => dispatch(searchString(e.target.value))}
       />
       <CloseIconButton
         size="small"

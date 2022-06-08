@@ -3,13 +3,15 @@ import procedureReducer from './reducers/procedureReducer'
 import pathReducer from './reducers/pathReducer'
 import loginReducer from './reducers/loginReducer'
 import snackReducer from './reducers/snackReducer'
+import searchReducer from './reducers/searchReducer'
 
 export default configureStore({
   reducer: {
     procedure: procedureReducer,
     path: pathReducer,
     login: loginReducer,
-    snack: snackReducer
+    snack: snackReducer,
+    search: searchReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })

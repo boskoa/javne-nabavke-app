@@ -21,83 +21,97 @@ const ColumnLabel = styled('span')({
 })
 
 const columns = [
-  { id: 'name', label: 'Naziv', minWidth: 170 },
-  { id: 'code', label: 'Ugovorni organ', minWidth: 130 },
   {
-    id: 'population',
+    id: 'authority',
+    label: 'Ugovorni organ',
+    minWidth: 170
+  },
+  {
+    id: 'name',
+    label: 'Naziv postupka',
+    minWidth: 150
+  },
+  {
+    id: 'endDate',
     label: 'Rok za predaju',
     minWidth: 170,
     align: 'right',
-    format: (value) => new Date(value).toString()
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US')
+    id: 'user',
+    label: 'Referent',
+    minWidth: 100,
+    align: 'center'
   },
   {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
+    id: 'budget',
+    label: 'Budžet',
+    minWidth: 100,
     align: 'right',
-    format: (value) => value.toFixed(2)
+    format: (value) => value.toLocaleString('sr-SR', { minimumFractionDigits: 2 })
+  },
+  {
+    id: 'phase',
+    label: 'Faza postupka',
+    minWidth: 170,
+    align: 'center'
+  },
+  { //Napraviti zastavicu sa nijansom crvene u zavisnosti od rednog broja faze i datuma predaje
+  // rgb(255-(faza*(1/broj faza) / dana do predaje). 0, 0)
+  // ako je predato - plavo
+  // ako je fakturisano/gotovo - zeleno
+    id: 'emergency',
+    label: 'Hitnoća',
+    minWidth: 50,
+    align: 'center'
   }
+
 ]
 
+/* iskoristiti za pravljenje hitnoća zastavice
 function createData(name, code, population, size) {
   const density = population / size
   return { name, code, population, size, density }
 }
-
-const rows = [
-  createData('India', 'IN', 202205061200, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
-]
+*/
 
 const ProceduresTable = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sortCriterium, setSortCriterium] = useState('size') //staviti ključ "rok za predaju"
+  const [sortCriterium, setSortCriterium] = useState('endDate') //staviti ključ "rok za predaju"
   const [sortAscending, setSortAscending] = useState(false)
   const dispatch = useDispatch()
+  const filter = useSelector(state => state.search.value.toLowerCase())
+  console.log(filter)
 
   useEffect(() => {
-    console.log('POSTUPCI', change.toString())
     dispatch(change('Postupci'))
   }, [])
 
-  const procs = useSelector(state => state.procedure.data)
-  console.log(procs)
-  /*
-  const procedures = useSelector(state => state.procedures.data.map((proc) => {
+  const rows = useSelector(state => state.procedure.data.map((proc) => {
+    const date = proc.submissionDate.toString()
+
     return {
+      id: proc.id,
+      authority: proc.contractingAuthority.name,
       name: proc.name,
-      authority: proc.authority,
-      amount: proc.amount,
-      deadline: proc.deadline,
-      startDate: proc.startDate,
-      status: proc.status
+      endDate:
+        `${date.slice(0, 10)} ${date.slice(11, 19)}`,
+      user: proc.user.name,
+      budget: proc.budget,
+      phase: proc.phase,
+      emergency: proc.id
     }
   }))
 
 
-  const sortingFunction = (a, b) => (sortAscending ? a - b : b - a)
-*/
+  const sortingFunction = (a, b) => (sortAscending
+    ? a[`${sortCriterium}`] > b[`${sortCriterium}`]
+    : b[`${sortCriterium}`] > a[`${sortCriterium}`])
+
+  const postupci = rows.sort(sortingFunction)
+  console.log('POSTUP', postupci)
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
@@ -116,7 +130,7 @@ const ProceduresTable = () => {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
+                  align='center'
                   style={{ minWidth: column.minWidth }}
                   onClick={() => {
                     setSortCriterium(column.id)
@@ -138,11 +152,14 @@ const ProceduresTable = () => {
           </TableHead>
           <TableBody>
             {rows
+              .sort(sortingFunction)
+              .filter((p) => p.name.toLowerCase().includes(filter)
+                || p.user.toLowerCase().includes(filter)
+                || p.authority.toLowerCase().includes(filter))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              //.sort(sortingFunction)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id]
                       return (
