@@ -10,7 +10,7 @@ Procedure.init({
   },
   category: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   number: {
     type: DataTypes.STRING,
@@ -22,19 +22,19 @@ Procedure.init({
   },
   frameworkAgreement: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   criterion: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   auction: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   submissionDate: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: true
   },
   budget: {
     type: DataTypes.FLOAT

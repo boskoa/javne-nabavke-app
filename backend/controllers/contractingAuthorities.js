@@ -51,6 +51,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('REKBODI', req.body)
     const authority = await ContractingAuthority.create({ ...req.body })
     res.json(authority)
   } catch (error) {

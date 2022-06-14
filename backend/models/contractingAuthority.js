@@ -17,6 +17,10 @@ ContractingAuthority.init({
     type: DataTypes.STRING,
     unique: true,
     allowNull: false
+  },
+  ajnCode: {
+    type: DataTypes.INTEGER,
+    unique: true
   }
 }, {
   sequelize,

@@ -1,17 +1,14 @@
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TablePagination from '@mui/material/TablePagination'
-import TableRow from '@mui/material/TableRow'
+import {
+  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow
+} from '@mui/material'
 import { useState, useEffect } from 'react'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { styled } from '@mui/system'
 import { useSelector, useDispatch } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
+import NewProcedureModal from './NewProcedureModal'
+import { Link } from 'react-router-dom'
 
 const ColumnLabel = styled('span')({
   '&:hover': {
@@ -89,18 +86,20 @@ const ProceduresTable = () => {
   }, [])
 
   const rows = useSelector(state => state.procedure.data.map((proc) => {
-    const date = proc.submissionDate.toString()
+    if (proc.contractingAuthority) {
+      const date = proc.submissionDate ? proc.submissionDate.toString() : ''
 
-    return {
-      id: proc.id,
-      authority: proc.contractingAuthority.name,
-      name: proc.name,
-      endDate:
+      return {
+        id: proc.id,
+        authority: proc.contractingAuthority.name,
+        name: proc.name,
+        endDate:
         `${date.slice(0, 10)} ${date.slice(11, 19)}`,
-      user: proc.user.name,
-      budget: proc.budget,
-      phase: proc.phase,
-      emergency: proc.id
+        user: proc.user.name,
+        budget: proc.budget,
+        phase: proc.phase,
+        emergency: proc.id
+      }
     }
   }))
 
@@ -122,70 +121,87 @@ const ProceduresTable = () => {
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align='center'
-                  style={{ minWidth: column.minWidth }}
-                  onClick={() => {
-                    setSortCriterium(column.id)
-                    setSortAscending(!sortAscending)
-                    console.log(sortAscending, sortCriterium)
-                  }}
-                >
-                  <ColumnLabel>{column.label}</ColumnLabel>
-                  {column.id === sortCriterium ? (
-                    sortAscending ? (
-                      <KeyboardArrowUpIcon sx={{ position: 'absolute' }} />
-                    ) : (
-                      <KeyboardArrowDownIcon sx={{ position: 'absolute' }} />
-                    )
-                  ) : null}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .sort(sortingFunction)
-              .filter((p) => p.name.toLowerCase().includes(filter)
+    <Box>
+      <NewProcedureModal />
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align='center'
+                    style={{ minWidth: column.minWidth }}
+                    onClick={() => {
+                      setSortCriterium(column.id)
+                      setSortAscending(!sortAscending)
+                      console.log(sortAscending, sortCriterium)
+                    }}
+                  >
+                    <ColumnLabel>{column.label}</ColumnLabel>
+                    {column.id === sortCriterium ? (
+                      sortAscending ? (
+                        <KeyboardArrowUpIcon sx={{ position: 'absolute' }} />
+                      ) : (
+                        <KeyboardArrowDownIcon sx={{ position: 'absolute' }} />
+                      )
+                    ) : null}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows[0] && rows
+                .sort(sortingFunction)
+                .filter((p) => p.name.toLowerCase().includes(filter)
                 || p.user.toLowerCase().includes(filter)
                 || p.authority.toLowerCase().includes(filter))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
-                      const value = row[column.id]
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                      {columns.map((column) => {
+                        const value = row[column.id]
+                        if (column.id === 'name') {
+                          console.log('COLUMN', column.id, row, value)
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <Link
+                                to={`/procedures/${row.id}`}
+                                style={{ color: 'black', textDecoration: 'none' }}
+                              >
+                                {value}
+                              </Link>
+                            </TableCell>
+                          )
+                        } else {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          )
+                        }
+                      })}
+                    </TableRow>
+                  )
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
   )
 }
 

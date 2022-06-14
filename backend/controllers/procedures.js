@@ -36,8 +36,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     const procedure = await Procedure.findByPk(req.params.id, {
       include: [
-        { model: User, attributes: ['name'] },
-        { model: ContractingAuthority, attributes: ['name'] },
+        { model: User },
+        { model: ContractingAuthority },
         { model: Requirement, attributes: ['name', 'canDo', 'done'] }
       ]
     })
@@ -51,9 +51,11 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', tokenExtractor, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.decodedToken.id)
+    const user = await User.findOne({
+      where: { username: req.body.username }
+    })
 
     const authority = await ContractingAuthority.findOne({
       where: { jib: req.body.jib }
@@ -63,6 +65,7 @@ router.post('/', tokenExtractor, async (req, res, next) => {
       return res.status(401).json({ error: 'No such contracting authority in DB' })
     }
 
+    console.log('AJDI', user.id)
     const procedure = await Procedure.create({
       ...req.body,
       contractingAuthorityId: authority.id,

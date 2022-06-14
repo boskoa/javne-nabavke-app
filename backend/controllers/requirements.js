@@ -38,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
     if (requirement) {
       res.json(requirement)
     } else {
-      res.json({ error: 'No such contracting authority' })
+      res.json({ error: 'No such requirement' })
     }
   } catch (error) {
     next(error)

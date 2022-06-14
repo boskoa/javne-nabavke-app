@@ -13,9 +13,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initProcedures } from './reducers/procedureReducer'
 import Intro from './components/Intro'
 import { login } from './reducers/loginReducer'
-import loginServices from './services/login'
+import procedureServices from './services/procedures'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
+import ProcedureView from './components/ProcedureView'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(login(user))
-      loginServices.setToken(user.token)
+      procedureServices.setToken(user.token)
     }
   }, [])
 
@@ -50,6 +51,7 @@ const App = () => {
           >
             <Toolbar />
             <Routes>
+              <Route path='/procedures/:id' element={<ProcedureView />} />
               <Route path='/procedures' element={<ProceduresTable />} />
               <Route path='/users' element={<Users />} />
               <Route path='/' element={<HomePage />} />

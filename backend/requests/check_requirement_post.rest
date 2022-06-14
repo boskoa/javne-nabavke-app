@@ -2,6 +2,6 @@ POST http://localhost:3003/api/requirements
 Content-Type: application/json
 
 {
-    "name": "ISO 9001",
-    "procedureId": 1
+    "name": "Član 52.",
+    "procedureId": 23
 }

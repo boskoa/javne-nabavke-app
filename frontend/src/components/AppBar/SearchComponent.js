@@ -72,6 +72,7 @@ const SearchComponent = ({ showSearch, setShowSearch }) => {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
+        fullWidth
         onChange={(e) => dispatch(searchString(e.target.value))}
       />
       <CloseIconButton

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import loginServices from '../services/login'
+import proceduresServices from '../services/procedures'
 
 export const loginThunk = createAsyncThunk(
   'login/loginThunk',
@@ -7,7 +8,9 @@ export const loginThunk = createAsyncThunk(
     try {
       const response = await loginServices.login(credentials)
       window.localStorage.setItem('loggedTenderUser', JSON.stringify(response))
-      loginServices.setToken(response)
+      await loginServices.setToken(response)
+      await proceduresServices.setToken(response)
+
       return response
     } catch (exception) {
       return exception.response.data

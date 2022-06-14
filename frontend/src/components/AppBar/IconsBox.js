@@ -44,6 +44,7 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
     setAnchorEl(null)
     dispatch(logout())
     window.localStorage.clear()
+    console.log(window.localStorage)
     navigate('/')
   }
 
