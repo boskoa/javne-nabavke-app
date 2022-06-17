@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
 import NewProcedureModal from './NewProcedureModal'
 import { Link } from 'react-router-dom'
+import EmergencyFlag from './EmergencyFlag'
 
 const ColumnLabel = styled('span')({
   '&:hover': {
@@ -65,13 +66,6 @@ const columns = [
 
 ]
 
-/* iskoristiti za pravljenje hitnoća zastavice
-function createData(name, code, population, size) {
-  const density = population / size
-  return { name, code, population, size, density }
-}
-*/
-
 const ProceduresTable = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -98,7 +92,7 @@ const ProceduresTable = () => {
         user: proc.user.name,
         budget: proc.budget,
         phase: proc.phase,
-        emergency: proc.id
+        emergency: `${date.slice(0, 10)} ${date.slice(11, 19)}` //prilagoditi da bude prema vrednosti zelene/plave
       }
     }
   }))
@@ -107,9 +101,6 @@ const ProceduresTable = () => {
   const sortingFunction = (a, b) => (sortAscending
     ? a[`${sortCriterium}`] > b[`${sortCriterium}`]
     : b[`${sortCriterium}`] > a[`${sortCriterium}`])
-
-  const postupci = rows.sort(sortingFunction)
-  console.log('POSTUP', postupci)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -164,7 +155,6 @@ const ProceduresTable = () => {
                       {columns.map((column) => {
                         const value = row[column.id]
                         if (column.id === 'name') {
-                          console.log('COLUMN', column.id, row, value)
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <Link
@@ -173,6 +163,12 @@ const ProceduresTable = () => {
                               >
                                 {value}
                               </Link>
+                            </TableCell>
+                          )
+                        } else if (column.id === 'emergency') {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <EmergencyFlag endDate={row.endDate} phase={row.phase} />
                             </TableCell>
                           )
                         } else {
@@ -192,6 +188,10 @@ const ProceduresTable = () => {
           </Table>
         </TableContainer>
         <TablePagination
+          labelRowsPerPage='Redova po stranici'
+          labelDisplayedRows={ ({ from, to, count }) => {
+            return `${from}–${to} od ${count !== -1 ? count : `više od ${to}`}` }
+          }
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={rows.length}

@@ -1,7 +1,7 @@
-PUT http://localhost:3003/api/procedures/1
+PUT http://localhost:3003/api/procedures/26
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY28iLCJpZCI6MywiaWF0IjoxNjUzMjQ2ODI5fQ.s_On8LfJh5b6zicD2oxhOtzlYm4WhZyU2r_wRa0NlgU
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY28iLCJpZCI6MSwiaWF0IjoxNjU1MzE4NTMzfQ.Dq5g4VYYDtDcyzL4_FCW7XWIsemRot2vizT2y7GVpKg
 
 {
-  "budget": 30000.00
+  "budget": 3200000.00
 }

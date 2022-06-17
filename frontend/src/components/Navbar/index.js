@@ -24,7 +24,7 @@ const MyDrawer = styled(Drawer)(({ theme }) => ({
     color: theme.palette.secondary.contrastText
   },
   '& .Mui-selected': {
-    color: 'red'
+    color: 'green'
   },
   [theme.breakpoints.down('md')]: {
     width: drawerWidthSm,
@@ -58,19 +58,19 @@ const Navbar = () => {
       id: 3,
       icon: <BusinessIcon />,
       label: 'Ugovorni organi',
-      router: 'route'
+      router: '/authorities'
     },
     {
       id: 4,
       icon: <EventIcon />,
       label: 'Podsetnici',
-      router: 'route'
+      router: '/notifications'
     },
     {
       id: 5,
       icon: <BarChartIcon />,
       label: 'Analiza',
-      router: 'route'
+      router: '/analysis'
     }
   ]
 

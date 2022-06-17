@@ -13,19 +13,21 @@ export const getOneThunk = createAsyncThunk(
     }
   }
 )
-/*
+
 export const updateOneThunk = createAsyncThunk(
-  'selectedProcedure/updateOneThunk',
-  async (data) => {
+  'procedure/updateOne',
+  async ({ id, label }) => {
     try {
-      const response = await procedureServices.getOne(data)
+      const phase = { phase: label }
+      console.log('RIĐUSER APDEJT', id, label, phase)
+      const response = await procedureServices.updateOne(id, phase)
       return response
     } catch (exception) {
       return exception.response.data
     }
   }
 )
-*/
+
 const initialState = {
   status: null,
   data: {}
@@ -38,10 +40,10 @@ const authoritiesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getOneThunk.fulfilled, (state, action) => {
       state.data = action.payload
-    })/*
+    })
     builder.addCase(updateOneThunk.fulfilled, (state, action) => {
-      state.data = [ ...state.data, action.payload ]
-    })*/
+      state.data = { ...state.data, phase: action.payload.phase }
+    })
   }
 })
 

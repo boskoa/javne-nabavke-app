@@ -18,9 +18,27 @@ export const newProcedure = createAsyncThunk(
   }
 )
 
+export const getAllAnalysis = createAsyncThunk(
+  'procedure/getAllAnalysis',
+  async () => {
+    const response = await procedureService.getAllAnalysis()
+    return response
+  }
+)
+
+export const getForAuthority = createAsyncThunk(
+  'procedure/getForAuthority',
+  async (id) => {
+    const response = await procedureService.getForAuthority(id)
+    return response
+  }
+)
+
 const initialState = {
   status: null,
-  data: []
+  data: [],
+  analysis: [],
+  forAuthority: []
 }
 
 const procedureSlice = createSlice({
@@ -29,6 +47,9 @@ const procedureSlice = createSlice({
   reducers: {
     clean: (state) => {
       state.data = []
+    },
+    cleanForAuthority: (state) => {
+      state.forAuthority = []
     }
   },
   extraReducers: (builder) => {
@@ -38,10 +59,16 @@ const procedureSlice = createSlice({
     builder.addCase(newProcedure.fulfilled, (state, action) => {
       state.data = [ ...state.data, action.payload ]
     })
+    builder.addCase(getAllAnalysis.fulfilled, (state, action) => {
+      state.analysis = action.payload
+    })
+    builder.addCase(getForAuthority.fulfilled, (state, action) => {
+      state.forAuthority = action.payload
+    })
   }
 })
 
-export const { clean } = procedureSlice.actions
+export const { clean, cleanForAuthority } = procedureSlice.actions
 
 
 export default procedureSlice.reducer

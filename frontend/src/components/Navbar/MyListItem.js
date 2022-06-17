@@ -4,6 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const MyListItemIcon = styled(ListItemIcon)(({ theme }) => ({
   marginLeft: '0.5em',
@@ -22,11 +23,19 @@ const MyListItemText = styled(ListItemText)(({ theme }) => ({
 }))
 
 const MyListItem = ({ item }) => {
+  const path = useLocation().pathname.slice(1)
+  const bgColor = path === item.router.slice(1) ? 'black' : false
+
   return (
     <ListItem disablePadding>
       <Link
         to={item.router}
-        style={{ color: 'white', textDecoration: 'none' }}
+        style={{
+          backgroundColor: bgColor,
+          color: 'white',
+          textDecoration: 'none',
+          width: '100%'
+        }}
       >
         <ListItemButton>
           <MyListItemIcon>

@@ -19,13 +19,30 @@ const getOne = async (id) => {
   return response.data
 }
 
+const getAllAnalysis = async () => {
+  const response = await axios.get(`${baseUrl}/analysis`)
+  return response.data
+}
+
+const getForAuthority = async (id) => {
+  const response = await axios.get(`${baseUrl}?searchAuthority=${id}`)
+  return response.data
+}
+
 const newProcedure = async (data) => {
   const config = {
     headers: { Authorization: token },
   }
-  console.log('PREPROCEDURE', config.headers)
   const response = await axios.post(baseUrl, data, config)
-  console.log('NEW PROCEDURE', response, config.headers)
+  return response.data
+}
+
+const updateOne = async (id, data) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.put(`${baseUrl}/${id}`, data, config)
+  console.log('SERVIS AOPDEJT', id, data, response.data)
   return response.data
 }
 
@@ -33,5 +50,8 @@ export default {
   getAll,
   newProcedure,
   getOne,
+  getAllAnalysis,
+  getForAuthority,
+  updateOne,
   setToken
 }

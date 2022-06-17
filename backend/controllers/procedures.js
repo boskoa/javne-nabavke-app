@@ -2,6 +2,7 @@ const router = require('express').Router()
 const { Procedure, User, ContractingAuthority, Requirement, Notification } = require('../models')
 const tokenExtractor = require('../utils/tokenExtractor')
 const { Op } = require('sequelize')
+const { sequelize } = require('../models/user')
 
 router.get('/', async (req, res, next) => {
   let where = {}
@@ -17,6 +18,10 @@ router.get('/', async (req, res, next) => {
     where = { name: { [Op.substring]: req.query.search } }
   }
 
+  if (req.query.searchAuthority) {
+    where = { contractingAuthorityId: req.query.searchAuthority }
+  }
+
   try {
     const procedures = await Procedure.findAll({
       where,
@@ -27,6 +32,34 @@ router.get('/', async (req, res, next) => {
       ]
     })
     res.json(procedures)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/analysis', async (req, res, next) => {
+  try {
+    const result = await sequelize.query(
+      `SELECT
+        procedures.contracting_authority_id,
+        contracting_authorities.name,
+        contracting_authorities.id,
+        contracting_authorities.jib,
+        COUNT(procedures.id) AS procedure_count,
+        COUNT(procedures.phase) FILTER (WHERE procedures.phase='fakturisano') AS success_count,
+        SUM(procedures.amount) AS total_amount
+        FROM procedures
+        JOIN contracting_authorities ON procedures.contracting_authority_id = contracting_authorities.id
+        GROUP BY
+          contracting_authority_id,
+          contracting_authorities.name,
+          contracting_authorities.id,
+          contracting_authorities.jib`,
+      {
+        type: sequelize.QueryTypes.SELECT
+      }
+    )
+    res.json(result)
   } catch (error) {
     next(error)
   }
@@ -65,7 +98,6 @@ router.post('/', async (req, res, next) => {
       return res.status(401).json({ error: 'No such contracting authority in DB' })
     }
 
-    console.log('AJDI', user.id)
     const procedure = await Procedure.create({
       ...req.body,
       contractingAuthorityId: authority.id,
