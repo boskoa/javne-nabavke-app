@@ -10,6 +10,8 @@ import { change } from '../../reducers/pathReducer'
 import NewProcedureModal from './NewProcedureModal'
 import { Link } from 'react-router-dom'
 import EmergencyFlag from './EmergencyFlag'
+import FilterSwitch from '../HomePage/FilterSwitch'
+import { cleanSelected } from '../../reducers/selectedProcedureReducer'
 
 const ColumnLabel = styled('span')({
   '&:hover': {
@@ -32,7 +34,7 @@ const columns = [
   {
     id: 'endDate',
     label: 'Rok za predaju',
-    minWidth: 170,
+    minWidth: 175,
     align: 'right',
   },
   {
@@ -46,7 +48,7 @@ const columns = [
     label: 'Budžet',
     minWidth: 100,
     align: 'right',
-    format: (value) => value.toLocaleString('sr-SR', { minimumFractionDigits: 2 })
+    format: (value) => value.toLocaleString('sr-BA', { minimumFractionDigits: 2 })
   },
   {
     id: 'phase',
@@ -71,31 +73,37 @@ const ProceduresTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sortCriterium, setSortCriterium] = useState('endDate') //staviti ključ "rok za predaju"
   const [sortAscending, setSortAscending] = useState(false)
+  const [userFilter, setUserFilter] = useState(false)
   const dispatch = useDispatch()
   const filter = useSelector(state => state.search.value.toLowerCase())
-  console.log(filter)
+
+  const user = useSelector((state) => state.login.data.name)
 
   useEffect(() => {
     dispatch(change('Postupci'))
   }, [])
 
-  const rows = useSelector(state => state.procedure.data.map((proc) => {
+  const rawRows = userFilter
+    ? useSelector(state => state.procedure.data).filter((r) => r.user.name === user)
+    : useSelector(state => state.procedure.data)
+
+  const rows = rawRows.map((proc) => {
     if (proc.contractingAuthority) {
-      const date = proc.submissionDate ? proc.submissionDate.toString() : ''
+      const date = proc.submissionDate ? proc.submissionDate : ''
+      console.log('DATEDATE', date)
 
       return {
         id: proc.id,
         authority: proc.contractingAuthority.name,
         name: proc.name,
-        endDate:
-        `${date.slice(0, 10)} ${date.slice(11, 19)}`,
+        endDate: date.slice(4, 24),
         user: proc.user.name,
         budget: proc.budget,
         phase: proc.phase,
-        emergency: `${date.slice(0, 10)} ${date.slice(11, 19)}` //prilagoditi da bude prema vrednosti zelene/plave
+        emergency: date.slice(4, 24)
       }
     }
-  }))
+  })
 
 
   const sortingFunction = (a, b) => (sortAscending
@@ -114,6 +122,7 @@ const ProceduresTable = () => {
   return (
     <Box>
       <NewProcedureModal />
+      <FilterSwitch setFilter={() => setUserFilter(!userFilter)} />
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -160,6 +169,7 @@ const ProceduresTable = () => {
                               <Link
                                 to={`/procedures/${row.id}`}
                                 style={{ color: 'black', textDecoration: 'none' }}
+                                onClick={() => dispatch(cleanSelected())}
                               >
                                 {value}
                               </Link>

@@ -113,9 +113,15 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', tokenExtractor, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.decodedToken.id)
-    const procedureToChange = await Procedure.findByPk(req.params.id)
+    const procedureToChange = await Procedure.findByPk(req.params.id, {
+      include: [
+        { model: User },
+        { model: ContractingAuthority },
+        { model: Requirement, attributes: ['name', 'canDo', 'done'] }
+      ]
+    })
 
-    if (!user.admin || req.decodedToken.id !== procedureToChange.userId) {
+    if (!user.admin && req.decodedToken.id !== procedureToChange.userId) {
       res.status(401).json({ error: 'You are not authorized for this action.' })
     }
 

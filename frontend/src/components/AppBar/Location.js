@@ -5,6 +5,13 @@ import { useSelector } from 'react-redux'
 const MyTypography = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
 })(({ theme, showSearch }) => ({
+  height: '100%',
+  backgroundColor: theme.palette.primary.dark,
+  color: 'white',
+  paddingLeft: 5,
+  paddingRight: 5,
+  borderRadius: 2,
+  flexShrink: 0,
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'none' : 'show',
   }

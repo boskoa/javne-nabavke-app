@@ -16,11 +16,10 @@ export const getOneThunk = createAsyncThunk(
 
 export const updateOneThunk = createAsyncThunk(
   'procedure/updateOne',
-  async ({ id, label }) => {
+  async ({ id, data }) => {
     try {
-      const phase = { phase: label }
-      console.log('RIĐUSER APDEJT', id, label, phase)
-      const response = await procedureServices.updateOne(id, phase)
+      console.log('RIĐUSER APDEJT', id, data)
+      const response = await procedureServices.updateOne(id, data)
       return response
     } catch (exception) {
       return exception.response.data
@@ -33,18 +32,25 @@ const initialState = {
   data: {}
 }
 
-const authoritiesSlice = createSlice({
+const selectedSlice = createSlice({
   name: 'selectedProcedure',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanSelected: (state) => {
+      console.log('CLEANED', state.data)
+      state.data = {}
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getOneThunk.fulfilled, (state, action) => {
       state.data = action.payload
     })
     builder.addCase(updateOneThunk.fulfilled, (state, action) => {
-      state.data = { ...state.data, phase: action.payload.phase }
+      state.data = action.payload
     })
   }
 })
 
-export default authoritiesSlice.reducer
+export const { cleanSelected } = selectedSlice.actions
+
+export default selectedSlice.reducer

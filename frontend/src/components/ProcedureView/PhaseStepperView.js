@@ -41,7 +41,7 @@ const PhaseStepperView = ({ procedure }) => {
 
   const [completed, setCompleted] = useState(completedList)
   const dispatch = useDispatch()
-  const currentStep = parseInt(procedure.phase.slice(0,2)) - 1
+  const currentStep = procedure.phase ? parseInt(procedure.phase.slice(0,2)) - 1 : -1
   console.log('CURRENT STEP', currentStep)
 
   useEffect(() => {
@@ -50,10 +50,8 @@ const PhaseStepperView = ({ procedure }) => {
 
   const handleCompleted = async (index) => {
     const newCompleted = completed.map((c, i) => {
-      //console.log("MINI", index, typeof i);
       return i !== index ? false : !c
     })
-    //console.log("NEW", newCompleted);
     setCompleted(newCompleted)
     console.log('COMPLETED', completed)
   }
@@ -61,12 +59,10 @@ const PhaseStepperView = ({ procedure }) => {
   const handleComplete = async (index, label) => {
     handleCompleted(index)
     console.log('HANDLE', typeof(procedure.id), label)
-    const data = { id: procedure.id, label: label }
+    const data = { id: procedure.id, data: { phase: label } }
     console.log('DEJTAAAA', data)
     dispatch(updateOneThunk(data))
   }
-
-  //console.log(steps, completedList);
 
   return (
     <Paper elevation={10} sx={{ p: 1, width: '100%', backgroundColor: '#F5FFFA' }}>

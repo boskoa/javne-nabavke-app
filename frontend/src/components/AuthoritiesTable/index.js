@@ -9,6 +9,7 @@ import { styled } from '@mui/system'
 import { useSelector, useDispatch } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
 import { cleanForAuthority, getAllAnalysis } from '../../reducers/procedureReducer'
+import Loading from '../Loading'
 
 const ColumnLabel = styled('span')({
   '&:hover': {
@@ -80,7 +81,7 @@ const AuthoritiesTable = () => {
 
   const data = useSelector(state => state.procedure.analysis)
   if (!data) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   const rows = data.map((d) => {

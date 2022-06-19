@@ -1,13 +1,15 @@
-import { Box } from '@mui/system'
+import { Stack } from '@mui/material'
 import ProcedureCard from './ProcedureCard'
 
 const ProceduresReview = ({ procedures }) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
       {procedures.map((p) => {
-        return <ProcedureCard key={p.id} p={p} />
+        return (
+          <ProcedureCard key={p.id} p={p} />
+        )
       })}
-    </Box>
+    </Stack>
   )
 }
 

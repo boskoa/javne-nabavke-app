@@ -16,7 +16,7 @@ const BarComponent = () => {
     return <div>Loading</div>
   }
 
-  let barDatan = { '2021': 2 } //isprazniti
+  let barDatan = {} //isprazniti
   const datesLong = proceduresFromAuthority.map((a) => a.createdAt)
   const dates = datesLong.map((d) => d.slice(0,4))
   for (let i = 0; i < dates.length; i++) {

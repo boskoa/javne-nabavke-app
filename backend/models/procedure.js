@@ -10,7 +10,8 @@ Procedure.init({
   },
   category: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    defaultValue: ''
   },
   number: {
     type: DataTypes.STRING,
@@ -26,39 +27,48 @@ Procedure.init({
   },
   criterion: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    defaultValue: ''
   },
   auction: {
     type: DataTypes.BOOLEAN,
     allowNull: true
   },
   submissionDate: {
-    type: DataTypes.DATE,
-    allowNull: true
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
   },
   budget: {
-    type: DataTypes.FLOAT
+    type: DataTypes.FLOAT,
+    defaultValue: 0.00
   },
   deliveryLocation: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    defaultValue: ''
   },
   deliveryDate: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   payment: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   offerValidity: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   filledDraft: {
     type: DataTypes.BOOLEAN
   },
   copy: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   amount: {
-    type: DataTypes.FLOAT
+    type: DataTypes.FLOAT,
+    defaultValue: 0.00
   },
   phase: {
     type: DataTypes.STRING
