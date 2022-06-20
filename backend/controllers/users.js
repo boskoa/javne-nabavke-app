@@ -4,6 +4,22 @@ const bcrypt = require('bcrypt')
 const { Op } = require('sequelize')
 const tokenExtractor = require('../utils/tokenExtractor')
 
+router.get('/overview', async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: {
+        exclude: ['passwordHash']
+      },
+      include: [
+        { model: Procedure, attributes: ['userId', 'id', 'phase', 'createdAt'] }
+      ]
+    })
+    res.json(users)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   let where = {}
   let order = []

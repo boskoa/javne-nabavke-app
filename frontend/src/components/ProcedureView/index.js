@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles'
 import Loading from '../Loading'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
+import { updateProcedures } from '../../reducers/procedureReducer'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -75,6 +76,10 @@ const ProcedureView = () => {
       }).format(procedure.amount))
       setDate(procedure.submissionDate)
     }
+  }, [procedure])
+
+  useEffect(() => {
+    dispatch(updateProcedures(procedure))
   }, [procedure])
 
   const handleDate = () => {

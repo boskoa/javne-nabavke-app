@@ -50,6 +50,12 @@ const procedureSlice = createSlice({
     },
     cleanForAuthority: (state) => {
       state.forAuthority = []
+    },
+    updateProcedures: (state, action) => {
+      state.data = state.data.map((d) => {
+        console.log('PAYLOAD', action)
+        return d.id !== action.payload.id ? d : action.payload
+      })
     }
   },
   extraReducers: (builder) => {
@@ -68,7 +74,7 @@ const procedureSlice = createSlice({
   }
 })
 
-export const { clean, cleanForAuthority } = procedureSlice.actions
+export const { clean, cleanForAuthority, updateProcedures } = procedureSlice.actions
 
 
 export default procedureSlice.reducer

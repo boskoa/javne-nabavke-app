@@ -7,6 +7,7 @@ import searchReducer from './reducers/searchReducer'
 import authorityReducer from './reducers/authorityReducer'
 import requirementReducer from './reducers/requirementReducer'
 import selectedProcedureReducer from './reducers/selectedProcedureReducer'
+import userReducer from './reducers/userReducer'
 
 export default configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export default configureStore({
     search: searchReducer,
     authorities: authorityReducer,
     requirement: requirementReducer,
-    selectedProcedure: selectedProcedureReducer
+    selectedProcedure: selectedProcedureReducer,
+    users: userReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })
