@@ -15,17 +15,17 @@ const ChartComponent = () => {
     return <div>Loading</div>
   }
 
-  console.log('PROCEDURES', proceduresFromAuthority)
   const procedureCount = proceduresFromAuthority.length
-  console.log('COUNT D MANI', procedureCount)
   const percentageFail = (proceduresFromAuthority.filter(
-    (a) => a.phase === 'nismo prošli')
+    (a) => a.phase === '11 Ne izlazimo'
+      || a.phase === '12 Nismo prošli'
+      || a.phase === '13 Stopirano'
+  )
   ).length / procedureCount * 100
   const percentageSuccess = (proceduresFromAuthority.filter(
-    (a) => a.phase === 'fakturisano')
+    (a) => a.phase === '10 Isporučeno i fakturisano')
   ).length / procedureCount * 100
   const percentageOngoing = 100 - (percentageFail + percentageSuccess)
-  console.log('PERCENTAGE', percentageFail, percentageOngoing, percentageSuccess)
   const chartData = [
     { procedures: 'u toku', percentage: percentageOngoing },
     { procedures: 'nismo prošli', percentage: percentageFail },

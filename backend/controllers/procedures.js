@@ -46,10 +46,12 @@ router.get('/analysis', async (req, res, next) => {
         contracting_authorities.id,
         contracting_authorities.jib,
         COUNT(procedures.id) AS procedure_count,
-        COUNT(procedures.phase) FILTER (WHERE procedures.phase='fakturisano') AS success_count,
+        COUNT(procedures.phase) FILTER (WHERE procedures.phase='10 Isporučeno i fakturisano')
+          AS success_count,
         SUM(procedures.amount) AS total_amount
         FROM procedures
-        JOIN contracting_authorities ON procedures.contracting_authority_id = contracting_authorities.id
+        JOIN contracting_authorities
+          ON procedures.contracting_authority_id = contracting_authorities.id
         GROUP BY
           contracting_authority_id,
           contracting_authorities.name,

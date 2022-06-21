@@ -215,14 +215,18 @@ const ProcedureView = () => {
               flexWrap: 'wrap',
               justifyContent: 'space-between'
             }}>
-              <Typography variant="body2">
+              <Typography sx={{ padding: 1 }} variant="body2">
                 Ugovorni organ: {procedure.contractingAuthority.name}
               </Typography>
-              <Typography variant="body2">Naziv: {procedure.name}</Typography>
-              <Typography variant="body2">
+              <Typography sx={{ padding: 1 }} variant="body2">
+                Naziv: {procedure.name}
+              </Typography>
+              <Typography sx={{ padding: 1 }} variant="body2">
                 Broj obaveštenja: {procedure.number}
               </Typography>
-              <Typography variant="body2">ID: {procedure.id}</Typography>
+              <Typography sx={{ padding: 1 }} variant="body2">
+                Korisnik: {procedure.user.name}
+              </Typography>
             </Box>
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />

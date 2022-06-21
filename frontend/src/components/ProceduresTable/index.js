@@ -1,5 +1,5 @@
 import {
-  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow
+  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Avatar
 } from '@mui/material'
 import { useState, useEffect } from 'react'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -181,7 +181,18 @@ const ProceduresTable = () => {
                               <EmergencyFlag endDate={row.endDate} phase={row.phase} />
                             </TableCell>
                           )
-                        } else {
+                        } else if (column.id === 'user') {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <Chip
+                                label={row.user}
+                                size="small"
+                                color="primary"
+                                avatar={<Avatar src="../../static/user_avatar.png" />}
+                              />
+                            </TableCell>
+                          )
+                        }else {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {column.format && typeof value === 'number'
