@@ -1,6 +1,6 @@
 import {
-  Paper, Box, Typography, FormGroup, Checkbox, FormControlLabel, TextField, Button, IconButton,
-  FormControl, InputLabel, Select, MenuItem, Divider
+  Paper, Box, Typography, FormGroup, Checkbox, FormControlLabel, TextField, Button,
+  FormControl, InputLabel, Select, MenuItem, Divider, Chip
 } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -12,13 +12,14 @@ import {
   addRequirement, getByProcedure, updateRequirement, deleteRequirement
 } from '../../reducers/requirementReducer'
 import { getOneThunk, updateOneThunk } from '../../reducers/selectedProcedureReducer'
-import ClearIcon from '@mui/icons-material/Clear'
+import CloseIcon from '@mui/icons-material/Close'
 import PhaseStepperView from './PhaseStepperView'
 import { styled } from '@mui/material/styles'
 import Loading from '../Loading'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { updateProcedures } from '../../reducers/procedureReducer'
+import { change } from '../../reducers/pathReducer'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -59,6 +60,7 @@ const ProcedureView = () => {
   useEffect(() => {
     dispatch(getOneThunk(parseInt(id)))
     dispatch(getByProcedure(parseInt(id)))
+    dispatch(change('Pregled postupka'))
   }, [])
 
   useEffect(() => {
@@ -75,11 +77,8 @@ const ProcedureView = () => {
         style: 'currency', currency: 'BAM'
       }).format(procedure.amount))
       setDate(procedure.submissionDate)
+      dispatch(updateProcedures(procedure))
     }
-  }, [procedure])
-
-  useEffect(() => {
-    dispatch(updateProcedures(procedure))
   }, [procedure])
 
   const handleDate = () => {
@@ -427,34 +426,37 @@ const ProcedureView = () => {
               display: 'flex',
               flexDirection: 'column',
               flexWrap: 'wrap',
-              maxHeight: '30vh'
+              maxHeight: '40vh'
             }}>
               {requirements.map((r) => (
                 <div
                   style={{
                     display: 'flex',
+                    displayWrap: 'wrap',
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginRight: 20
                   }}
                   key={r.id}
                 >
-                  <FormControlLabel
-                    style={{ pointerEvents: 'none' }}
-                    control={
+                  <Chip
+                    label={<Typography variant="body2">{r.name}</Typography>}
+                    onDelete={async () => {
+                      dispatch(deleteRequirement(parseInt(r.id)))
+                    }}
+                    deleteIcon={<CloseIcon fontSize="small" sx={{ p: 0, height: '1.2rem' }} />}
+                    variant="outlined"
+                    color="primary"
+                    icon={
                       <Checkbox
                         style={{ pointerEvents: 'auto' }}
+                        size="small"
                         checked={r.done}
                         value={r.id}
                         onClick={(event) => handleCheckbox(event)}
                       />}
-                    label={<Typography variant="body2">{r.name}</Typography>}
+                    sx={{ mb: 1 }}
                   />
-                  <IconButton size="small" color="inherit" onClick={async () => {
-                    dispatch(deleteRequirement(parseInt(r.id)))
-                  }}>
-                    <ClearIcon fontSize="small" sx={{ p: 0 }} />
-                  </IconButton>
                 </div>
               ))
               }

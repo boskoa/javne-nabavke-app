@@ -36,7 +36,7 @@ const AuthorityForm = ({ setOpen, setAuthority }) => {
   }
 
   return (
-    <div style={{ marginTop: '2em' }}>
+    <div style={{ marginTop: '2rem' }}>
       <TextField
         id="name"
         label="Naziv UO"

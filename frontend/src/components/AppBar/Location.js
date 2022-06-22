@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 const MyChip = styled(Chip, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
 })(({ theme, showSearch }) => ({
+  marginRight: 5,
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'none' : 'show',
   }
@@ -18,7 +19,7 @@ const Location = ({ showSearch }) => {
       showSearch={showSearch}
       label={path}
       variant="outlined"
-      color="primary"
+      sx={{ color: 'gray', borderColor: 'gray' }}
     />
   )
 }

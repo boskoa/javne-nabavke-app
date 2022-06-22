@@ -54,7 +54,7 @@ const HomePage = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <FilterSwitch setFilter={() => setFilter(!filter)} />
+      <FilterSwitch text="samo moji postupci" setFilter={() => setFilter(!filter)} />
       <Stack spacing={2} sx={{ flexWrap: 'wrap' }}>
         <div style={{ marginBottom: 5, backgroundColor: '#A0D995', borderRadius: 2 }}>
           <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>

@@ -1,5 +1,5 @@
 import {
-  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Avatar
+  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Avatar, Stack
 } from '@mui/material'
 import { useState, useEffect } from 'react'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -74,6 +74,7 @@ const ProceduresTable = () => {
   const [sortCriterium, setSortCriterium] = useState('endDate') //staviti ključ "rok za predaju"
   const [sortAscending, setSortAscending] = useState(false)
   const [userFilter, setUserFilter] = useState(false)
+  const [phaseFilter, setPhaseFilter] = useState(false)
   const dispatch = useDispatch()
   const filter = useSelector(state => state.search.value.toLowerCase())
 
@@ -87,7 +88,18 @@ const ProceduresTable = () => {
     ? useSelector(state => state.procedure.data).filter((r) => r.user.name === user)
     : useSelector(state => state.procedure.data)
 
-  const rows = rawRows.map((proc) => {
+  const inactivePhases = [
+    '10 Isporučeno i fakturisano',
+    '11 Ne izlazimo',
+    '12 Nismo prošli',
+    '13 Stopirano'
+  ]
+
+  const rawRowsWithPhase = phaseFilter
+    ? rawRows.filter((p) => !inactivePhases.includes(p.phase))
+    : rawRows
+
+  const rows = rawRowsWithPhase.map((proc) => {
     if (proc.contractingAuthority) {
       const date = proc.submissionDate ? proc.submissionDate : ''
       console.log('DATEDATE', date)
@@ -121,8 +133,25 @@ const ProceduresTable = () => {
 
   return (
     <Box>
-      <NewProcedureModal />
-      <FilterSwitch setFilter={() => setUserFilter(!userFilter)} />
+      <Stack sx={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        mb: 1
+      }}>
+        <NewProcedureModal />
+        <Stack sx={{ alignItems: 'start' }}>
+          <FilterSwitch
+            text="samo moji postupci"
+            color="primary"
+            setFilter={() => setUserFilter(!userFilter)}
+          />
+          <FilterSwitch
+            text="samo aktivni postupci"
+            color="secondary"
+            setFilter={() => setPhaseFilter(!phaseFilter)}
+          />
+        </Stack>
+      </Stack>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">

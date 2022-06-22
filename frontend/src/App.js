@@ -18,6 +18,7 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import ProcedureView from './components/ProcedureView'
 import AuthoritiesTable from './components/AuthoritiesTable'
+import Analysis from './components/Analysis'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -56,6 +57,7 @@ const App = () => {
               <Route path='/procedures' element={<ProceduresTable />} />
               <Route path='/users' element={<Users />} />
               <Route path='/authorities' element={<AuthoritiesTable />} />
+              <Route path='/analysis' element={<Analysis />} />
               <Route path='/' element={<HomePage />} />
             </Routes>
           </Box>
