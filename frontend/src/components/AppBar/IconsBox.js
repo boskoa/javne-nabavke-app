@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../reducers/loginReducer'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ClickAwayListener } from '@mui/base'
 
 const MyBox = styled(Box, {
@@ -93,7 +93,9 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
           }}
         >
           <MenuItem onClick={handleClose}>Profil</MenuItem>
-          <MenuItem onClick={handleClose}>Podešavanja</MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to="/profile" style={{ textDecoration: 'none', color: 'black' }}>Podešavanja</Link>
+          </MenuItem>
           <MenuItem onClick={handleLogout}>Odjavite se</MenuItem>
         </Menu>
       </IconButton>

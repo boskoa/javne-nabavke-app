@@ -19,6 +19,7 @@ import MuiAlert from '@mui/material/Alert'
 import ProcedureView from './components/ProcedureView'
 import AuthoritiesTable from './components/AuthoritiesTable'
 import Analysis from './components/Analysis'
+import ProfileSettings from './components/ProfileSettings'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const App = () => {
             <Routes>
               <Route path='/procedures/:id' element={<ProcedureView />} />
               <Route path='/procedures' element={<ProceduresTable />} />
+              <Route path='/profile' element={<ProfileSettings />} />
               <Route path='/users' element={<Users />} />
               <Route path='/authorities' element={<AuthoritiesTable />} />
               <Route path='/analysis' element={<Analysis />} />

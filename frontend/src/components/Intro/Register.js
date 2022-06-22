@@ -55,7 +55,7 @@ const Register = ({ open, handleClose }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Registrujte se</DialogTitle>
+        <DialogTitle>Registruj se</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

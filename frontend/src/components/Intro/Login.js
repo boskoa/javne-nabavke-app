@@ -58,7 +58,7 @@ const Login = ({ open, handleClose }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Prijavite se</DialogTitle>
+        <DialogTitle>Prijavi se</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
