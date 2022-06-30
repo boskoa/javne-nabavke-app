@@ -1,16 +1,17 @@
 import styled from '@emotion/styled'
-import { Box, IconButton, Badge } from '@mui/material'
-import AccountCircle from '@mui/icons-material/AccountCircle'
+import { Box, IconButton, Badge, Avatar } from '@mui/material'
+//import AccountCircle from '@mui/icons-material/AccountCircle'
 import ConstructionIcon from '@mui/icons-material/Construction'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SearchIcon from '@mui/icons-material/Search'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../reducers/loginReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { ClickAwayListener } from '@mui/base'
+import Loading from '../Loading'
 
 const MyBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
@@ -32,6 +33,11 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const avatar = useSelector((state) => state.login.data.avatar)
+
+  if (!avatar) {
+    <Loading />
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -81,7 +87,10 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
         onClick={handleClick}
       >
         <ClickAwayListener onClickAway={handleClose}>
-          <AccountCircle />
+          <Avatar
+            src={`http://localhost:3003/${avatar}`}
+            sx={{ height: '1.7rem', width: '1.7rem' }}
+          />
         </ClickAwayListener>
         <Menu
           id="basic-menu"
@@ -96,7 +105,7 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
           <MenuItem onClick={handleClose}>
             <Link to="/profile" style={{ textDecoration: 'none', color: 'black' }}>Podešavanja</Link>
           </MenuItem>
-          <MenuItem onClick={handleLogout}>Odjavite se</MenuItem>
+          <MenuItem onClick={handleLogout}>Odjavi se</MenuItem>
         </Menu>
       </IconButton>
     </MyBox>

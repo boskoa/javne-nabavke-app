@@ -474,6 +474,7 @@ const ProcedureView = () => {
                 value={requirement}
                 variant="outlined"
                 sx={{ m: 1 }}
+                inputProps={{ maxLength: 30 }}
                 size="small"
                 onChange={(e) => setRequirement(e.target.value)}
               />

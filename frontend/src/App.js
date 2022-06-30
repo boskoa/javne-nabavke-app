@@ -11,15 +11,19 @@ import HomePage from './components/HomePage'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { initProcedures } from './reducers/procedureReducer'
+import { getAllNotificationsThunk } from './reducers/notificationReducer'
 import Intro from './components/Intro'
 import { login } from './reducers/loginReducer'
 import procedureServices from './services/procedures'
+import avatarServices from './services/avatar'
+import notificationServices from './services/notifications'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import ProcedureView from './components/ProcedureView'
 import AuthoritiesTable from './components/AuthoritiesTable'
 import Analysis from './components/Analysis'
 import ProfileSettings from './components/ProfileSettings'
+import Notifications from './components/Notifications'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -33,11 +37,14 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       dispatch(login(user))
       procedureServices.setToken(user.token)
+      avatarServices.setToken(user.token)
+      notificationServices.setToken(user.token)
     }
   }, [])
 
   useEffect(() => {
     dispatch(initProcedures())
+    dispatch(getAllNotificationsThunk())
   }, [])
 
   if (window.localStorage.getItem('loggedTenderUser')) {
@@ -60,6 +67,7 @@ const App = () => {
               <Route path='/users' element={<Users />} />
               <Route path='/authorities' element={<AuthoritiesTable />} />
               <Route path='/analysis' element={<Analysis />} />
+              <Route path='/notifications' element={<Notifications />} />
               <Route path='/' element={<HomePage />} />
             </Routes>
           </Box>

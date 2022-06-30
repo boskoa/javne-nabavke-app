@@ -31,6 +31,10 @@ User.init({
   admin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  avatar: {
+    type: DataTypes.STRING,
+    defaultValue: 'public/data/uploads/user_avatar'
   }
 }, {
   sequelize,

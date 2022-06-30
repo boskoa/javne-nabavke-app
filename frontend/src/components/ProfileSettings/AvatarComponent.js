@@ -1,15 +1,27 @@
 import { Stack, Input, Button } from '@mui/material'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateAvatar } from '../../reducers/loginReducer'
+import avatarServices from '../../services/avatar'
 
 
 const AvatarComponent = () => {
   const [name, setName] = useState('Odaberi avatar')
   const [file, setFile] = useState()
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch()
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
     formData.append('name', name)
     formData.append('file', file)
+    const result = await avatarServices.uploadAvatar(formData)
+    dispatch(updateAvatar(result))
+    const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
+    const user = JSON.parse(loggedUserJSON)
+    user.avatar = result.path
+    window.localStorage.setItem('loggedTenderUser', JSON.stringify(user))
+    console.log('AXIOS', result)
     console.log('MULTER', formData)// ne može pokazati u brauzeru
   }
 
@@ -23,7 +35,9 @@ const AvatarComponent = () => {
             type="file"
             name="avatar"
             onChange={(e) => {
-              setName(e.target.value)
+              const valueArray = e.target.value.split('\\')
+              console.log('SPLIT', valueArray[valueArray.length - 1])
+              setName(valueArray[valueArray.length - 1])
               setFile(e.target.files[0])
             }}
           />

@@ -49,11 +49,11 @@ const Intro = () => {
         }}
       >
         <MyButton variant="contained" onClick={handleRegOpen}>
-          Registrujte se
+          Registruj se
         </MyButton>
         <Register open={openReg} handleClose={handleRegClose} />
         <MyButton variant="contained" onClick={handleLogOpen}>
-          Prijavite se
+          Prijavi se
         </MyButton>
         <Login open={openLog} handleClose={handleLogClose} />
       </Paper>

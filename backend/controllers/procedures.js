@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
       where,
       order,
       include: [
-        { model: User, attributes: ['name'] },
+        { model: User, attributes: ['name', 'avatar'] },
         { model: ContractingAuthority, attributes: ['name'] }
       ]
     })

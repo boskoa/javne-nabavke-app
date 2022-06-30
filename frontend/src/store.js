@@ -8,6 +8,7 @@ import authorityReducer from './reducers/authorityReducer'
 import requirementReducer from './reducers/requirementReducer'
 import selectedProcedureReducer from './reducers/selectedProcedureReducer'
 import userReducer from './reducers/userReducer'
+import notificationReducer from './reducers/notificationReducer'
 
 export default configureStore({
   reducer: {
@@ -19,7 +20,8 @@ export default configureStore({
     authorities: authorityReducer,
     requirement: requirementReducer,
     selectedProcedure: selectedProcedureReducer,
-    users: userReducer
+    users: userReducer,
+    notifications: notificationReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })

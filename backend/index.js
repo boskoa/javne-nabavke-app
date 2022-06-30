@@ -7,13 +7,16 @@ const proceduresRouter = require('./controllers/procedures')
 const contractingAuthoritiesRouter = require('./controllers/contractingAuthorities')
 const requirementsRouter = require('./controllers/requirements')
 const notificationsRouter = require('./controllers/notifications')
+const avatarsRouter = require('./controllers/avatars')
 const { errorHandler } = require('./utils/errorHandler')
+const path = require('path')
 const cors = require('cors')
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
@@ -21,6 +24,7 @@ app.use('/api/procedures', proceduresRouter)
 app.use('/api/authorities', contractingAuthoritiesRouter)
 app.use('/api/requirements', requirementsRouter)
 app.use('/api/notifications', notificationsRouter)
+app.use('/api/avatar', avatarsRouter)
 
 app.use(errorHandler)
 

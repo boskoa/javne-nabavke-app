@@ -20,8 +20,8 @@ const HomePage = () => {
   }
   const filter2 = (o) => {
     if (filter) {
-      return (o.phase === '03 Pripremljena prateća dokumentacija'
-        || o.phase === '02 Pronađena roba/usluge' && o.user.name === user)
+      return ((o.phase === '03 Pripremljena prateća dokumentacija'
+        || o.phase === '02 Pronađena roba/usluge') && o.user.name === user)
     } else {
       return (o.phase === '03 Pripremljena prateća dokumentacija'
         || o.phase === '02 Pronađena roba/usluge')

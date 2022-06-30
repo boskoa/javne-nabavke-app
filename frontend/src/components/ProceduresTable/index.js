@@ -102,7 +102,7 @@ const ProceduresTable = () => {
   const rows = rawRowsWithPhase.map((proc) => {
     if (proc.contractingAuthority) {
       const date = proc.submissionDate ? proc.submissionDate : ''
-      console.log('DATEDATE', date)
+      console.log('DATEDATE', proc)
 
       return {
         id: proc.id,
@@ -112,11 +112,11 @@ const ProceduresTable = () => {
         user: proc.user.name,
         budget: proc.budget,
         phase: proc.phase,
-        emergency: date.slice(4, 24)
+        emergency: date.slice(4, 24),
+        avatar: proc.user.avatar
       }
     }
   })
-
 
   const sortingFunction = (a, b) => (sortAscending
     ? a[`${sortCriterium}`] > b[`${sortCriterium}`]
@@ -217,7 +217,9 @@ const ProceduresTable = () => {
                                 label={row.user}
                                 size="small"
                                 color="primary"
-                                avatar={<Avatar src="../../static/user_avatar.png" />}
+                                avatar={
+                                  <Avatar src={`http://localhost:3003/${row.avatar}`} />
+                                }
                               />
                             </TableCell>
                           )

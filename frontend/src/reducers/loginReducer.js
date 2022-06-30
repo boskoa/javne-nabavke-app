@@ -32,6 +32,11 @@ const loginSlice = createSlice({
     },
     login: (state, action) => {
       state.data = action.payload
+      console.log('LOGIIIIIIIIIIN', action.payload, state.data.avatar)
+    },
+    updateAvatar: (state, action) => {
+      console.log('GLAVATAAAAAAAR', action.payload.path, state.data.avatar)
+      state.data.avatar = action.payload.path
     }
   },
   extraReducers: (builder) => {
@@ -41,6 +46,6 @@ const loginSlice = createSlice({
   }
 })
 
-export const { logout, login } = loginSlice.actions
+export const { logout, login, updateAvatar } = loginSlice.actions
 
 export default loginSlice.reducer
