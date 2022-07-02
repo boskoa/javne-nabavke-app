@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Notification, Procedure, User } = require('../models')
+const { Notification, Procedure, User, ContractingAuthority } = require('../models')
 const { Op } = require('sequelize')
 const tokenExtractor = require('../utils/tokenExtractor')
 
@@ -20,7 +20,16 @@ router.get('/', tokenExtractor, async (req, res, next) => {
   try {
     const notifications = await Notification.findAll({
       where,
-      order
+      order,
+      include: [
+        {
+          model: Procedure,
+          attributes: ['name'],
+          include: [
+            { model: ContractingAuthority, attributes: ['name'] }
+          ]
+        }
+      ]
     })
     res.json(notifications)
   } catch (error) {
@@ -60,9 +69,19 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 router.put('/:id', tokenExtractor, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.decodedToken.id)
-    const notificationToChange = await Notification.findByPk(req.params.id)
+    const notificationToChange = await Notification.findByPk(req.params.id,{
+      include: [
+        {
+          model: Procedure,
+          attributes: ['name'],
+          include: [
+            { model: ContractingAuthority, attributes: ['name'] }
+          ]
+        }
+      ]
+    })
 
-    if (!user.admin || req.decodedToken.id !== notificationToChange.userId) {
+    if (!user.admin && req.decodedToken.id !== notificationToChange.userId) {
       res.status(401).json({ error: 'You are not authorized for this action.' })
     }
 
@@ -79,7 +98,7 @@ router.delete('/:id', tokenExtractor, async (req, res, next) => {
     const user = await User.findByPk(req.decodedToken.id)
     const notificationToDelete = await Notification.findByPk(req.params.id)
 
-    if (!user.admin || req.decodedToken.id !== notificationToDelete.userId) {
+    if (!user.admin && req.decodedToken.id !== notificationToDelete.userId) {
       res.status(401).json({ error: 'You are not authorized for this action.' })
     }
 

@@ -1,6 +1,6 @@
 import {
   Paper, Box, Typography, FormGroup, Checkbox, FormControlLabel, TextField, Button,
-  FormControl, InputLabel, Select, MenuItem, Divider, Chip
+  FormControl, InputLabel, Select, MenuItem, Divider, Chip, Stack
 } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -20,6 +20,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { updateProcedures } from '../../reducers/procedureReducer'
 import { change } from '../../reducers/pathReducer'
+import { updateAlarmThunk, updateDoneThunk, updateNotificationsThunk, updateTextThunk } from '../../reducers/notificationReducer'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -47,6 +48,8 @@ const ProcedureView = () => {
   const dispatch = useDispatch()
   const procedure = useSelector((state) => state.selectedProcedure.data)
   const requirements = useSelector((state) => state.requirement.data)
+  const notificationsUnfiltered = useSelector((state) => state.notifications.data)
+  const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
   const [requirement, setRequirement] = useState('')
   const [budget, setBudget] = useState('')
   const [delivery, setDelivery] = useState(0)
@@ -56,6 +59,10 @@ const ProcedureView = () => {
   const [copy, setCopy] = useState(0)
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState('')
+  const [text, setText] = useState('')
+  const [alarm, setAlarm] = useState('')
+
+  console.log('NOOOOOTIIIIFIIICATIOOOONS', notifications)
 
   useEffect(() => {
     dispatch(getOneThunk(parseInt(id)))
@@ -81,6 +88,14 @@ const ProcedureView = () => {
     }
   }, [procedure])
 
+  useEffect(() => {
+    if (text) {
+      setAlarm(notifications[0].alarm)
+      setText(notifications[0].text)
+      dispatch(updateNotificationsThunk(notifications[0]))
+    }
+  }, [text])
+
   const handleDate = () => {
     dispatch(updateOneThunk({
       id: procedure.id, data: { submissionDate: date.toString() }
@@ -88,11 +103,24 @@ const ProcedureView = () => {
     console.log('PREDAJA', date, procedure.submissionDate)
   }
 
+  const handleAlarm = () => {
+    dispatch(updateAlarmThunk({
+      id: notifications[0].id, alarm: alarm.toString()
+    }))
+    console.log('ALARM', alarm, notifications[0].alarm)
+  }
+
   useEffect(() => {
     if (date) {
       handleDate()
     }
   }, [date])
+
+  useEffect(() => {
+    if (alarm) {
+      handleAlarm()
+    }
+  }, [alarm])
 
   console.log('REQUIREMENTS PROCVIEW', requirements, procedure)
 
@@ -111,6 +139,12 @@ const ProcedureView = () => {
     const selectedReq = requirements.find((r) => r.id === parseInt(event.target.value))
     dispatch(updateRequirement({ id: selectedReq.id, reqDone: selectedReq.done }))
     event.target.checked = !(selectedReq.done)
+  }
+
+  const handleAlarmCheck = async (event) => {
+    dispatch(updateDoneThunk({ id: notifications[0].id, done: notifications[0].done }))
+    event.target.checked = notifications[0].done
+    console.log('ČČČČEKBOOOOKS', event.target.checked, notifications[0].done)
   }
 
   const handleSelectType = (event) => {
@@ -163,6 +197,12 @@ const ProcedureView = () => {
   const handleLocation = () => {
     dispatch(updateOneThunk({
       id: procedure.id, data: { deliveryLocation: location }
+    }))
+  }
+
+  const handleText = () => {
+    dispatch(updateTextThunk({
+      id: notifications[0].id, text
     }))
   }
 
@@ -327,8 +367,6 @@ const ProcedureView = () => {
                   value={date}
                   onChange={(newValue) => {
                     setDate(newValue)
-                    console.log('PROMENAAAAAAAAAA')
-                    setTimeout(() => console.log('ROKZAPREDAJU', date, date.toString()), 1000)
                   }}
                 />
               </LocalizationProvider>
@@ -492,8 +530,49 @@ const ProcedureView = () => {
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
-            <Typography variant="subtitle1">Dodatni podaci</Typography>
+            <Typography variant="subtitle1">Komentari</Typography>
           </Box>
+          <Divider sx={{ mb: 2, mt: 2 }} />
+          {notifications[0] &&
+            <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
+              <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  size="small"
+                  label="Tekst"
+                  id="notificationText"
+                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
+                  value={notifications[0].text}
+                  onChange={(e) => setText(e.target.value)}
+                  onBlur={handleText}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </FormControl>
+              <Stack direction="row" justifyContent="space-between">
+                <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+                  <DateTimePicker
+                    fullWidth
+                    ampm={false}
+                    renderInput={(props) => <TextField {...props} />}
+                    label="Alarm"
+                    sx={{ height: '2.5rem', fontSize: '0.8rem' }}
+                    value={notifications[0].alarm}
+                    onChange={(newValue) => {
+                      setAlarm(newValue)
+                    }}
+                  />
+                </LocalizationProvider>
+                <Checkbox
+                  style={{ pointerEvents: 'auto' }}
+                  size="small"
+                  checked={notifications[0].done}
+                  value={notifications[0].id}
+                  onClick={(event) => handleAlarmCheck(event)}
+                />
+              </Stack>
+            </Box>
+          }
         </Paper>
       </DataBox>
     </Box>

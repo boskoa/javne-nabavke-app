@@ -53,7 +53,6 @@ const procedureSlice = createSlice({
     },
     updateProcedures: (state, action) => {
       state.data = state.data.map((d) => {
-        console.log('PAYLOAD', action)
         return d.id !== action.payload.id ? d : action.payload
       })
     }

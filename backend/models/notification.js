@@ -12,7 +12,11 @@ Notification.init({
     type: DataTypes.TEXT
   },
   alarm: {
-    type: DataTypes.DATE
+    type: DataTypes.STRING
+  },
+  done: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   procedureId: {
     type: DataTypes.INTEGER,
