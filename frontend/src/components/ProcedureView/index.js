@@ -20,7 +20,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { updateProcedures } from '../../reducers/procedureReducer'
 import { change } from '../../reducers/pathReducer'
-import { updateAlarmThunk, updateDoneThunk, updateNotificationsThunk, updateTextThunk } from '../../reducers/notificationReducer'
+import { updateAlarmThunk, updateDoneThunk, updateTextThunk } from '../../reducers/notificationReducer'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -61,6 +61,7 @@ const ProcedureView = () => {
   const [date, setDate] = useState('')
   const [text, setText] = useState('')
   const [alarm, setAlarm] = useState('')
+  const [done, setDone] = useState(false)
 
   console.log('NOOOOOTIIIIFIIICATIOOOONS', notifications)
 
@@ -89,12 +90,15 @@ const ProcedureView = () => {
   }, [procedure])
 
   useEffect(() => {
-    if (text) {
+    if (notifications[0]) {
+      console.log('JUZEFETK TEKKKKSt', notifications[0].text)
       setAlarm(notifications[0].alarm)
       setText(notifications[0].text)
-      dispatch(updateNotificationsThunk(notifications[0]))
+      setDone(notifications[0].done)
+      //dispatch(updateNotificationsThunk(notifications[0]))
     }
-  }, [text])
+    console.log('JUZEFETK TEK', notifications)
+  }, [notifications[0]])
 
   const handleDate = () => {
     dispatch(updateOneThunk({
@@ -124,7 +128,7 @@ const ProcedureView = () => {
 
   console.log('REQUIREMENTS PROCVIEW', requirements, procedure)
 
-  if (!procedure.contractingAuthority) {
+  if (!procedure.contractingAuthority && !notifications[0]) {
     return <Loading />
   }
 
@@ -142,9 +146,9 @@ const ProcedureView = () => {
   }
 
   const handleAlarmCheck = async (event) => {
-    dispatch(updateDoneThunk({ id: notifications[0].id, done: notifications[0].done }))
-    event.target.checked = notifications[0].done
-    console.log('ČČČČEKBOOOOKS', event.target.checked, notifications[0].done)
+    dispatch(updateDoneThunk({ id: notifications[0].id, done }))
+    setDone(!done)
+    event.target.checked = done
   }
 
   const handleSelectType = (event) => {
@@ -201,6 +205,7 @@ const ProcedureView = () => {
   }
 
   const handleText = () => {
+    console.log('DISPEČ TEKST', notifications[0].id, text)
     dispatch(updateTextThunk({
       id: notifications[0].id, text
     }))
@@ -536,20 +541,7 @@ const ProcedureView = () => {
           {notifications[0] &&
             <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
               <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
-              <FormControl fullWidth>
-                <TextField
-                  multiline
-                  size="small"
-                  label="Tekst"
-                  id="notificationText"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={notifications[0].text}
-                  onChange={(e) => setText(e.target.value)}
-                  onBlur={handleText}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
                   <DateTimePicker
                     fullWidth
@@ -557,7 +549,7 @@ const ProcedureView = () => {
                     renderInput={(props) => <TextField {...props} />}
                     label="Alarm"
                     sx={{ height: '2.5rem', fontSize: '0.8rem' }}
-                    value={notifications[0].alarm}
+                    value={alarm}
                     onChange={(newValue) => {
                       setAlarm(newValue)
                     }}
@@ -566,11 +558,27 @@ const ProcedureView = () => {
                 <Checkbox
                   style={{ pointerEvents: 'auto' }}
                   size="small"
-                  checked={notifications[0].done}
-                  value={notifications[0].id}
+                  checked={done}
                   onClick={(event) => handleAlarmCheck(event)}
                 />
               </Stack>
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  size="small"
+                  label="Tekst"
+                  id="notificationText"
+                  sx={{ fontSize: '0.8rem' }}
+                  value={text}
+                  onChange={(e) => {
+                    console.log('ONČEJNDŽ', e.target.value, text)
+                    setText(e.target.value)
+                    console.log('AFTER ČEJNDŽ', e.target.value, text)
+                  }}
+                  onBlur={handleText}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </FormControl>
             </Box>
           }
         </Paper>

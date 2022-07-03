@@ -24,7 +24,7 @@ router.get('/', tokenExtractor, async (req, res, next) => {
       include: [
         {
           model: Procedure,
-          attributes: ['name'],
+          attributes: ['name', 'id'],
           include: [
             { model: ContractingAuthority, attributes: ['name'] }
           ]
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const notification = await Notification.findByPk(req.params.id, {
       include: [
-        { model: Procedure, attributes: ['name'] },
+        { model: Procedure, attributes: ['name', 'id'] },
         { model: User, attributes: ['name'] }
       ]
     })

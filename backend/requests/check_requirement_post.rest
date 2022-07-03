@@ -2,6 +2,6 @@ POST http://localhost:3003/api/requirements
 Content-Type: application/json
 
 {
-    "name": "Član 52.",
+    "name": "Aktuelni izvod",
     "procedureId": 23
 }
