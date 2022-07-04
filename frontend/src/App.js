@@ -24,12 +24,14 @@ import AuthoritiesTable from './components/AuthoritiesTable'
 import Analysis from './components/Analysis'
 import ProfileSettings from './components/ProfileSettings'
 import Notifications from './components/Notifications'
+import { removeSnack, sendSnack } from './reducers/snackReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.login.data.username)
   console.log('CURRENT', currentUser)
   const snackValues = useSelector((state) => state.snack.data)
+  const notificationsUnfiltered = useSelector((state) => state.notifications.data)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
@@ -47,6 +49,29 @@ const App = () => {
     dispatch(getAllNotificationsThunk())
   }, [])
 
+  useEffect(() => {
+    const alarmedNotifications = notificationsUnfiltered.filter((n) => n.alarm)
+    console.log('ALARMED', notificationsUnfiltered, alarmedNotifications)
+    for (let i = 0; i < alarmedNotifications.length; i++) {
+      const deadline = new Date(alarmedNotifications[i].alarm).getTime()
+      const now = new Date().getTime()
+      const timer = deadline > now ? deadline - now : i * 20000
+      console.log('TIMER', timer)
+      setTimeout(() => dispatch(sendSnack({
+        open: true,
+        alarm: true,
+        severity: 'warning',
+        message: alarmedNotifications[i].text
+      })), timer)
+    }
+  }, [notificationsUnfiltered])
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      dispatch(removeSnack())//staviti da se produžuju alarm dokle god se ne ugasi
+    }
+  }
+
   if (window.localStorage.getItem('loggedTenderUser')) {
     return (
       <ThemeProvider theme={defaultTheme}>
@@ -61,17 +86,23 @@ const App = () => {
           >
             <Toolbar />
             <Routes>
-              <Route path='/procedures/:id' element={<ProcedureView />} />
+              <Route
+                path='/procedures/:id'
+                element={<ProcedureView notificationsUnfiltered={notificationsUnfiltered} />}
+              />
               <Route path='/procedures' element={<ProceduresTable />} />
               <Route path='/profile' element={<ProfileSettings />} />
               <Route path='/users' element={<Users />} />
               <Route path='/authorities' element={<AuthoritiesTable />} />
               <Route path='/analysis' element={<Analysis />} />
-              <Route path='/notifications' element={<Notifications />} />
+              <Route
+                path='/notifications'
+                element={<Notifications notificationsUnfiltered={notificationsUnfiltered} />}
+              />
               <Route path='/' element={<HomePage />} />
             </Routes>
           </Box>
-          <Snackbar open={snackValues.open}>
+          <Snackbar open={snackValues.open} onClose={handleSnackClose}>
             <MuiAlert severity={snackValues.severity} sx={{ width: '100%' }}>
               {snackValues.message}
             </MuiAlert>

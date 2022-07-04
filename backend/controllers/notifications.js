@@ -26,7 +26,7 @@ router.get('/', tokenExtractor, async (req, res, next) => {
           model: Procedure,
           attributes: ['name', 'id'],
           include: [
-            { model: ContractingAuthority, attributes: ['name'] }
+            { model: ContractingAuthority, attributes: ['name', 'id'] }
           ]
         }
       ]

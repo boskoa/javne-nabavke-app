@@ -6,6 +6,7 @@ let token = null
 
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
+  console.log('SETTOKEN', token)
 }
 
 const getAll = async () => {
@@ -38,6 +39,7 @@ const addNotification = async (data) => {
   const config = {
     headers: { Authorization: token }
   }
+  console.log('TOKEEEEEN', config.headers, token)
   const response = await axios.post(baseUrl, data, config)
   return response.data
 }

@@ -20,7 +20,9 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { updateProcedures } from '../../reducers/procedureReducer'
 import { change } from '../../reducers/pathReducer'
-import { updateAlarmThunk, updateDoneThunk, updateTextThunk } from '../../reducers/notificationReducer'
+import {
+  addNotificationsThunk, updateAlarmThunk, updateDoneThunk, updateTextThunk
+} from '../../reducers/notificationReducer'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -43,12 +45,11 @@ const DataBox = styled(Box)(({ theme }) => ({
   }
 }))
 
-const ProcedureView = () => {
+const ProcedureView = ({ notificationsUnfiltered }) => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const procedure = useSelector((state) => state.selectedProcedure.data)
   const requirements = useSelector((state) => state.requirement.data)
-  const notificationsUnfiltered = useSelector((state) => state.notifications.data)
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
   const [requirement, setRequirement] = useState('')
   const [budget, setBudget] = useState('')
@@ -97,7 +98,6 @@ const ProcedureView = () => {
       setDone(notifications[0].done)
       //dispatch(updateNotificationsThunk(notifications[0]))
     }
-    console.log('JUZEFETK TEK', notifications)
   }, [notifications[0]])
 
   const handleDate = () => {
@@ -205,10 +205,15 @@ const ProcedureView = () => {
   }
 
   const handleText = () => {
-    console.log('DISPEČ TEKST', notifications[0].id, text)
-    dispatch(updateTextThunk({
-      id: notifications[0].id, text
-    }))
+    console.log('DISPEČ TEKST', notifications, text)
+    if (notifications && !(notifications.length)) {
+      console.log('NO NOTIFICATION')
+      dispatch(addNotificationsThunk({ procedureId: procedure.id, text }))
+    } else {
+      dispatch(updateTextThunk({
+        id: notifications[0].id, text
+      }))
+    }
   }
 
   const handleValidity = () => {
@@ -538,49 +543,47 @@ const ProcedureView = () => {
             <Typography variant="subtitle1">Komentari</Typography>
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />
-          {notifications[0] &&
-            <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
-              <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
-              <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
-                <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
-                  <DateTimePicker
-                    fullWidth
-                    ampm={false}
-                    renderInput={(props) => <TextField {...props} />}
-                    label="Alarm"
-                    sx={{ height: '2.5rem', fontSize: '0.8rem' }}
-                    value={alarm}
-                    onChange={(newValue) => {
-                      setAlarm(newValue)
-                    }}
-                  />
-                </LocalizationProvider>
-                <Checkbox
-                  style={{ pointerEvents: 'auto' }}
-                  size="small"
-                  checked={done}
-                  onClick={(event) => handleAlarmCheck(event)}
-                />
-              </Stack>
-              <FormControl fullWidth>
-                <TextField
-                  multiline
-                  size="small"
-                  label="Tekst"
-                  id="notificationText"
-                  sx={{ fontSize: '0.8rem' }}
-                  value={text}
-                  onChange={(e) => {
-                    console.log('ONČEJNDŽ', e.target.value, text)
-                    setText(e.target.value)
-                    console.log('AFTER ČEJNDŽ', e.target.value, text)
+          <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
+            <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+                <DateTimePicker
+                  fullWidth
+                  ampm={false}
+                  renderInput={(props) => <TextField {...props} />}
+                  label="Alarm"
+                  sx={{ height: '2.5rem', fontSize: '0.8rem' }}
+                  value={alarm}
+                  onChange={(newValue) => {
+                    setAlarm(newValue)
                   }}
-                  onBlur={handleText}
-                  InputLabelProps={{ shrink: true }}
                 />
-              </FormControl>
-            </Box>
-          }
+              </LocalizationProvider>
+              <Checkbox
+                style={{ pointerEvents: 'auto' }}
+                size="small"
+                checked={done}
+                onClick={(event) => handleAlarmCheck(event)}
+              />
+            </Stack>
+            <FormControl fullWidth>
+              <TextField
+                multiline
+                size="small"
+                label="Tekst"
+                id="notificationText"
+                sx={{ fontSize: '0.8rem' }}
+                value={text}
+                onChange={(e) => {
+                  console.log('ONČEJNDŽ', e.target.value, text)
+                  setText(e.target.value)
+                  console.log('AFTER ČEJNDŽ', e.target.value, text)
+                }}
+                onBlur={handleText}
+                InputLabelProps={{ shrink: true }}
+              />
+            </FormControl>
+          </Box>
         </Paper>
       </DataBox>
     </Box>

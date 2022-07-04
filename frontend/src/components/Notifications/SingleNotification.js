@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom'
 const SingleNotification = ({ notification }) => {
   const dispatch = useDispatch()
 
+  const link = notification.procedure ? `/procedures/${notification.procedure.id}` : ''
+
   const handleCheckbox = async (event) => {
     dispatch(updateNotificationsThunk({ id: notification.id, done: notification.done }))
     event.target.checked = notification.done
@@ -28,7 +30,7 @@ const SingleNotification = ({ notification }) => {
     }}>
       <CardContent>
         <Link
-          to={`/procedures/${notification.procedure.id}`}
+          to={link}
           style={{ textDecoration: 'none' }}
         >
           <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="text.secondary">

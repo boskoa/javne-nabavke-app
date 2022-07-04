@@ -43,7 +43,6 @@ const updateOne = async (id, data) => {
     headers: { Authorization: token },
   }
   const response = await axios.put(`${baseUrl}/${id}`, data, config)
-  console.log('SERVIS AOPDEJT', config.headers.Authorization, id, data, response.data)
   return response.data
 }
 
