@@ -51,6 +51,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   const procedure = useSelector((state) => state.selectedProcedure.data)
   const requirements = useSelector((state) => state.requirement.data)
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
+  const userId = useSelector((state) => state.login.data.id)
   const [requirement, setRequirement] = useState('')
   const [budget, setBudget] = useState('')
   const [delivery, setDelivery] = useState(0)
@@ -63,14 +64,13 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   const [text, setText] = useState('')
   const [alarm, setAlarm] = useState('')
   const [done, setDone] = useState(false)
-
-  console.log('NOOOOOTIIIIFIIICATIOOOONS', notifications)
+  console.log('PROSIĐR', procedure)
 
   useEffect(() => {
     dispatch(getOneThunk(parseInt(id)))
     dispatch(getByProcedure(parseInt(id)))
     dispatch(change('Pregled postupka'))
-  }, [])
+  }, [id])
 
   useEffect(() => {
     if (procedure.budget) {
@@ -86,24 +86,26 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
         style: 'currency', currency: 'BAM'
       }).format(procedure.amount))
       setDate(procedure.submissionDate)
-      dispatch(updateProcedures(procedure))
+      if (procedure.user.id === userId) {
+        dispatch(updateProcedures(procedure))
+      }
     }
   }, [procedure])
 
   useEffect(() => {
     if (notifications[0]) {
-      console.log('JUZEFETK TEKKKKSt', notifications[0].text)
       setAlarm(notifications[0].alarm)
       setText(notifications[0].text)
       setDone(notifications[0].done)
-      //dispatch(updateNotificationsThunk(notifications[0]))
     }
   }, [notifications[0]])
 
   const handleDate = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { submissionDate: date.toString() }
-    }))
+    if (procedure.user.id === userId) {
+      dispatch(updateOneThunk({
+        id: procedure.id, data: { submissionDate: date.toString() }
+      }))
+    }
     console.log('PREDAJA', date, procedure.submissionDate)
   }
 
@@ -189,7 +191,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
     dispatch(updateOneThunk({
       id: procedure.id, data: { budget: parseFloat(formatBudget) }
     }))
-    //setBudget(Intl.NumberFormat('sr-BA', { style: 'decimal' }).format(event.target.value))
   }
 
   const handleDelivery = () => {
@@ -247,7 +248,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   return (
     <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
       <StepperBox>
-        <PhaseStepperView procedure={procedure} />
+        <PhaseStepperView procedure={procedure} userId={userId} />
       </StepperBox>
       <DataBox>
         <Paper
@@ -291,6 +292,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             }}>
               <FormControlLabel
                 control={<Checkbox
+                  disabled={!(procedure.user.id === userId)}
                   checked={procedure.frameworkAgreement}
                   icon={<BookmarkBorderIcon />}
                   checkedIcon={<BookmarkIcon />}
@@ -300,6 +302,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               />
               <FormControlLabel
                 control={<Checkbox
+                  disabled={!(procedure.user.id === userId)}
                   checked={procedure.auction}
                   icon={<BookmarkBorderIcon />}
                   checkedIcon={<BookmarkIcon />}
@@ -309,6 +312,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               />
               <FormControlLabel
                 control={<Checkbox
+                  disabled={!(procedure.user.id === userId)}
                   checked={procedure.filledDraft}
                   icon={<BookmarkBorderIcon />}
                   checkedIcon={<BookmarkIcon />}
@@ -326,6 +330,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                   Vrsta postupka
                 </InputLabel>
                 <Select
+                  disabled={!(procedure.user.id === userId)}
                   labelId="procedureType"
                   id="selectType"
                   value={procedure.category}
@@ -352,6 +357,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                   Kriterijum odabira ponude
                 </InputLabel>
                 <Select
+                  disabled={!(procedure.user.id === userId)}
                   labelId="criterion"
                   id="selectCriterion"
                   value={procedure.criterion}
@@ -369,6 +375,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
+                  disabled={!(procedure.user.id === userId)}
                   fullWidth
                   ampm={false}
                   renderInput={(props) => <TextField {...props} />}
@@ -382,6 +389,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </LocalizationProvider>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Budžet"
                   id="budget"
@@ -394,6 +402,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Rok isporuke (u danima)"
                   id="deliveryDate"
@@ -406,6 +415,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Mesto isporuke"
                   id="deliveryLocation"
@@ -418,6 +428,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Važenje ponude (u danima)"
                   id="offerValidity"
@@ -430,6 +441,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Rok plaćanja (u danima)"
                   id="payment"
@@ -442,6 +454,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Broj kopija ponude"
                   id="copy"
@@ -454,6 +467,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
+                  disabled={!(procedure.user.id === userId)}
                   size="small"
                   label="Vrednost ponude"
                   id="amount"
@@ -488,6 +502,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                   key={r.id}
                 >
                   <Chip
+                    disabled={!(procedure.user.id === userId)}
                     label={<Typography variant="body2">{r.name}</Typography>}
                     onDelete={async () => {
                       dispatch(deleteRequirement(parseInt(r.id)))
@@ -517,6 +532,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               onSubmit={handleNewRequirement}
             >
               <TextField
+                disabled={!(procedure.user.id === userId)}
                 id="condition"
                 label="Novi uslov"
                 value={requirement}
@@ -528,6 +544,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
               />
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <Button
+                  disabled={!(procedure.user.id === userId)}
                   type='submit'
                   variant="contained"
                   size="small"
@@ -548,6 +565,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
                 <DateTimePicker
+                  disabled={!(procedure.user.id === userId)}
                   fullWidth
                   ampm={false}
                   renderInput={(props) => <TextField {...props} />}
@@ -560,6 +578,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                 />
               </LocalizationProvider>
               <Checkbox
+                disabled={!(procedure.user.id === userId)}
                 style={{ pointerEvents: 'auto' }}
                 size="small"
                 checked={done}
@@ -568,6 +587,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             </Stack>
             <FormControl fullWidth>
               <TextField
+                disabled={!(procedure.user.id === userId)}
                 multiline
                 size="small"
                 label="Tekst"

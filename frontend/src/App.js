@@ -19,6 +19,7 @@ import avatarServices from './services/avatar'
 import notificationServices from './services/notifications'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
+import MuiAlertTitle from '@mui/material/AlertTitle'
 import ProcedureView from './components/ProcedureView'
 import AuthoritiesTable from './components/AuthoritiesTable'
 import Analysis from './components/Analysis'
@@ -50,19 +51,24 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const alarmedNotifications = notificationsUnfiltered.filter((n) => n.alarm)
-    console.log('ALARMED', notificationsUnfiltered, alarmedNotifications)
-    for (let i = 0; i < alarmedNotifications.length; i++) {
-      const deadline = new Date(alarmedNotifications[i].alarm).getTime()
-      const now = new Date().getTime()
-      const timer = deadline > now ? deadline - now : i * 20000
-      console.log('TIMER', timer)
-      setTimeout(() => dispatch(sendSnack({
-        open: true,
-        alarm: true,
-        severity: 'warning',
-        message: alarmedNotifications[i].text
-      })), timer)
+    if (notificationsUnfiltered) {
+      const alarmedNotifications = notificationsUnfiltered
+        .filter((n) => n.alarm && !(n.done))
+      console.log('ALARMED', notificationsUnfiltered, alarmedNotifications)
+      for (let i = 0; i < alarmedNotifications.length; i++) {
+        const deadline = new Date(alarmedNotifications[i].alarm).getTime()
+        const now = new Date().getTime()
+        const timer = deadline > now ? deadline - now : i * 20000
+        console.log('TIMER', timer)
+        setTimeout(() => dispatch(sendSnack({
+          open: true,
+          alarm: true,
+          severity: 'warning',
+          message: alarmedNotifications[i].text,
+          authority: alarmedNotifications[i].procedure.contractingAuthority.name,
+          procedure: alarmedNotifications[i].procedure.name
+        })), timer)
+      }
     }
   }, [notificationsUnfiltered])
 
@@ -103,7 +109,14 @@ const App = () => {
             </Routes>
           </Box>
           <Snackbar open={snackValues.open} onClose={handleSnackClose}>
-            <MuiAlert severity={snackValues.severity} sx={{ width: '100%' }}>
+            <MuiAlert
+              variant="filled"
+              severity={snackValues.severity}
+              sx={{ width: '100%' }}
+            >
+              {snackValues.authority && <MuiAlertTitle>
+                {snackValues.authority} - {snackValues.procedure}
+              </MuiAlertTitle>}
               {snackValues.message}
             </MuiAlert>
           </Snackbar>
@@ -115,7 +128,14 @@ const App = () => {
       <div>
         <Intro />
         <Snackbar open={snackValues.open}>
-          <MuiAlert severity={snackValues.severity} sx={{ width: '100%' }}>
+          <MuiAlert
+            variant="filled"
+            severity={snackValues.severity}
+            sx={{ width: '100%' }}
+          >
+            {snackValues.authority && <MuiAlertTitle>
+              {snackValues.authority} - {snackValues.procedure}
+            </MuiAlertTitle>}
             {snackValues.message}
           </MuiAlert>
         </Snackbar>

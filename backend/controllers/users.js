@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Procedure, Notification } = require('../models')
+const { User, Procedure, Notification, ContractingAuthority } = require('../models')
 const bcrypt = require('bcrypt')
 const { Op } = require('sequelize')
 const tokenExtractor = require('../utils/tokenExtractor')
@@ -67,7 +67,10 @@ router.get('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id, {
       include: [
-        { model: Procedure },
+        {
+          model: Procedure,
+          include: [{ model: ContractingAuthority, attributes: ['name'] }]
+        },
         { model: Notification }
       ]
     })

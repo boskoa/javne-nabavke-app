@@ -1,17 +1,17 @@
 import styled from '@emotion/styled'
-import { Box, IconButton, Badge, Avatar } from '@mui/material'
+import { Box, IconButton, Avatar, Divider } from '@mui/material'
 //import AccountCircle from '@mui/icons-material/AccountCircle'
-import ConstructionIcon from '@mui/icons-material/Construction'
-import NotificationsIcon from '@mui/icons-material/Notifications'
 import SearchIcon from '@mui/icons-material/Search'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../../reducers/loginReducer'
+import { logout } from '../../../reducers/loginReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { ClickAwayListener } from '@mui/base'
-import Loading from '../Loading'
+import Loading from '../../Loading'
+import MyNotificationsIcon from './MyNotificationsIcon'
+import MyPendingActions from './MyPendingActions'
 
 const MyBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
@@ -33,7 +33,10 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const avatar = useSelector((state) => state.login.data.avatar)
+  const user = useSelector((state) => state.login.data)
+  console.log('VAHA JUZER', user)
+
+  const avatar = user.avatar
 
   if (!avatar) {
     <Loading />
@@ -64,20 +67,8 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
       >
         <SearchIcon />
       </SearchIconButton>
-      <IconButton size="small" color="inherit" sx={{ mr: 1 }}>
-        <Badge badgeContent={4} color="error">
-          <ConstructionIcon />
-        </Badge>
-      </IconButton>
-      <IconButton
-        size="small"
-        color="inherit"
-        sx={{ mr: 1 }}
-      >
-        <Badge badgeContent={7} color="error">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton>
+      <MyPendingActions user={user} />
+      <MyNotificationsIcon />
       <IconButton
         size="small"
         color="inherit"
@@ -101,6 +92,8 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
             'aria-labelledby': 'basic-button',
           }}
         >
+          <MenuItem>{user.name}</MenuItem>
+          <Divider />
           <MenuItem onClick={handleClose}>Profil</MenuItem>
           <MenuItem onClick={handleClose}>
             <Link to="/profile" style={{ textDecoration: 'none', color: 'black' }}>Podešavanja</Link>

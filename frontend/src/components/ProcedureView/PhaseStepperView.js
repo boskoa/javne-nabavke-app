@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateOneThunk } from '../../reducers/selectedProcedureReducer'
 
-const PhaseStepperView = ({ procedure }) => {
+const PhaseStepperView = ({ procedure, userId }) => {
   const steps = [
     '01 Pregledana TD',
     '02 Pronađena roba/usluge',
@@ -58,10 +58,10 @@ const PhaseStepperView = ({ procedure }) => {
 
   const handleComplete = async (index, label) => {
     handleCompleted(index)
-    console.log('HANDLE', typeof(procedure.id), label)
     const data = { id: procedure.id, data: { phase: label } }
-    console.log('DEJTAAAA', data)
-    dispatch(updateOneThunk(data))
+    if (procedure.user.id === userId) {
+      dispatch(updateOneThunk(data))
+    }
   }
 
   return (

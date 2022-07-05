@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { AppBar, Toolbar } from '@mui/material'
 import { drawerWidth, drawerWidthSm } from '../Navbar/index'
 import SearchComponent from './SearchComponent'
-import IconsBox from './IconsBox'
+import IconsBox from './IconBox'
 import { useState } from 'react'
 import Location from './Location'
 
