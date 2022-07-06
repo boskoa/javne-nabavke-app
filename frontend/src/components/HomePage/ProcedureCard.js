@@ -1,5 +1,6 @@
 import { Card, CardActions, CardContent, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import { Link } from 'react-router-dom'
 
 const MyCard = styled(Card)({
   display: 'flex',
@@ -24,8 +25,17 @@ const ProcedureCard = ({ p }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-between' }}>
-        <Button size="small" sx={{ fontSize: 12 }}>Otvori</Button>
-        <Button size="small" sx={{ fontSize: 12 }}>Korisnik</Button>
+        <Link
+          to={`/procedures/${p.id}`}
+          style={{ color: 'black', textDecoration: 'none' }}
+        >
+          <Button size="small" sx={{ fontSize: 12 }}>Otvori</Button>
+        </Link>
+        <Link
+          to={`/procedures/${p.id}`}
+        >
+          <Button size="small" sx={{ fontSize: 12 }}>Korisnik</Button>
+        </Link>
       </CardActions>
     </MyCard>
   )

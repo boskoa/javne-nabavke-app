@@ -6,6 +6,7 @@ const MyChip = styled(Chip, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
 })(({ theme, showSearch }) => ({
   marginRight: 5,
+  borderRadius: 5,
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'none' : 'show',
   }

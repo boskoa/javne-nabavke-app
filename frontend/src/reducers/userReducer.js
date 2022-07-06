@@ -27,10 +27,24 @@ export const getOneUserThunk = createAsyncThunk(
   }
 )
 
+export const getSelectedUserThunk = createAsyncThunk(
+  'users/getSelectedUserThunk',
+  async (id) => {
+    try {
+      const response = await usersServices.getOne(id)
+      console.log('SELECTED USER', response)
+      return response
+    } catch (exception) {
+      return exception.response.data
+    }
+  }
+)
+
 const initialState = {
   status: null,
   data: [],
-  currentUser: {}
+  currentUser: {},
+  selectedUser: {}
 }
 
 const usersSlice = createSlice({
@@ -44,6 +58,9 @@ const usersSlice = createSlice({
     builder.addCase(getOneUserThunk.fulfilled, (state, action) => {
       console.log('RIĐUSER KARENT JUZER', action.payload)
       state.currentUser = action.payload
+    })
+    builder.addCase(getSelectedUserThunk.fulfilled, (state, action) => {
+      state.selectedUser = action.payload
     })
   }
 })

@@ -26,6 +26,7 @@ import Analysis from './components/Analysis'
 import ProfileSettings from './components/ProfileSettings'
 import Notifications from './components/Notifications'
 import { removeSnack, sendSnack } from './reducers/snackReducer'
+import UserView from './components/UserView'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -98,6 +99,7 @@ const App = () => {
               />
               <Route path='/procedures' element={<ProceduresTable />} />
               <Route path='/profile' element={<ProfileSettings />} />
+              <Route path='/userview/:id' element={<UserView />} />
               <Route path='/users' element={<Users />} />
               <Route path='/authorities' element={<AuthoritiesTable />} />
               <Route path='/analysis' element={<Analysis />} />

@@ -94,7 +94,9 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
 
   useEffect(() => {
     if (notifications[0]) {
-      setAlarm(notifications[0].alarm)
+      if (notifications[0].alarm) {
+        setAlarm(notifications[0].alarm)
+      }
       setText(notifications[0].text)
       setDone(notifications[0].done)
     }
@@ -110,9 +112,17 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   }
 
   const handleAlarm = () => {
-    dispatch(updateAlarmThunk({
-      id: notifications[0].id, alarm: alarm.toString()
-    }))
+    if (notifications[0]) {
+      dispatch(updateAlarmThunk({
+        id: notifications[0].id, alarm: alarm.toString()
+      }))
+    } else {
+      dispatch(addNotificationsThunk({
+        userId,
+        procedureId: procedure.id,
+        alarm: alarm.toString()
+      }))
+    }
     console.log('ALARM', alarm, notifications[0].alarm)
   }
 

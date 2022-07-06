@@ -50,11 +50,11 @@ const MyNotificationsIcon = () => {
             <MenuItem onClick={handleClose} key={n.id}>
               <Link to="/notifications" style={{ textDecoration: 'none', color: 'black' }}>
                 {`${
-                  n.alarm.slice(4, 21)
+                  n.alarm?.slice(4, 21)
                 } - ${
-                  n.procedure.contractingAuthority.name
+                  n.procedure?.contractingAuthority.name
                 } - ${
-                  n.procedure.name
+                  n.procedure?.name
                 }
                 `}
               </Link>
