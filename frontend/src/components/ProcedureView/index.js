@@ -1,5 +1,5 @@
 import {
-  Paper, Box, Typography, FormGroup, Checkbox, FormControlLabel, TextField, Button,
+  Paper, Box, Typography, FormGroup, Checkbox, TextField, Button,
   FormControl, InputLabel, Select, MenuItem, Divider, Chip, Stack
 } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
@@ -16,13 +16,14 @@ import CloseIcon from '@mui/icons-material/Close'
 import PhaseStepperView from './PhaseStepperView'
 import { styled } from '@mui/material/styles'
 import Loading from '../Loading'
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
 import { updateProcedures } from '../../reducers/procedureReducer'
 import { change } from '../../reducers/pathReducer'
 import {
   addNotificationsThunk, updateAlarmThunk, updateDoneThunk, updateTextThunk
 } from '../../reducers/notificationReducer'
+import Comment from './Comment'
+import DeliveryLocation from './DeliveryLocation'
+import CheckboxData from './OperationalData/CheckboxData'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -55,7 +56,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   const [requirement, setRequirement] = useState('')
   const [budget, setBudget] = useState('')
   const [delivery, setDelivery] = useState(0)
-  const [location, setLocation] = useState('')
   const [validity, setValidity] = useState(0)
   const [payment, setPayment] = useState(0)
   const [copy, setCopy] = useState(0)
@@ -78,7 +78,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
         style: 'currency', currency: 'BAM'
       }).format(procedure.budget))
       setDelivery(procedure.deliveryDate)
-      setLocation(procedure.deliveryLocation)
       setValidity(procedure.offerValidity)
       setPayment(procedure.payment)
       setCopy(procedure.copy)
@@ -108,7 +107,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
         id: procedure.id, data: { submissionDate: date.toString() }
       }))
     }
-    console.log('PREDAJA', date, procedure.submissionDate)
   }
 
   const handleAlarm = () => {
@@ -175,24 +173,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
     }))
   }
 
-  const handleFramework = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { frameworkAgreement: !procedure.frameworkAgreement }
-    }))
-  }
-
-  const handleAuction = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { auction: !procedure.auction }
-    }))
-  }
-
-  const handleDraft = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { filledDraft: !procedure.filledDraft }
-    }))
-  }
-
   const handleBudget = () => {
     let formatBudget = budget
     formatBudget = formatBudget.replace(' KM','')
@@ -209,14 +189,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
     }))
   }
 
-  const handleLocation = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { deliveryLocation: location }
-    }))
-  }
-
   const handleText = () => {
-    console.log('DISPEČ TEKST', notifications, text)
     if (notifications && !(notifications.length)) {
       console.log('NO NOTIFICATION')
       dispatch(addNotificationsThunk({ procedureId: procedure.id, text }))
@@ -292,45 +265,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Box elevation={0} sx={{ p: 1, background: '#F5FFFA' }}>
             <Typography variant="subtitle1" sx={{ mb: 1 }}>Operativni podaci</Typography>
-            <FormGroup sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              flexWram: 'wrap',
-              maxHeight: '15rem',
-              mb: 2
-            }}>
-              <FormControlLabel
-                control={<Checkbox
-                  disabled={!(procedure.user.id === userId)}
-                  checked={procedure.frameworkAgreement}
-                  icon={<BookmarkBorderIcon />}
-                  checkedIcon={<BookmarkIcon />}
-                  onClick={handleFramework}
-                />}
-                label={<Typography variant="body2">Okvirni sporazum</Typography>}
-              />
-              <FormControlLabel
-                control={<Checkbox
-                  disabled={!(procedure.user.id === userId)}
-                  checked={procedure.auction}
-                  icon={<BookmarkBorderIcon />}
-                  checkedIcon={<BookmarkIcon />}
-                  onClick={handleAuction}
-                />}
-                label={<Typography variant="body2">eAukcija</Typography>}
-              />
-              <FormControlLabel
-                control={<Checkbox
-                  disabled={!(procedure.user.id === userId)}
-                  checked={procedure.filledDraft}
-                  icon={<BookmarkBorderIcon />}
-                  checkedIcon={<BookmarkIcon />}
-                  onClick={handleDraft}
-                />}
-                label={<Typography variant="body2">Popunjen nacrt ugovora</Typography>}
-              />
-            </FormGroup>
+            <CheckboxData procedure={procedure} userId={userId} />
             <FormGroup>
               <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel
@@ -423,19 +358,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                   InputLabelProps={{ shrink: true }}
                 />
               </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Mesto isporuke"
-                  id="deliveryLocation"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  onBlur={handleLocation}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
+              <DeliveryLocation procedure={procedure} userId={userId} />
               <FormControl fullWidth>
                 <TextField
                   disabled={!(procedure.user.id === userId)}
@@ -566,9 +489,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             </form>
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
-            <Typography variant="subtitle1">Komentari</Typography>
-          </Box>
+          <Comment procedure={procedure} userId={userId} />
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
             <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
@@ -611,6 +532,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                 }}
                 onBlur={handleText}
                 InputLabelProps={{ shrink: true }}
+                inputProps={{ maxLength: 100 }}
               />
             </FormControl>
           </Box>

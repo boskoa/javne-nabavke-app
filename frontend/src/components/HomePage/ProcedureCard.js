@@ -22,6 +22,7 @@ const ProcedureCard = ({ p }) => {
         <Typography component="span" variant="body2" color="text.secondary">
           <p>{p.name}</p>
           <p>{formatter.format(p.budget)}</p>
+          <p>{p.user.name}</p>
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-between' }}>
@@ -32,7 +33,7 @@ const ProcedureCard = ({ p }) => {
           <Button size="small" sx={{ fontSize: 12 }}>Otvori</Button>
         </Link>
         <Link
-          to={`/procedures/${p.id}`}
+          to={`/userview/${p.user.id}`}
         >
           <Button size="small" sx={{ fontSize: 12 }}>Korisnik</Button>
         </Link>

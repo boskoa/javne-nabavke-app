@@ -102,7 +102,6 @@ const ProceduresTable = () => {
   const rows = rawRowsWithPhase.map((proc) => {
     if (proc.contractingAuthority) {
       const date = proc.submissionDate ? proc.submissionDate : ''
-      console.log('DATEDATE', proc)
 
       return {
         id: proc.id,
@@ -113,7 +112,8 @@ const ProceduresTable = () => {
         budget: proc.budget,
         phase: proc.phase,
         emergency: date.slice(4, 24),
-        avatar: proc.user.avatar
+        avatar: proc.user.avatar,
+        userId: proc.user.id
       }
     }
   })
@@ -214,7 +214,12 @@ const ProceduresTable = () => {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <Chip
-                                label={row.user}
+                                label={
+                                  <Link
+                                    to={`/userview/${row.userId}`}
+                                    style={{ color: 'inherit', textDecoration: 'none' }}
+                                  >{row.user}</Link>
+                                }
                                 size="small"
                                 color="primary"
                                 avatar={

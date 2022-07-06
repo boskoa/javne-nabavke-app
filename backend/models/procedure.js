@@ -74,7 +74,8 @@ Procedure.init({
     type: DataTypes.STRING
   },
   comment: {
-    type: DataTypes.TEXT
+    type: DataTypes.STRING,
+    defaultValue: ''
   },
   userId: {
     type: DataTypes.INTEGER,
