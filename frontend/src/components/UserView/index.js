@@ -12,10 +12,13 @@ import UserStats from './UserStats'
 const UserView = () => {
   const { id } = useParams()
   const user = useSelector((state) => state.users.selectedUser)
+  const pathUser = useSelector(
+    (state) => state.users.data.find((u) => u.id === parseInt(id))
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(change(`Korisnik ${user.name}`))
+    dispatch(change(`Korisnik ${pathUser.name}`))
     dispatch(getSelectedUserThunk(id))
   }, [])
 

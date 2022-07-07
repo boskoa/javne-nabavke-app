@@ -1,6 +1,6 @@
 import {
   Paper, Box, Typography, FormGroup, Checkbox, TextField, Button,
-  FormControl, InputLabel, Select, MenuItem, Divider, Chip, Stack
+  FormControl, Divider, Chip, Stack
 } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -24,6 +24,14 @@ import {
 import Comment from './Comment'
 import DeliveryLocation from './DeliveryLocation'
 import CheckboxData from './OperationalData/CheckboxData'
+import Budget from './OperationalData/InputData/Budget'
+import Amount from './OperationalData/InputData/Amount'
+import DeliveryDate from './OperationalData/InputData/DeliveryDate'
+import OfferValidity from './OperationalData/InputData/OfferValidity'
+import Payment from './OperationalData/InputData/Payment'
+import Copy from './OperationalData/InputData/Copy'
+import Category from './OperationalData/InputData/Category'
+import Criterion from './OperationalData/InputData/Criterion'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -54,12 +62,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
   const userId = useSelector((state) => state.login.data.id)
   const [requirement, setRequirement] = useState('')
-  const [budget, setBudget] = useState('')
-  const [delivery, setDelivery] = useState(0)
-  const [validity, setValidity] = useState(0)
-  const [payment, setPayment] = useState(0)
-  const [copy, setCopy] = useState(0)
-  const [amount, setAmount] = useState('')
   const [date, setDate] = useState('')
   const [text, setText] = useState('')
   const [alarm, setAlarm] = useState('')
@@ -74,16 +76,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
 
   useEffect(() => {
     if (procedure.budget) {
-      setBudget(Intl.NumberFormat('sr-BA', {
-        style: 'currency', currency: 'BAM'
-      }).format(procedure.budget))
-      setDelivery(procedure.deliveryDate)
-      setValidity(procedure.offerValidity)
-      setPayment(procedure.payment)
-      setCopy(procedure.copy)
-      setAmount(Intl.NumberFormat('sr-BA', {
-        style: 'currency', currency: 'BAM'
-      }).format(procedure.amount))
       setDate(procedure.submissionDate)
       if (procedure.user.id === userId) {
         dispatch(updateProcedures(procedure))
@@ -161,34 +153,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
     event.target.checked = done
   }
 
-  const handleSelectType = (event) => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { category: event.target.value }
-    }))
-  }
-
-  const handleSelectCriterion = (event) => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { criterion: event.target.value }
-    }))
-  }
-
-  const handleBudget = () => {
-    let formatBudget = budget
-    formatBudget = formatBudget.replace(' KM','')
-    formatBudget = formatBudget.replace('.','')
-    formatBudget = formatBudget.replace(',','.')
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { budget: parseFloat(formatBudget) }
-    }))
-  }
-
-  const handleDelivery = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { deliveryDate: parseInt(delivery) }
-    }))
-  }
-
   const handleText = () => {
     if (notifications && !(notifications.length)) {
       console.log('NO NOTIFICATION')
@@ -198,34 +162,6 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
         id: notifications[0].id, text
       }))
     }
-  }
-
-  const handleValidity = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { offerValidity: parseInt(validity) }
-    }))
-  }
-
-  const handlePayment = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { payment: parseInt(payment) }
-    }))
-  }
-
-  const handleCopy = () => {
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { copy: parseInt(copy) }
-    }))
-  }
-
-  const handleAmount = () => {
-    let formatAmount = amount
-    formatAmount = formatAmount.replace(' KM','')
-    formatAmount = formatAmount.replace('.','')
-    formatAmount = formatAmount.replace(',','.')
-    dispatch(updateOneThunk({
-      id: procedure.id, data: { amount: parseFloat(formatAmount) }
-    }))
   }
 
   return (
@@ -240,8 +176,8 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             p: 1, width: '100%', height: '100%', backgroundColor: '#F5FFFA'
           }}
         >
-          <Box elevation={0} sx={{ p: 1, background: '#F5FFFA' }}>
-            <Typography variant="subtitle1">Osnovni podaci</Typography>
+          <Box sx={{ p: 1 }}>
+            <Typography variant="subtitle1" sx={{ mb: 1 }}>Osnovni podaci</Typography>
             <Box sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -263,61 +199,12 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
             </Box>
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Box elevation={0} sx={{ p: 1, background: '#F5FFFA' }}>
+          <Box sx={{ p: 1 }}>
             <Typography variant="subtitle1" sx={{ mb: 1 }}>Operativni podaci</Typography>
             <CheckboxData procedure={procedure} userId={userId} />
             <FormGroup>
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel
-                  id="procedureType"
-                  sx={{ fontSize: '0.8rem' }}
-                >
-                  Vrsta postupka
-                </InputLabel>
-                <Select
-                  disabled={!(procedure.user.id === userId)}
-                  labelId="procedureType"
-                  id="selectType"
-                  value={procedure.category}
-                  sx={{ height: '2.5rem', fontSize: '0.8rem' }}
-                  label="Vrsta postupka"
-                  onChange={(e) => handleSelectType(e)}
-                >
-                  <MenuItem value='Direktni sporazum' sx={{ fontSize: '0.8rem' }}>
-                  Direktni sporazum
-                  </MenuItem>
-                  <MenuItem value='Konkurentski zahtev' sx={{ fontSize: '0.8rem' }}>
-                  Konkurentski zahtev
-                  </MenuItem>
-                  <MenuItem value='Otvoreni postupak' sx={{ fontSize: '0.8rem' }}>
-                  Otvoreni postupak
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth sx={{ mb: 4 }}>
-                <InputLabel
-                  id="criterion"
-                  sx={{ fontSize: '0.8rem' }}
-                >
-                  Kriterijum odabira ponude
-                </InputLabel>
-                <Select
-                  disabled={!(procedure.user.id === userId)}
-                  labelId="criterion"
-                  id="selectCriterion"
-                  value={procedure.criterion}
-                  sx={{ height: '2.5rem', fontSize: '0.8rem' }}
-                  label="Kriterijum odabira ponude"
-                  onChange={(e) => handleSelectCriterion(e)}
-                >
-                  <MenuItem value='Najniža cena' sx={{ fontSize: '0.8rem' }}>
-                  Najniža cena
-                  </MenuItem>
-                  <MenuItem value='Ekonomski najpovoljnija ponuda' sx={{ fontSize: '0.8rem' }}>
-                  Ekonomski najpovoljnija ponuda
-                  </MenuItem>
-                </Select>
-              </FormControl>
+              <Category procedure={procedure} userId={userId} />
+              <Criterion procedure={procedure} userId={userId} />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   disabled={!(procedure.user.id === userId)}
@@ -332,89 +219,17 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
                   }}
                 />
               </LocalizationProvider>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Budžet"
-                  id="budget"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5,mt: 4 }}
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  onBlur={handleBudget}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Rok isporuke (u danima)"
-                  id="deliveryDate"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={delivery}
-                  onChange={(e) => setDelivery(e.target.value)}
-                  onBlur={handleDelivery}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
+              <Budget procedure={procedure} userId={userId} />
+              <DeliveryDate procedure={procedure} userId={userId} />
               <DeliveryLocation procedure={procedure} userId={userId} />
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Važenje ponude (u danima)"
-                  id="offerValidity"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={validity}
-                  onChange={(e) => setValidity(e.target.value)}
-                  onBlur={handleValidity}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Rok plaćanja (u danima)"
-                  id="payment"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={payment}
-                  onChange={(e) => setPayment(e.target.value)}
-                  onBlur={handlePayment}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Broj kopija ponude"
-                  id="copy"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={copy}
-                  onChange={(e) => setCopy(e.target.value)}
-                  onBlur={handleCopy}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  disabled={!(procedure.user.id === userId)}
-                  size="small"
-                  label="Vrednost ponude"
-                  id="amount"
-                  sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  onBlur={handleAmount}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </FormControl>
+              <OfferValidity procedure={procedure} userId={userId} />
+              <Payment procedure={procedure} userId={userId} />
+              <Copy procedure={procedure} userId={userId} />
+              <Amount procedure={procedure} userId={userId} />
             </FormGroup>
           </Box>
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Box elevation={0} sx={{ p: 1, background: '#F5FFFA' }}>
+          <Box sx={{ p: 1 }}>
             <Typography variant="subtitle1">Kvalifikacioni uslovi</Typography>
             <FormGroup sx={{
               m: 1,
@@ -491,7 +306,7 @@ const ProcedureView = ({ notificationsUnfiltered }) => {
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Comment procedure={procedure} userId={userId} />
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
+          <Box sx={{ mb: 2, p: 1 }}>
             <Typography variant="subtitle1" sx={{ mb: 2 }}>Podsetnik</Typography>
             <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>

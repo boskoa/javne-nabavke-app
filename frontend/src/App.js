@@ -27,6 +27,7 @@ import ProfileSettings from './components/ProfileSettings'
 import Notifications from './components/Notifications'
 import { removeSnack, sendSnack } from './reducers/snackReducer'
 import UserView from './components/UserView'
+import { getAllOverviewThunk } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -49,6 +50,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initProcedures())
     dispatch(getAllNotificationsThunk())
+    dispatch(getAllOverviewThunk())
   }, [])
 
   useEffect(() => {
