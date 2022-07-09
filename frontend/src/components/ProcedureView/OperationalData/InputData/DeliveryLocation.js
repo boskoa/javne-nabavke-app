@@ -18,7 +18,7 @@ const DeliveryLocation = ({ procedure, userId }) => {
         sx={{ height: '2.5rem', fontSize: '0.8rem', mb: 1.5 }}
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        onBlur={() => handleLocation(location)}
+        onBlur={handleLocation}
         InputLabelProps={{ shrink: true }}
       />
     </FormControl>

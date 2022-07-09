@@ -29,13 +29,13 @@ const Category = ({ procedure, userId }) => {
         }}
       >
         <MenuItem value='Direktni sporazum' sx={{ fontSize: '0.8rem' }}>
-      Direktni sporazum
+          Direktni sporazum
         </MenuItem>
         <MenuItem value='Konkurentski zahtev' sx={{ fontSize: '0.8rem' }}>
-      Konkurentski zahtev
+          Konkurentski zahtev
         </MenuItem>
         <MenuItem value='Otvoreni postupak' sx={{ fontSize: '0.8rem' }}>
-      Otvoreni postupak
+          Otvoreni postupak
         </MenuItem>
       </Select>
     </FormControl>

@@ -120,7 +120,8 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
       include: [
         { model: User },
         { model: ContractingAuthority },
-        { model: Requirement, attributes: ['name', 'canDo', 'done'] }
+        { model: Requirement, attributes: ['name', 'canDo', 'done'] },
+        { model: Notification }
       ]
     })
 

@@ -20,6 +20,7 @@ export const updateOneThunk = createAsyncThunk(
     try {
       console.log('RIĐUSER APDEJT', id, data)
       const response = await procedureServices.updateOne(id, data)
+      console.log('RIĐUSER APDEJT RESPONSE', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -39,6 +40,15 @@ const selectedSlice = createSlice({
     cleanSelected: (state) => {
       console.log('CLEANED', state.data)
       state.data = {}
+    },
+    createNotifications: (state, action) => {
+      state.data.notifications = [action.payload]
+    },
+    removeNotifications: (state) => {
+      state.data.notifications = []
+    },
+    changeNotificationText: (state, action) => {
+      state.data.notifications[0].text = action.payload.text
     }
   },
   extraReducers: (builder) => {
@@ -51,6 +61,8 @@ const selectedSlice = createSlice({
   }
 })
 
-export const { cleanSelected } = selectedSlice.actions
+export const {
+  cleanSelected, createNotifications, removeNotifications, changeNotificationText
+} = selectedSlice.actions
 
 export default selectedSlice.reducer

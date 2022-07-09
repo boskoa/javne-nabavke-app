@@ -23,7 +23,7 @@ const Comment = ({ procedure, userId }) => {
           onChange={(e) => {
             setComment(e.target.value)
           }}
-          onBlur={() => handleComment(comment)}
+          onBlur={handleComment}
           InputLabelProps={{ shrink: true }}
           inputProps={{ maxLength: 300 }}
         />
