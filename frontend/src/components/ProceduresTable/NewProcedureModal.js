@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllThunk, newAuthorityThunk } from '../../reducers/authorityReducer'
 import { clean, initProcedures, newProcedure } from '../../reducers/procedureReducer'
+import { removeSnack, sendSnack } from '../../reducers/snackReducer'
 
 const style = {
   position: 'absolute',
@@ -32,7 +33,6 @@ const AuthorityForm = ({ setOpen, setAuthority }) => {
     setJib('')
     setAjnCode(0)
     setOpen(false)
-    console.log('OVVVVVVVVO', ajnCode)
   }
 
   return (
@@ -126,6 +126,12 @@ const NewProcedureModal = () => {
     }))
     dispatch(clean())
     setTimeout(() => dispatch(initProcedures()), 200)
+    dispatch(sendSnack({
+      open: true,
+      severity: 'success',
+      message: 'Postupak uspešno unet'
+    }))
+    setTimeout(() => dispatch(removeSnack()), 3000)
     handleClose()
   }
 
@@ -164,7 +170,6 @@ const NewProcedureModal = () => {
             fullWidth
             size="small"
             onChange={(e, v) => {
-              console.log('FOOOO', v)
               setAuthority(v)
             }}
             renderInput={(params) => (

@@ -5,7 +5,7 @@ const ActiveProcedures = ({ procedures }) => {//dodati senku pri hoveru
   const sortedProcedures = procedures
     .map((p) => p.phase ? p : { ...p, phase: '00 Nije postavljeno' })
     .sort((a, b) => parseInt(a.phase.slice(0, 2)) > parseInt(b.phase.slice(0, 2)))
-  console.log('NULIFIED', sortedProcedures)
+
   return (
     <Paper
       elevation={3}

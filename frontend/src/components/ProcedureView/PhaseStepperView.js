@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateOneThunk } from '../../reducers/selectedProcedureReducer'
+import { updateProcedurePhase } from '../../reducers/procedureReducer'
 
 const PhaseStepperView = ({ procedure, userId }) => {
   const steps = [
@@ -42,7 +43,6 @@ const PhaseStepperView = ({ procedure, userId }) => {
   const [completed, setCompleted] = useState(completedList)
   const dispatch = useDispatch()
   const currentStep = procedure.phase ? parseInt(procedure.phase.slice(0,2)) - 1 : -1
-  console.log('CURRENT STEP', currentStep)
 
   useEffect(() => {
     handleCompleted(currentStep)
@@ -53,7 +53,6 @@ const PhaseStepperView = ({ procedure, userId }) => {
       return i !== index ? false : !c
     })
     setCompleted(newCompleted)
-    console.log('COMPLETED', completed)
   }
 
   const handleComplete = async (index, label) => {
@@ -61,6 +60,7 @@ const PhaseStepperView = ({ procedure, userId }) => {
     const data = { id: procedure.id, data: { phase: label } }
     if (procedure.user.id === userId) {
       dispatch(updateOneThunk(data))
+      dispatch(updateProcedurePhase({ id: procedure.id, label }))
     }
   }
 

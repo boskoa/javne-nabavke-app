@@ -24,7 +24,7 @@ const MyListItemText = styled(ListItemText)(({ theme }) => ({
 
 const MyListItem = ({ item }) => {
   const path = useLocation().pathname.slice(1)
-  const bgColor = path === item.router.slice(1) ? 'black' : false
+  const bgColor = path === item.router.slice(1) ? '#42a5f5' : false
 
   return (
     <ListItem disablePadding>

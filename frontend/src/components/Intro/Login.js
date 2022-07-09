@@ -18,7 +18,7 @@ const Login = ({ open, handleClose }) => {
   const navigate = useNavigate()
 
   const handleLogin = async () => {
-    if (!(username && password)) {//popraviti
+    if (!(username && password)) {
       dispatch(sendSnack({
         open: true,
         severity: 'error',
@@ -26,14 +26,10 @@ const Login = ({ open, handleClose }) => {
       }))
       setTimeout(() => dispatch(removeSnack()), 3000)
     } else {
-      console.log(username, password)//obrisati posle
       const result = await dispatch(loginThunk({ username, password }))
-      //napraviti reducer za postavljanje korisnika na serveru (asink iznad), u state i u lokalnu memoriju (ispod)
-      //napraviti i rešenje za logout
-      //dodati instrukciju za brisanje kod odjavljivanja i reducer
-      setUsername('')                                                     //u App dodati useEffect koji će na startu izvući korisnika iz lokalne memorije ukoliko ga ima
-      setPassword('')                                                     //i onda ga postaviti u redux state
-      handleClose()                                                       //(dodati i BrowserRouter kao wrap u render (na prvi nivo))
+      setUsername('')
+      setPassword('')
+      handleClose()
       navigate('/')
       if (result.payload.error) {
         dispatch(sendSnack({

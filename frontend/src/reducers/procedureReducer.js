@@ -55,6 +55,13 @@ const procedureSlice = createSlice({
       state.data = state.data.map((d) => {
         return d.id !== action.payload.id ? d : action.payload
       })
+    },
+    updateProcedurePhase: (state, action) => {
+      let newData = state.data.find((d) => d.id === action.payload.id)
+      newData.phase = action.payload.label
+      state.data = state.data.map((d) => {
+        return d.id !== action.payload.id ? d : newData
+      })
     }
   },
   extraReducers: (builder) => {
@@ -73,7 +80,9 @@ const procedureSlice = createSlice({
   }
 })
 
-export const { clean, cleanForAuthority, updateProcedures } = procedureSlice.actions
+export const {
+  clean, cleanForAuthority, updateProcedures, updateProcedurePhase
+} = procedureSlice.actions
 
 
 export default procedureSlice.reducer
