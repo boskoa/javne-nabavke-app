@@ -10,6 +10,7 @@ const MyBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
 })(({ theme, showSearch }) => ({
   display: 'flex',
+  color: theme.palette.custom.contrastText,
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'none' : 'flex',
   }

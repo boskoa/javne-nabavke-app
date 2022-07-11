@@ -7,6 +7,8 @@ const MyChip = styled(Chip, {
 })(({ theme, showSearch }) => ({
   marginRight: 5,
   borderRadius: 5,
+  color: theme.palette.custom.light,
+  borderColor: theme.palette.custom.light,
   [theme.breakpoints.down('sm')]: {
     display: showSearch ? 'none' : 'show',
   }
@@ -20,7 +22,6 @@ const Location = ({ showSearch }) => {
       showSearch={showSearch}
       label={path}
       variant="outlined"
-      sx={{ color: 'gray', borderColor: 'gray' }}
     />
   )
 }

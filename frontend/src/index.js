@@ -4,11 +4,16 @@ import { Provider } from 'react-redux'
 import App from './App'
 import { BrowserRouter as Router } from 'react-router-dom'
 import store from './store'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { defaultTheme } from './themes/theme'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Router>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </Router>
+  <ThemeProvider theme={defaultTheme}>
+    <CssBaseline enableColorScheme />
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
+  </ThemeProvider>
 )

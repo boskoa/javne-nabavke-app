@@ -4,6 +4,13 @@ import { Box, Stack, Typography } from '@mui/material'
 import FilterSwitch from './FilterSwitch'
 import { useDispatch, useSelector } from 'react-redux'
 import ProceduresReview from './ProceduresReview'
+import styled from '@emotion/styled'
+
+const MyBox = styled(Box)(({ theme }) => ({
+  marginBottom: 5,
+  color: theme.palette.primary.contrastText,
+  borderRadius: 2
+}))
 
 
 const HomePage = () => {
@@ -56,24 +63,24 @@ const HomePage = () => {
     <Box sx={{ width: '100%' }}>
       <FilterSwitch text="samo moji postupci" setFilter={() => setFilter(!filter)} />
       <Stack spacing={2} sx={{ flexWrap: 'wrap' }}>
-        <div style={{ marginBottom: 5, backgroundColor: '#A0D995', borderRadius: 2 }}>
+        <MyBox sx={{ backgroundColor: 'boxes.light' }}>
           <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
             Ponude spremne za slanje
           </Typography>
           <ProceduresReview procedures={procedures1} />
-        </div>
-        <div style={{ marginBottom: 5, backgroundColor: '#6CC4A1', borderRadius: 2 }}>
+        </MyBox>
+        <MyBox sx={{ backgroundColor: 'boxes.main' }}>
           <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
             Pripremljena dokumentacija
           </Typography>
           <ProceduresReview procedures={procedures2} />
-        </div>
-        <div style={{ marginBottom: 5, backgroundColor: '#4CACBC', borderRadius: 2 }}>
+        </MyBox>
+        <MyBox sx={{ backgroundColor: 'boxes.dark' }}>
           <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
             Tek započeti postupci
           </Typography>
           <ProceduresReview procedures={procedures3} />
-        </div>
+        </MyBox>
       </Stack>
     </Box>
   )

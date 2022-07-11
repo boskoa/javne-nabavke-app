@@ -1,9 +1,10 @@
-import { IconButton, Badge, ClickAwayListener, Menu, MenuItem, Divider } from '@mui/material'
+import { IconButton, Badge, ClickAwayListener, MenuItem, Divider, Typography } from '@mui/material'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneUserThunk } from '../../../reducers/userReducer'
+import { MyMenu } from './ProfileIcon'
 
 const MyPendingActions = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -44,7 +45,7 @@ const MyPendingActions = ({ user }) => {
           <PendingActionsIcon />
         </Badge>
       </ClickAwayListener>
-      <Menu
+      <MyMenu
         id="pending-actions-menu"
         anchorEl={anchorEl}
         open={open}
@@ -53,26 +54,32 @@ const MyPendingActions = ({ user }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem>Neposlate ponude</MenuItem>
+        <MenuItem disabled>
+          <Typography variant="body2" sx={{ color: 'black' }}>
+            Neposlate ponude
+          </Typography>
+        </MenuItem>
         <Divider />
         {activeProcedures.map((p) => {
           return (
             <MenuItem onClick={handleClose} key={p.id}>
-              <Link to={`/procedures/${p.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                {`${
-                  p.contractingAuthority.name
-                } - ${
-                  p.name
-                } | ${
-                  p.submissionDate.slice(4, 21)
-                }
+              <Link to={`/procedures/${p.id}`} style={{ textDecoration: 'none' }}>
+                <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
+                  {`${
+                    p.contractingAuthority.name
+                  } - ${
+                    p.name
+                  } | ${
+                    p.submissionDate.slice(4, 21)
+                  }
                 `}
+                </Typography>
               </Link>
             </MenuItem>
           )
         }
         )}
-      </Menu>
+      </MyMenu>
     </IconButton>
   )
 }

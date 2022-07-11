@@ -11,12 +11,13 @@ const Search = styled('div', {
 })(({ theme, showSearch }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.custom.main, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25)
+    backgroundColor: alpha(theme.palette.custom.main, 0.25)
   },
+  color: theme.palette.custom.contrastText,
   marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginLeft: theme.spacing(2),
   width: 400,
   alignItems: 'center',
   [theme.breakpoints.down('sm')]: {

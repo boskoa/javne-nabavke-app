@@ -6,11 +6,12 @@ import { useState } from 'react'
 import Login from './Login'
 import Register from './Register'
 
-const MyButton = styled(Button)({
+const MyButton = styled(Button)(({ theme }) => ({
   width: '12em',
   margin: '2em',
-  fontWeight: 600
-})
+  fontWeight: 600,
+  color: theme.palette.primary
+}))
 
 const Intro = () => {
   const [openReg, setOpenReg] = useState(false)

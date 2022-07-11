@@ -1,4 +1,4 @@
-import { IconButton, Avatar, Divider } from '@mui/material'
+import { IconButton, Avatar, Divider, Typography } from '@mui/material'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
@@ -7,6 +7,13 @@ import { logout } from '../../../reducers/loginReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { ClickAwayListener } from '@mui/base'
 import Loading from '../../Loading'
+import styled from '@emotion/styled'
+
+export const MyMenu = styled(Menu)(({ theme }) => ({
+  '& .MuiMenu-paper': {
+    backgroundColor: theme.palette.custom.main,
+  },
+}))
 
 const ProfileIcon = ({ user }) => {
   const dispatch = useDispatch()
@@ -49,7 +56,7 @@ const ProfileIcon = ({ user }) => {
           sx={{ height: '1.7rem', width: '1.7rem' }}
         />
       </ClickAwayListener>
-      <Menu
+      <MyMenu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
@@ -58,23 +65,35 @@ const ProfileIcon = ({ user }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem disabled>{user.name}</MenuItem>
+        <MenuItem disabled>
+          <Typography variant="body2" sx={{ color: 'black' }}>
+            {user.name}
+          </Typography>
+        </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
           <Link
             to={`/userview/${user.id}`}
-            style={{ textDecoration: 'none', color: 'black' }}
+            style={{ textDecoration: 'none' }}
           >
-            Profil
+            <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
+              Profil
+            </Typography>
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to="/profile" style={{ textDecoration: 'none', color: 'black' }}>
-            Podešavanja
+          <Link to="/profile" style={{ textDecoration: 'none' }}>
+            <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
+              Podešavanja
+            </Typography>
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleLogout}>Odjavi se</MenuItem>
-      </Menu>
+        <MenuItem onClick={handleLogout}>
+          <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
+            Odjavi se
+          </Typography>
+        </MenuItem>
+      </MyMenu>
     </IconButton>
   )
 }

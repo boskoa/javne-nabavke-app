@@ -46,11 +46,12 @@ const DataBox = styled(Box)(({ theme }) => ({
   }
 }))
 
-const ProcedureView = ({ notificationsUnfiltered }) => {
+const ProcedureView = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const procedure = useSelector((state) => state.selectedProcedure.data)
   const requirements = useSelector((state) => state.requirement.data)
+  const notificationsUnfiltered = useSelector((state) => state.notifications.data)
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
   const userId = useSelector((state) => state.login.data.id)
   console.log('PROSIĐR', procedure)

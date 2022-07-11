@@ -7,6 +7,17 @@ import { Checkbox, Divider, IconButton } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { deleteNotification, updateNotificationsThunk } from '../../reducers/notificationReducer'
 import { Link } from 'react-router-dom'
+import styled from '@emotion/styled'
+
+const MyStyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.custom.contrastText,
+  marginRight: 20,
+  marginBottom: 20,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  width: 300,
+}))
 
 const SingleNotification = ({ notification }) => {
   const dispatch = useDispatch()
@@ -19,34 +30,31 @@ const SingleNotification = ({ notification }) => {
   }
 
   return (
-    <Card sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      width: 300,
-      mr: 2,
-      mb: 2,
-      backgroundColor: '#F5FFFA'
-    }}>
+    <MyStyledCard>
       <CardContent>
         <Link
           to={link}
           style={{ textDecoration: 'none' }}
         >
           <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="text.secondary">
-            {notification.procedure && notification.procedure.name}
+            {notification.procedure
+              ? notification.procedure.name
+              : 'Nije unet naziv postupka'}
           </Typography>
         </Link>
         <Divider sx={{ mb: 1.5, mt: 1.5 }} />
         <Typography variant="body2" color="text.secondary">
-          {notification.text}
+          {notification.text ? notification.text : <i>Nije uneta poruka</i>}
         </Typography>
         <Divider sx={{ mb: 1.5, mt: 1.5 }} />
         <Typography variant="body2" color="text.secondary">
-          Alarm: {notification.alarm ? notification.alarm.slice(0, 24) : 'nije podešen'}
+          <span style={{ fontWeight: 600 }}>Alarm: </span>
+          {notification.alarm ? notification.alarm.slice(0, 24) : <i>nije podešen</i>}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          UO: {notification.procedure && notification.procedure.contractingAuthority.name}
+          <span style={{ fontWeight: 600 }}>UO: </span>{notification.procedure
+            ? notification.procedure.contractingAuthority.name
+            : <i>nije unet</i>}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -67,7 +75,7 @@ const SingleNotification = ({ notification }) => {
           onClick={(event) => handleCheckbox(event)}
         />
       </CardActions>
-    </Card>
+    </MyStyledCard>
   )
 }
 

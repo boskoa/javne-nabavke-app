@@ -1,6 +1,17 @@
+import styled from '@emotion/styled'
 import { Avatar, Paper, Stack, Box } from '@mui/material'
 import UserChart from './UserChart'
 import UserData from './UserData'
+
+const MyPaper = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  padding: 1,
+  backgroundColor: theme.palette.custom.contrastText,
+  marginBottom: 30,
+  marginRight: 30
+}))
 
 const SingleUser = ({ user }) => {
   const thisYear = new Date().getFullYear().toString()
@@ -9,21 +20,25 @@ const SingleUser = ({ user }) => {
     : []
 
   return (
-    <Paper
+    <MyPaper
       elevation={10}
       sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         p: 1,
-        backgroundColor: '#F5FFFA',
         mb: 3,
         mr: 3
       }}
     >
       <Stack sx={{ flexDirection: 'row' }}>
         <Avatar
-          sx={{ backgroundColor: '#A0D995', height: '8rem', width: '8rem', mr: 3, mb: 3 }}
+          sx={{
+            backgroundColor: 'custom.contrastText',
+            height: '8rem',
+            width: '8rem',
+            mr: 3, mb: 3, ml: 1, mt: 1
+          }}
           src={`http://localhost:3003/${user.avatar}`}
         />
         <UserData user={user} procedures={procedures} />
@@ -40,7 +55,7 @@ const SingleUser = ({ user }) => {
       >
         <UserChart procedures={user.procedures} />
       </Box>
-    </Paper>
+    </MyPaper>
   )
 }
 

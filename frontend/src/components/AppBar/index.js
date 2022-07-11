@@ -1,18 +1,17 @@
 import styled from '@emotion/styled'
 import { AppBar, Toolbar } from '@mui/material'
-import { drawerWidth, drawerWidthSm } from '../Navbar/index'
 import SearchComponent from './SearchComponent'
 import IconsBox from './IconBox'
 import { useState } from 'react'
 import Location from './Location'
 
 const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: 'black',
+  backgroundColor: theme.palette.custom.dark,
   color: theme.palette.secondary.contrastText,
-  paddingLeft: drawerWidth + 20,
+  paddingLeft: 20,
   paddingRight: 20,
   [theme.breakpoints.down('md')]: {
-    paddingLeft: drawerWidthSm + 20,
+    paddingLeft: 20,
     paddingRight: 20
   }
 }))
@@ -21,7 +20,7 @@ const MyAppBar = () => {
   const [showSearch, setShowSearch] = useState(false)
 
   return(
-    <MyStyledAppBar position="fixed">
+    <MyStyledAppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar
         disableGutters
         style={{ display: 'flex', justifyContent: 'space-between' }}

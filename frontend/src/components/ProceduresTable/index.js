@@ -56,10 +56,7 @@ const columns = [
     minWidth: 170,
     align: 'center'
   },
-  { //Napraviti zastavicu sa nijansom crvene u zavisnosti od rednog broja faze i datuma predaje
-  // rgb(255-(faza*(1/broj faza) / dana do predaje). 0, 0)
-  // ako je predato - plavo
-  // ako je fakturisano/gotovo - zeleno
+  {
     id: 'emergency',
     label: 'Hitnoća',
     minWidth: 50,
@@ -71,7 +68,7 @@ const columns = [
 const ProceduresTable = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sortCriterium, setSortCriterium] = useState('endDate') //staviti ključ "rok za predaju"
+  const [sortCriterium, setSortCriterium] = useState('endDate')
   const [sortAscending, setSortAscending] = useState(false)
   const [userFilter, setUserFilter] = useState(false)
   const [phaseFilter, setPhaseFilter] = useState(false)
@@ -111,7 +108,7 @@ const ProceduresTable = () => {
         user: proc.user.name,
         budget: proc.budget,
         phase: proc.phase,
-        emergency: date.slice(4, 24),
+        emergency: proc.phase ? 13 - parseInt(proc.phase.slice(0, 2)) : 13,
         avatar: proc.user.avatar,
         userId: proc.user.id
       }
@@ -165,7 +162,7 @@ const ProceduresTable = () => {
                     onClick={() => {
                       setSortCriterium(column.id)
                       setSortAscending(!sortAscending)
-                      console.log(sortAscending, sortCriterium)
+                      console.log('SORTING', sortAscending, sortCriterium)
                     }}
                   >
                     <ColumnLabel>{column.label}</ColumnLabel>

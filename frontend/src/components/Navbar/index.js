@@ -9,19 +9,18 @@ import BarChartIcon from '@mui/icons-material/BarChart'
 import MyListItem from './MyListItem'
 import styled from '@emotion/styled'
 
-export const drawerWidth = 190
-export const drawerWidthSm = 75
+export const drawerWidth = 140
+export const drawerWidthSm = 60
 
 const MyDrawer = styled(Drawer)(({ theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
-  paddingTop: 10,
   '& .MuiDrawer-paper': {
-    paddingTop: 10,
+    paddingTop: 70,
     width: drawerWidth,
     boxSizing: 'border-box',
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.secondary.contrastText
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText
   },
   '& .Mui-selected': {
     color: 'green'

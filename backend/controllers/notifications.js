@@ -4,6 +4,7 @@ const { Op } = require('sequelize')
 const tokenExtractor = require('../utils/tokenExtractor')
 
 router.get('/', tokenExtractor, async (req, res, next) => {
+  console.log('NOTIFICATIONS', req.decodedToken)
   let where = { userId: req.decodedToken.id }
   let order = []
 

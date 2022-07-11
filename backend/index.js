@@ -15,7 +15,15 @@ const cors = require('cors')
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+  credentials :  true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}))
+
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use('/api/users', usersRouter)

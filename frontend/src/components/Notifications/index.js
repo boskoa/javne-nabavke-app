@@ -1,12 +1,13 @@
 import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
 import FilterSwitch from '../HomePage/FilterSwitch'
 import Loading from '../Loading'
 import SingleNotification from './SingleNotification'
 
-const Notifications = ({ notificationsUnfiltered }) => {
+const Notifications = () => {
+  const notificationsUnfiltered = useSelector((state) => state.notifications.data)
   const [notificationsFilter, setNotificationsFilter] = useState(false)
   const dispatch = useDispatch()
 

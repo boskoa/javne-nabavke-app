@@ -1,18 +1,55 @@
-import { IconButton, Badge, ClickAwayListener, Menu, MenuItem, Divider } from '@mui/material'
+import { IconButton, Badge, ClickAwayListener, MenuItem, Divider, Typography } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { MyMenu } from './ProfileIcon'
+import { sendSnack } from '../../../reducers/snackReducer'
+import { getAllNotificationsThunk } from '../../../reducers/notificationReducer'
 
 const MyNotificationsIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const notifications = useSelector((state) => state.notifications.data)
+  const login = useSelector((state) => state.login.data)
+  console.log('MYNOTIFICATION LOGIN', login)
+  const dispatch = useDispatch()
 
-  if (!notifications) {
+  useEffect(() => {
+    if (login) {
+      dispatch(getAllNotificationsThunk())
+    }
+  }, [login])
+
+  //prebaciti u custom hook
+  useEffect(() => {
+    if (notifications) {
+      const alarmedNotifications = notifications
+        .filter((n) => n.alarm && !(n.done))
+      console.log('ALARMED', notifications, alarmedNotifications)
+      for (let i = 0; i < alarmedNotifications.length; i++) {
+        const deadline = new Date(alarmedNotifications[i].alarm).getTime()
+        const now = new Date().getTime()
+        const timer = deadline > now ? deadline - now : i * 20000
+        console.log('TIMER', timer)
+        setTimeout(() => dispatch(sendSnack({
+          open: true,
+          alarm: true,
+          severity: 'warning',
+          message: alarmedNotifications[i].text,
+          authority: alarmedNotifications[i].procedure.contractingAuthority.name,
+          procedure: alarmedNotifications[i].procedure.name
+        })), timer)
+      }
+    }
+  }, [notifications])
+
+  if (!notifications?.length) {
+    console.log('NOTIFIKACIJE NE POSTOJE LI', notifications)
     return <div />
   }
 
+  console.log('NOTIFIKACIJE POSTOJE LI', notifications)
   const activeNotifications = notifications.filter((n) => !(n.done))
 
   const handleClick = (event) => {
@@ -34,7 +71,7 @@ const MyNotificationsIcon = () => {
           <NotificationsIcon />
         </Badge>
       </ClickAwayListener>
-      <Menu
+      <MyMenu
         id="notifications-menu"
         anchorEl={anchorEl}
         open={open}
@@ -43,26 +80,30 @@ const MyNotificationsIcon = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem>Podsetnici</MenuItem>
+        <MenuItem disabled>
+          <Typography variant="body2" sx={{ color: 'black' }}>Podsetnici</Typography>
+        </MenuItem>
         <Divider />
         {activeNotifications.map((n) => {
           return (
             <MenuItem onClick={handleClose} key={n.id}>
-              <Link to="/notifications" style={{ textDecoration: 'none', color: 'black' }}>
-                {`${
-                  n.alarm?.slice(4, 21)
-                } - ${
-                  n.procedure?.contractingAuthority.name
-                } - ${
-                  n.procedure?.name
-                }
+              <Link to="/notifications" style={{ textDecoration: 'none' }}>
+                <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
+                  {`${
+                    n.alarm?.slice(4, 21)
+                  } - ${
+                    n.procedure?.contractingAuthority.name
+                  } - ${
+                    n.procedure?.name
+                  }
                 `}
+                </Typography>
               </Link>
             </MenuItem>
           )
         }
         )}
-      </Menu>
+      </MyMenu>
     </IconButton>
   )
 }
