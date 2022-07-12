@@ -25,6 +25,7 @@ app.use(cors({
 }))
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use(express.static('build'))
 
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)

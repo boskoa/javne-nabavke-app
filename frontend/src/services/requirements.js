@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3003/api/requirements'
+const baseUrl = '/api/requirements'
 
 const getByProcedure = async (id) => {
   const response = await axios.get(`${baseUrl}?search=${id}`)

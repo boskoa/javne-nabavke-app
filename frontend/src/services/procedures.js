@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3003/api/procedures'
+const baseUrl = '/api/procedures'
 
 let token = null
 
