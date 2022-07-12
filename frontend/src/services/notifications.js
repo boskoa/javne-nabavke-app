@@ -1,14 +1,23 @@
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:3003/api/notifications'
-
+/*
+const token = `bearer ${JSON.parse(window.localStorage.getItem('loggedTenderUser')).token}`
+*/
 let token = null
 
+const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
+if (loggedUserJSON) {
+  const user = JSON.parse(loggedUserJSON)
+  token = `bearer ${user.token}`
+}
+
+/*
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
   console.log('SETTOKEN', token)
 }
-
+*/
 const getAll = async () => {
   const config = {
     headers: { Authorization: token },
@@ -45,5 +54,5 @@ const addNotification = async (data) => {
 }
 
 export default {
-  getAll, updateOne, deleteNotification, addNotification, setToken
+  getAll, updateOne, deleteNotification, addNotification
 }

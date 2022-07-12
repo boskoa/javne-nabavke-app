@@ -8,12 +8,11 @@ import Users from './components/Users'
 import HomePage from './components/HomePage'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { initProcedures } from './reducers/procedureReducer'
 import Intro from './components/Intro'
 import { login } from './reducers/loginReducer'
-import procedureServices from './services/procedures'
-import avatarServices from './services/avatar'
-import notificationServices from './services/notifications'
+//import procedureServices from './services/procedures'
+//import avatarServices from './services/avatar'
+//import notificationServices from './services/notifications'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import MuiAlertTitle from '@mui/material/AlertTitle'
@@ -24,7 +23,6 @@ import ProfileSettings from './components/ProfileSettings'
 import Notifications from './components/Notifications'
 import { removeSnack } from './reducers/snackReducer'
 import UserView from './components/UserView'
-import { getAllOverviewThunk } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,16 +34,12 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      notificationServices.setToken(user.token)
-      procedureServices.setToken(user.token)
-      avatarServices.setToken(user.token)
+      console.log('LOGGED IN', user)
+      //notificationServices.setToken(user.token)
+      //procedureServices.setToken(user.token)
+      //avatarServices.setToken(user.token)
       dispatch(login(user))
     }
-  }, [])
-
-  useEffect(() => {
-    dispatch(initProcedures())
-    dispatch(getAllOverviewThunk())
   }, [])
 
   const handleSnackClose = (event, reason) => {

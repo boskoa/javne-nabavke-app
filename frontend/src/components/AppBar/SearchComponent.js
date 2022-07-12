@@ -71,7 +71,7 @@ const SearchComponent = ({ showSearch, setShowSearch }) => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search…"
+        placeholder="Pretraga..."
         inputProps={{ 'aria-label': 'search' }}
         fullWidth
         onChange={(e) => dispatch(searchString(e.target.value))}

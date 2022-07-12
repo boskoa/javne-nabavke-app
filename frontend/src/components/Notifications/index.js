@@ -1,9 +1,8 @@
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
 import FilterSwitch from '../HomePage/FilterSwitch'
-import Loading from '../Loading'
 import SingleNotification from './SingleNotification'
 
 const Notifications = () => {
@@ -16,7 +15,7 @@ const Notifications = () => {
   }, [])
 
   if (!notificationsUnfiltered[0]) {
-    return <Loading />
+    return <Typography variant="body2">Nema podsetnika</Typography>
   }
 
   const notifications = notificationsFilter

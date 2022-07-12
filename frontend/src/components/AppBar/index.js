@@ -2,8 +2,11 @@ import styled from '@emotion/styled'
 import { AppBar, Toolbar } from '@mui/material'
 import SearchComponent from './SearchComponent'
 import IconsBox from './IconBox'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Location from './Location'
+import { getAllOverviewThunk } from '../../reducers/userReducer'
+import { initProcedures } from '../../reducers/procedureReducer'
+import { useDispatch } from 'react-redux'
 
 const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.custom.dark,
@@ -18,6 +21,12 @@ const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
 
 const MyAppBar = () => {
   const [showSearch, setShowSearch] = useState(false)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initProcedures())
+    dispatch(getAllOverviewThunk())
+  }, [])
 
   return(
     <MyStyledAppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>

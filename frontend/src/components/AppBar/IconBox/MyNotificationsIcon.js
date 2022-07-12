@@ -17,15 +17,17 @@ const MyNotificationsIcon = () => {
 
   useEffect(() => {
     if (login) {
+      console.log('DISPEČUJEM NOTIFIKACIJE')
       dispatch(getAllNotificationsThunk())
     }
   }, [login])
 
   //prebaciti u custom hook
   useEffect(() => {
-    if (notifications) {
+    if (notifications.length) {
       const alarmedNotifications = notifications
-        .filter((n) => n.alarm && !(n.done))
+        ? notifications.filter((n) => n.alarm && !(n.done))
+        : []
       console.log('ALARMED', notifications, alarmedNotifications)
       for (let i = 0; i < alarmedNotifications.length; i++) {
         const deadline = new Date(alarmedNotifications[i].alarm).getTime()
@@ -44,12 +46,6 @@ const MyNotificationsIcon = () => {
     }
   }, [notifications])
 
-  if (!notifications?.length) {
-    console.log('NOTIFIKACIJE NE POSTOJE LI', notifications)
-    return <div />
-  }
-
-  console.log('NOTIFIKACIJE POSTOJE LI', notifications)
   const activeNotifications = notifications.filter((n) => !(n.done))
 
   const handleClick = (event) => {

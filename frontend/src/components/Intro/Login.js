@@ -26,7 +26,7 @@ const Login = ({ open, handleClose }) => {
       }))
       setTimeout(() => dispatch(removeSnack()), 3000)
     } else {
-      const result = await dispatch(loginThunk({ username, password }))
+      const result = dispatch(loginThunk({ username, password }))
       setUsername('')
       setPassword('')
       handleClose()
@@ -46,8 +46,6 @@ const Login = ({ open, handleClose }) => {
         }))
         setTimeout(() => dispatch(removeSnack()), 3000)
       }
-      //token podesiti u uslugama (let token itd), napraviti funkciju za formatiranje tokena ('bearer ...')
-      //i dodavati ga kao config objekat u axios parametre tamo gde je potrebna autorizacija --> config={headers: {Authorization: token}}
     }
   }
 

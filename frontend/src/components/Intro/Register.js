@@ -36,7 +36,7 @@ const Register = ({ open, handleClose }) => {
         dispatch(sendSnack({
           open: true,
           severity: 'success',
-          message: 'Uspešno ste se registrovali'
+          message: 'Uspešno ste se registrovali. Možete se prijaviti.'
         }))
         setTimeout(() => dispatch(removeSnack()), 3000)
         dispatch(loginThunk({ username, password }))

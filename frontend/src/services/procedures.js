@@ -1,14 +1,22 @@
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:3003/api/procedures'
-
+/*
+const token = `bearer ${JSON.parse(window.localStorage.getItem('loggedTenderUser')).token}`
+*/
 let token = null
 
+const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
+if (loggedUserJSON) {
+  const user = JSON.parse(loggedUserJSON)
+  token = `bearer ${user.token}`
+}
+/*
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
   console.log('TOKENTOKEN', token)
 }
-
+*/
 const getAll = async () => {
   const response = await axios.get(baseUrl)
   return response.data
@@ -51,6 +59,5 @@ export default {
   getOne,
   getAllAnalysis,
   getForAuthority,
-  updateOne,
-  setToken
+  updateOne
 }
