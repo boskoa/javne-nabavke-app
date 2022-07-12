@@ -10,11 +10,9 @@ const useAlarmInput = (alarmId, propertyToChange, initialValue, changeValue) => 
     if (initialValue) {
       setValue(initialValue)
     }
-    console.log('Promena stejta', initialValue)
   }, [initialValue])
 
   useEffect(() => {
-    console.log('FINAL VALUE', finalValue)
     if (finalValue) {
       handleValue()
     }
@@ -24,7 +22,6 @@ const useAlarmInput = (alarmId, propertyToChange, initialValue, changeValue) => 
 
   const handleValue = async () => {
     changedProperty[propertyToChange] = value.toString()
-    console.log('Promena u bazi', changedProperty)
     await dispatch(changeValue({
       id: alarmId, ...changedProperty
     }))

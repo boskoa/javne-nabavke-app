@@ -39,7 +39,6 @@ router.post('/', async (req, res, next) => {
     }
 
     const token = jwt.sign(userForToken, SECRET)
-    console.log('TOKEEEEEEN', token, user.username, user.name, user.avatar, user.id)
     return res.status(200).send({
       token, username: user.username, name: user.name, avatar: user.avatar, id: user.id
     })

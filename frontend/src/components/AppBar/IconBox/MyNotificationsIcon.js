@@ -12,28 +12,23 @@ const MyNotificationsIcon = () => {
   const open = Boolean(anchorEl)
   const notifications = useSelector((state) => state.notifications.data)
   const login = useSelector((state) => state.login.data)
-  console.log('MYNOTIFICATION LOGIN', login)
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (login) {
-      console.log('DISPEČUJEM NOTIFIKACIJE')
       dispatch(getAllNotificationsThunk())
     }
   }, [login])
 
-  //prebaciti u custom hook
   useEffect(() => {
     if (notifications.length) {
       const alarmedNotifications = notifications
         ? notifications.filter((n) => n.alarm && !(n.done))
         : []
-      console.log('ALARMED', notifications, alarmedNotifications)
       for (let i = 0; i < alarmedNotifications.length; i++) {
         const deadline = new Date(alarmedNotifications[i].alarm).getTime()
         const now = new Date().getTime()
         const timer = deadline > now ? deadline - now : i * 20000
-        console.log('TIMER', timer)
         setTimeout(() => dispatch(sendSnack({
           open: true,
           alarm: true,

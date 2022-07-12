@@ -6,7 +6,6 @@ export const getOneThunk = createAsyncThunk(
   async (id) => {
     try {
       const response = await procedureServices.getOne(id)
-      console.log('SELECTED', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -18,9 +17,7 @@ export const updateOneThunk = createAsyncThunk(
   'procedure/updateOne',
   async ({ id, data }) => {
     try {
-      console.log('RIĐUSER APDEJT', id, data)
       const response = await procedureServices.updateOne(id, data)
-      console.log('RIĐUSER APDEJT RESPONSE', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -38,7 +35,6 @@ const selectedSlice = createSlice({
   initialState,
   reducers: {
     cleanSelected: (state) => {
-      console.log('CLEANED', state.data)
       state.data = {}
     },
     createNotifications: (state, action) => {

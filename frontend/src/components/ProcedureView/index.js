@@ -54,7 +54,6 @@ const ProcedureView = () => {
   const notificationsUnfiltered = useSelector((state) => state.notifications.data)
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure.id)
   const userId = useSelector((state) => state.login.data.id)
-  console.log('PROSIĐR', procedure)
 
   useEffect(() => {
     dispatch(getOneThunk(parseInt(id)))
@@ -69,8 +68,6 @@ const ProcedureView = () => {
       }
     }
   }, [procedure])
-
-  console.log('REQUIREMENTS PROCVIEW', requirements, procedure)
 
   if (!procedure.contractingAuthority && !notifications[0]) {
     return <Loading />

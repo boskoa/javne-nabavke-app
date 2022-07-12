@@ -24,7 +24,6 @@ const Notifications = () => {
     : [ ...notificationsUnfiltered ]
       .sort((a, b) => (a.done === b.done) ? 0 : a.done ? 1 : -1)
 
-  console.log('PROBA PODSETNICI', notifications)
   return (
     <Stack spacing={2}>
       <Stack direction="row" flexWrap="wrap">

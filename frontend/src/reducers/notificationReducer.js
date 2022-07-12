@@ -6,7 +6,6 @@ export const getAllNotificationsThunk = createAsyncThunk(
   async () => {
     try {
       const response = await notificationServices.getAll()
-      console.log('GETNOTIF', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -20,7 +19,6 @@ export const updateNotificationsThunk = createAsyncThunk(
     try {
       const newDone = !done
       const response = await notificationServices.updateOne(id, { done: newDone })
-      console.log('RESULT NOTE', response)
       return response
     } catch (exception) {
       return exception.response.data

@@ -6,7 +6,6 @@ export const getAllOverviewThunk = createAsyncThunk(
   async () => {
     try {
       const response = await usersServices.getAllOverview()
-      console.log('USERS', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -19,7 +18,6 @@ export const getOneUserThunk = createAsyncThunk(
   async (id) => {
     try {
       const response = await usersServices.getOne(id)
-      console.log('ONE USER', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -32,7 +30,6 @@ export const getSelectedUserThunk = createAsyncThunk(
   async (id) => {
     try {
       const response = await usersServices.getOne(id)
-      console.log('SELECTED USER', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -56,7 +53,6 @@ const usersSlice = createSlice({
       state.data = action.payload
     })
     builder.addCase(getOneUserThunk.fulfilled, (state, action) => {
-      console.log('RIĐUSER KARENT JUZER', action.payload)
       state.currentUser = action.payload
     })
     builder.addCase(getSelectedUserThunk.fulfilled, (state, action) => {

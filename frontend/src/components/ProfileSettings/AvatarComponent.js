@@ -21,8 +21,6 @@ const AvatarComponent = () => {
     const user = JSON.parse(loggedUserJSON)
     user.avatar = result.path
     window.localStorage.setItem('loggedTenderUser', JSON.stringify(user))
-    console.log('AXIOS', result)
-    console.log('MULTER', formData)// ne može pokazati u brauzeru
   }
 
   return (
@@ -36,7 +34,6 @@ const AvatarComponent = () => {
             name="avatar"
             onChange={(e) => {
               const valueArray = e.target.value.split('\\')
-              console.log('SPLIT', valueArray[valueArray.length - 1])
               setName(valueArray[valueArray.length - 1])
               setFile(e.target.files[0])
             }}

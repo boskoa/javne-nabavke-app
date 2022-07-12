@@ -1,14 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:3003/api/requirements'
-/*
-let token = null
 
-const setToken = (newToken) => {
-  token = `bearer ${newToken}`
-  console.log('TOKENTOKEN', token)
-}
-*/
 const getByProcedure = async (id) => {
   const response = await axios.get(`${baseUrl}?search=${id}`)
   return response.data

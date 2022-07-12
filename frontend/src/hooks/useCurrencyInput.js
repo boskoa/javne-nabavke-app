@@ -11,7 +11,6 @@ const useCurrencyInput = (id, propertyToChange, initialValue, changeValue) => {
         style: 'currency', currency: 'BAM'
       }).format(initialValue))
     }
-    console.log('Promena stejta')
   }, [initialValue])
 
   let changedProperty = {}
@@ -22,7 +21,6 @@ const useCurrencyInput = (id, propertyToChange, initialValue, changeValue) => {
     formatValue = formatValue.replace('.','')
     formatValue = formatValue.replace(',','.')
     changedProperty[propertyToChange] = parseFloat(formatValue)
-    console.log('Promena u bazi', changedProperty[propertyToChange])
     await dispatch(changeValue({ id, data: changedProperty }))
   }
 

@@ -37,7 +37,6 @@ const ProfileIcon = ({ user }) => {
     setAnchorEl(null)
     dispatch(logout())
     window.localStorage.clear()
-    console.log(window.localStorage)
     navigate('/')
   }
 

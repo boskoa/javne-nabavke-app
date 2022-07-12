@@ -10,9 +10,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Intro from './components/Intro'
 import { login } from './reducers/loginReducer'
-//import procedureServices from './services/procedures'
-//import avatarServices from './services/avatar'
-//import notificationServices from './services/notifications'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import MuiAlertTitle from '@mui/material/AlertTitle'
@@ -27,24 +24,19 @@ import UserView from './components/UserView'
 const App = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.login.data.username)
-  console.log('CURRENT', currentUser)
   const snackValues = useSelector((state) => state.snack.data)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log('LOGGED IN', user)
-      //notificationServices.setToken(user.token)
-      //procedureServices.setToken(user.token)
-      //avatarServices.setToken(user.token)
       dispatch(login(user))
     }
   }, [])
 
   const handleSnackClose = (event, reason) => {
     if (reason === 'clickaway') {
-      dispatch(removeSnack())//staviti da se produžuju alarm dokle god se ne ugasi
+      dispatch(removeSnack())
     }
   }
 

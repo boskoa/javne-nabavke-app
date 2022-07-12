@@ -13,7 +13,6 @@ const MyPendingActions = ({ user }) => {
   const open = Boolean(anchorEl)
 
   useEffect(() => {
-    console.log('DISPEČD JUZER', user)
     dispatch(getOneUserThunk(user.id))
   }, [user])
 

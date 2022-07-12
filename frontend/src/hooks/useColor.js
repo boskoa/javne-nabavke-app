@@ -34,7 +34,6 @@ const useColor = (endDate, phaseRaw) => {
     if (colorNum < 0) {
       colorNum = 0
     }
-    console.log('COLOR', colorNum)
 
     return [r, colorNum, colorNum, 'Potrebno pripremiti ponudu']
   }

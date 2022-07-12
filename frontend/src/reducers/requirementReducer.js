@@ -5,7 +5,6 @@ export const getByProcedure = createAsyncThunk(
   'requirement/getByProcedure',
   async (id) => {
     const response = await requirementService.getByProcedure(id)
-    console.log('GET REQUIREMENTS', response)
     return response
   }
 )
@@ -14,7 +13,6 @@ export const addRequirement = createAsyncThunk(
   'requirement/addRequirement',
   async (data) => {
     const response = await requirementService.addRequirement(data)
-    console.log('ADDED REQUIREMENT', response)
     return response
   }
 )
@@ -31,7 +29,6 @@ export const updateRequirement = createAsyncThunk(
 export const deleteRequirement = createAsyncThunk(
   'requirement/deleteRequirement',
   async (id) => {
-    console.log('DELETING', id)
     await requirementService.deleteRequirement(id)
     return { id }
   }

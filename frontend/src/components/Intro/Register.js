@@ -41,7 +41,6 @@ const Register = ({ open, handleClose }) => {
         setTimeout(() => dispatch(removeSnack()), 3000)
         dispatch(loginThunk({ username, password }))
       } catch (error) {
-        console.log(error)
         dispatch(sendSnack({
           open: true,
           severity: 'error',

@@ -9,14 +9,12 @@ const useNotificationInput = (id, propertyToChange, initialValue, changeValue, u
     if (initialValue) {
       setValue(initialValue)
     }
-    console.log('Promena stejta')
   }, [initialValue])
 
   let changedProperty = {}
 
   const handleValue = async () => {
     changedProperty[propertyToChange] = value
-    console.log('Promena u bazi', changedProperty[propertyToChange])
     await dispatch(changeValue({ id, ...changedProperty }))
     dispatch(updateProcedure(changedProperty))
   }

@@ -8,7 +8,6 @@ const useSelectInput = (id, propertyToChange, initialValue, changeValue) => {
   const handleValue = async (newValue) => {
     changedProperty[propertyToChange] = newValue
     await dispatch(changeValue({ id, data: changedProperty }))
-    console.log('NEWSELECT', newValue)
   }
 
   return [initialValue, handleValue]

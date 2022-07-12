@@ -18,7 +18,6 @@ export const newAuthorityThunk = createAsyncThunk(
   async (data) => {
     try {
       const response = await authoritiesServices.newAuthority(data)
-      console.log('NEW AUTHORITY THUNK')
       return response
     } catch (exception) {
       return exception.response.data
@@ -34,11 +33,7 @@ const initialState = {
 const authoritiesSlice = createSlice({
   name: 'authorities',
   initialState,
-  reducers: {/*
-    getAll: (state, action) => {
-      state.data = action.payload
-    }*/
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllThunk.fulfilled, (state, action) => {
       state.data = action.payload
@@ -48,7 +43,5 @@ const authoritiesSlice = createSlice({
     })
   }
 })
-
-//export const { getAll } = authoritiesSlice.actions
 
 export default authoritiesSlice.reducer

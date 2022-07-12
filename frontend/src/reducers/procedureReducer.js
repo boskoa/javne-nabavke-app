@@ -5,7 +5,6 @@ export const initProcedures = createAsyncThunk(
   'procedure/initProcedures',
   async () => {
     const response = await procedureService.getAll()
-    console.log('INIT PROCEDURES', response)
     return response
   }
 )
