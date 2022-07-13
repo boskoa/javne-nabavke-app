@@ -40,7 +40,7 @@ const UserView = () => {
             sx={{
               backgroundColor: '#A0D995', height: '8rem', width: '8rem', mr:3
             }}
-            src={`http://localhost:3003/${user.avatar}`}
+            src={user.avatar}
           />
           <UserStats user={user} />
         </Stack>

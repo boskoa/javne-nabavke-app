@@ -39,7 +39,7 @@ const SingleUser = ({ user }) => {
             width: '8rem',
             mr: 3, mb: 3, ml: 1, mt: 1
           }}
-          src={`http://localhost:3003/${user.avatar}`}
+          src={user.avatar}
         />
         <UserData user={user} procedures={procedures} />
       </Stack>

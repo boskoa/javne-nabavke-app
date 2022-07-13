@@ -220,7 +220,7 @@ const ProceduresTable = () => {
                                 size="small"
                                 color="primary"
                                 avatar={
-                                  <Avatar src={`http://localhost:3003/${row.avatar}`} />
+                                  <Avatar src={row.avatar} />
                                 }
                               />
                             </TableCell>

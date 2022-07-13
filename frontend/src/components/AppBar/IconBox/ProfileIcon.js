@@ -51,7 +51,7 @@ const ProfileIcon = ({ user }) => {
     >
       <ClickAwayListener onClickAway={handleClose}>
         <Avatar
-          src={`http://localhost:3003/${avatar}`}
+          src={avatar}
           sx={{ height: '1.7rem', width: '1.7rem' }}
         />
       </ClickAwayListener>
