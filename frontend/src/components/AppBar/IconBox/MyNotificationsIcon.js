@@ -10,7 +10,6 @@ import { getAllNotificationsThunk } from '../../../reducers/notificationReducer'
 const MyNotificationsIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const notifications = useSelector((state) => state.notifications.data)
   const login = useSelector((state) => state.login.data)
   const dispatch = useDispatch()
 
@@ -20,8 +19,10 @@ const MyNotificationsIcon = () => {
     }
   }, [login])
 
+  const notifications = useSelector((state) => state.notifications.data)
+
   useEffect(() => {
-    if (notifications.length) {
+    if (notifications && notifications.length) {
       const alarmedNotifications = notifications
         ? notifications.filter((n) => n.alarm && !(n.done))
         : []
@@ -41,6 +42,10 @@ const MyNotificationsIcon = () => {
     }
   }, [notifications])
 
+  if (!notifications) {
+    return <div />
+  }
+
   const activeNotifications = notifications.filter((n) => !(n.done))
 
   const handleClick = (event) => {
@@ -58,7 +63,7 @@ const MyNotificationsIcon = () => {
       onClick={handleClick}
     >
       <ClickAwayListener onClickAway={handleClose}>
-        <Badge max={99} badgeContent={activeNotifications.length} color="error">
+        <Badge max={99} badgeContent={activeNotifications?.length} color="error">
           <NotificationsIcon />
         </Badge>
       </ClickAwayListener>

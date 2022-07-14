@@ -13,7 +13,7 @@ const getAll = async () => {
     headers: { Authorization: token },
   }
 
-  if (token) {
+  if (config.headers.Authorization) {
     const response = await axios.get(baseUrl, config)
     return response.data
   }

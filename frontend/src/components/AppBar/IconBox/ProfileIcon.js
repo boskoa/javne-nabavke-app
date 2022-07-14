@@ -38,6 +38,7 @@ const ProfileIcon = ({ user }) => {
     dispatch(logout())
     window.localStorage.clear()
     navigate('/')
+    window.location.reload(false)
   }
 
   return (

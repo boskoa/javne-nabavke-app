@@ -9,6 +9,10 @@ import { useDispatch } from 'react-redux'
 import { loginThunk } from '../../reducers/loginReducer'
 import { useNavigate } from 'react-router-dom'
 import { removeSnack, sendSnack } from '../../reducers/snackReducer'
+import notificationService from '../../services/notifications'
+import avatarService from '../../services/avatar'
+import procedureService from '../../services/procedures'
+import { getAllNotificationsThunk } from '../../reducers/notificationReducer'
 
 const Login = ({ open, handleClose }) => {
   const [username, setUsername] = useState('')
@@ -26,12 +30,12 @@ const Login = ({ open, handleClose }) => {
       }))
       setTimeout(() => dispatch(removeSnack()), 3000)
     } else {
-      const result = dispatch(loginThunk({ username, password }))
+      const result = await dispatch(loginThunk({ username, password }))
       setUsername('')
       setPassword('')
       handleClose()
       navigate('/')
-      if (result.payload.error) {
+      if (result?.payload?.error) {
         dispatch(sendSnack({
           open: true,
           severity: 'error',
@@ -39,12 +43,16 @@ const Login = ({ open, handleClose }) => {
         }))
         setTimeout(() => dispatch(removeSnack()), 3000)
       } else {
+        notificationService.setToken(result.payload.token)
+        avatarService.setToken(result.payload.token)
+        procedureService.setToken(result.payload.token)
         dispatch(sendSnack({
           open: true,
           severity: 'success',
           message: 'Uspešno ste se ulogovali'
         }))
         setTimeout(() => dispatch(removeSnack()), 3000)
+        dispatch(getAllNotificationsThunk())
       }
     }
   }
