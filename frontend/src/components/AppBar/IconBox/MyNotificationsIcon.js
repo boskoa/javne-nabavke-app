@@ -15,7 +15,7 @@ const MyNotificationsIcon = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (login) {
+    if (login?.token) {
       dispatch(getAllNotificationsThunk())
     }
   }, [login])

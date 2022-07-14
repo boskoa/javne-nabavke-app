@@ -13,8 +13,10 @@ const getAll = async () => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.get(baseUrl, config)
-  return response.data
+  if (token) {
+    const response = await axios.get(baseUrl, config)
+    return response.data
+  }
 }
 
 const updateOne = async (id, data) => {

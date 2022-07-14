@@ -27,7 +27,6 @@ import procedureService from './services/procedures'
 
 const App = () => {
   const dispatch = useDispatch()
-  const currentUser = useSelector((state) => state.login.data.username)
   const snackValues = useSelector((state) => state.snack.data)
 
   useEffect(() => {
@@ -47,7 +46,7 @@ const App = () => {
     }
   }
 
-  if (currentUser) {
+  if (window.localStorage.getItem('loggedTenderUser')) {
     return (
       <Box sx={{ display: 'flex' }}>
         <MyAppBar />

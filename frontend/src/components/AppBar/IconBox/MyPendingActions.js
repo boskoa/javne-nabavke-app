@@ -13,7 +13,9 @@ const MyPendingActions = ({ user }) => {
   const open = Boolean(anchorEl)
 
   useEffect(() => {
-    dispatch(getOneUserThunk(user.id))
+    if (user?.id) {
+      dispatch(getOneUserThunk(user.id))
+    }
   }, [user])
 
   const currentUser = useSelector((state) => state.users.currentUser)
