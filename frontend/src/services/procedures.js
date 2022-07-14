@@ -4,10 +4,8 @@ const baseUrl = '/api/procedures'
 
 let token = null
 
-const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
-if (loggedUserJSON) {
-  const user = JSON.parse(loggedUserJSON)
-  token = `bearer ${user.token}`
+const setToken = (newToken) => {
+  token = `bearer ${newToken}`
 }
 
 const getAll = async () => {
@@ -52,5 +50,6 @@ export default {
   getOne,
   getAllAnalysis,
   getForAuthority,
-  updateOne
+  updateOne,
+  setToken
 }

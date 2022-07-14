@@ -20,6 +20,10 @@ import ProfileSettings from './components/ProfileSettings'
 import Notifications from './components/Notifications'
 import { removeSnack } from './reducers/snackReducer'
 import UserView from './components/UserView'
+import notificationService from './services/notifications'
+import avatarService from './services/avatar'
+import procedureService from './services/procedures'
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -31,6 +35,9 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(login(user))
+      notificationService.setToken(user.token)
+      avatarService.setToken(user.token)
+      procedureService.setToken(user.token)
     }
   }, [])
 

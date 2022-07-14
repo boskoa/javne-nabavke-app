@@ -4,10 +4,8 @@ const baseUrl = '/api/notifications'
 
 let token = null
 
-const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
-if (loggedUserJSON) {
-  const user = JSON.parse(loggedUserJSON)
-  token = `bearer ${user.token}`
+const setToken = (newToken) => {
+  token = `bearer ${newToken}`
 }
 
 const getAll = async () => {
@@ -43,5 +41,5 @@ const addNotification = async (data) => {
 }
 
 export default {
-  getAll, updateOne, deleteNotification, addNotification
+  getAll, updateOne, deleteNotification, addNotification, setToken
 }

@@ -4,10 +4,8 @@ const baseUrl = '/api/avatar'
 
 let token = null
 
-const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
-if (loggedUserJSON) {
-  const user = JSON.parse(loggedUserJSON)
-  token = `bearer ${user.token}`
+const setToken = (newToken) => {
+  token = `bearer ${newToken}`
 }
 
 const uploadAvatar = async (data) => {
@@ -18,4 +16,4 @@ const uploadAvatar = async (data) => {
   return response.data
 }
 
-export default { uploadAvatar }
+export default { uploadAvatar, setToken }
