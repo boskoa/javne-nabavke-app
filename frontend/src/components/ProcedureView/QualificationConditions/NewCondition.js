@@ -27,7 +27,7 @@ const NewCondition = ({ id, procedure, userId, isAdmin }) => {
       />
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Button
-          disabled={!(procedure.user.id === userId)}
+          disabled={!(procedure.user.id === userId || isAdmin)}
           type='submit'
           variant="contained"
           size="small"

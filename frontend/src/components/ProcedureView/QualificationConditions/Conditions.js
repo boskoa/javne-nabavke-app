@@ -1,7 +1,7 @@
 import { FormGroup } from '@mui/material'
 import Condition from './Condition'
 
-const Conditions = ({ requirements, procedure, userId }) => {
+const Conditions = ({ requirements, procedure, userId, isAdmin }) => {
   return (
     <FormGroup sx={{
       m: 1,
@@ -21,7 +21,7 @@ const Conditions = ({ requirements, procedure, userId }) => {
           }}
           key={r.id}
         >
-          <Condition r={r} procedure={procedure} userId={userId} />
+          <Condition r={r} procedure={procedure} userId={userId} isAdmin={isAdmin} />
         </div>
       ))
       }

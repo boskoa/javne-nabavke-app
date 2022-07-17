@@ -73,7 +73,6 @@ const AuthoritiesTable = () => {
   const [authorityData, setAuthorityData] = useState({})
   const dispatch = useDispatch()
   const filter = useSelector(state => state.search.value.toLowerCase())
-  console.log(filter)
 
   useEffect(() => {
     dispatch(change('Ugovorni organi'))

@@ -98,7 +98,7 @@ const ProcedureView = () => {
             isAdmin={isAdmin}
           />
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Comment procedure={procedure} userId={userId} />
+          <Comment procedure={procedure} userId={userId} isAdmin={isAdmin} />
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Notification
             notifications={notifications}

@@ -15,8 +15,7 @@ const ProfileSettings = () => {
 
   return (
     <Stack>
-      {user.name}
-      <PersonalData />
+      <PersonalData user={user} />
       <AvatarComponent />
     </Stack>
   )

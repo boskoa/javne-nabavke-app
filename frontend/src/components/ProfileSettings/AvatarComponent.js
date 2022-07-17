@@ -1,4 +1,4 @@
-import { Stack, Input, Button } from '@mui/material'
+import { Stack, Input, Button, Paper, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateAvatar } from '../../reducers/loginReducer'
@@ -24,39 +24,46 @@ const AvatarComponent = () => {
   }
 
   return (
-    <Stack>
-      <form id="avatar-form" encType="multipart/form-data">
-        <label htmlFor="avatar">
-          <Input
-            sx={{ display: 'none' }}
-            id="avatar"
-            type="file"
-            name="avatar"
-            onChange={(e) => {
-              const valueArray = e.target.value.split('\\')
-              setName(valueArray[valueArray.length - 1])
-              setFile(e.target.files[0])
-            }}
-          />
+    <Paper sx={{ mb: 2, padding: 2 }}>
+      <Stack>
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          Podesi avatar
+        </Typography>
+        <form id="avatar-form" encType="multipart/form-data">
+          <label htmlFor="avatar">
+            <Input
+              sx={{ display: 'none' }}
+              id="avatar"
+              type="file"
+              name="avatar"
+              onChange={(e) => {
+                const valueArray = e.target.value.split('\\')
+                setName(valueArray[valueArray.length - 1])
+                setFile(e.target.files[0])
+              }}
+            />
+            <Button
+              variant="contained"
+              component="span"
+              size="small"
+              sx={{ textTransform: 'none' }}
+            >
+              {name}
+            </Button>
+          </label>
           <Button
+            type="submit"
             variant="contained"
             component="span"
-            sx={{ textTransform: 'none' }}
+            size="small"
+            sx={{ textTransform: 'none', ml: 3 }}
+            onClick={(e) => handleSubmit(e)}
           >
-            {name}
-          </Button>
-        </label>
-        <Button
-          type="submit"
-          variant="contained"
-          component="span"
-          sx={{ textTransform: 'none', ml: 3 }}
-          onClick={(e) => handleSubmit(e)}
-        >
           Postavi
-        </Button>
-      </form>
-    </Stack>
+          </Button>
+        </form>
+      </Stack>
+    </Paper>
   )
 }
 

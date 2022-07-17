@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import useAlarmInput from '../../../hooks/useAlarmInput'
 import { updateAlarmThunk } from '../../../reducers/notificationReducer'
 
-const Alarm = ({ notifications, procedure, userId }) => {
+const Alarm = ({ notifications, procedure, userId, isAdmin }) => {
   const propertyName = 'alarm'
   const [
     alarm, setAlarm, setFinalAlarm
@@ -19,7 +19,7 @@ const Alarm = ({ notifications, procedure, userId }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateTimePicker
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         fullWidth
         ampm={false}
         renderInput={(props) => <TextField {...props} />}

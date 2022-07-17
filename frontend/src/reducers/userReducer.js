@@ -25,6 +25,18 @@ export const getOneUserThunk = createAsyncThunk(
   }
 )
 
+export const updateOneUserThunk = createAsyncThunk(
+  'users/updateOneUserThunk',
+  async ({ id, data }) => {
+    try {
+      const response = await usersServices.updateOne(id, data)
+      return response
+    } catch (exception) {
+      return exception.response.data
+    }
+  }
+)
+
 export const getSelectedUserThunk = createAsyncThunk(
   'users/getSelectedUserThunk',
   async (id) => {
@@ -57,6 +69,13 @@ const usersSlice = createSlice({
     })
     builder.addCase(getSelectedUserThunk.fulfilled, (state, action) => {
       state.selectedUser = action.payload
+    })
+    builder.addCase(updateOneUserThunk.fulfilled, (state, action) => {
+      state.data = state.data.map((u) => {
+        const newValues = action.payload.data
+        const updatedUser = { ...u, ...newValues }
+        return u.id !== action.payload.id ? u : updatedUser
+      })
     })
   }
 })

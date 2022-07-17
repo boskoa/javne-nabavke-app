@@ -23,6 +23,7 @@ import UserView from './components/UserView'
 import notificationService from './services/notifications'
 import avatarService from './services/avatar'
 import procedureService from './services/procedures'
+import userService from './services/users'
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
       notificationService.setToken(user.token)
       avatarService.setToken(user.token)
       procedureService.setToken(user.token)
+      userService.setToken(user.token)
     }
   }, [])
 

@@ -11,6 +11,7 @@ const QualificationConditions = ({ requirements, procedure, userId, id, isAdmin 
         requirements={requirements}
         procedure={procedure}
         userId={userId}
+        isAdmin={isAdmin}
       />
       <NewCondition id={id} procedure={procedure} userId={userId} isAdmin={isAdmin} />
     </Box>

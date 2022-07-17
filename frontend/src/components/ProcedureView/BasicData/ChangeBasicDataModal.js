@@ -2,9 +2,9 @@ import { Button, Modal, Paper, TextField, Box, Autocomplete, Tooltip, IconButton
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneThunk, updateOneThunk } from '../../../reducers/selectedProcedureReducer'
-import { removeSnack, sendSnack } from '../../../reducers/snackReducer'
 import EditIcon from '@mui/icons-material/Edit'
 import { initProcedures } from '../../../reducers/procedureReducer'
+import useTimedSnack from '../../../hooks/useTimedSnack'
 
 const style = {
   position: 'absolute',
@@ -23,6 +23,7 @@ const ChangeBasicDataModal = ({ procedure, userId, isAdmin }) => {
   const [name, setName] = useState('')
   const [user, setUser] = useState('')
   const [open, setOpen] = useState(false)
+  const activateSnack = useTimedSnack()
 
   const dispatch = useDispatch()
 
@@ -55,12 +56,7 @@ const ChangeBasicDataModal = ({ procedure, userId, isAdmin }) => {
     } }))
     dispatch(getOneThunk(procedure.id))
     dispatch(initProcedures())
-    dispatch(sendSnack({
-      open: true,
-      severity: 'success',
-      message: 'Postupak uspešno ažuriran'
-    }))
-    setTimeout(() => dispatch(removeSnack()), 3000)
+    activateSnack('success', 'Postupak uspešno ažuriran')
     handleClose()
     setName(procedure.name)
     setProcNum(procedure.number)

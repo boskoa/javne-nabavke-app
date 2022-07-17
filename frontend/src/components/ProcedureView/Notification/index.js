@@ -7,7 +7,7 @@ import NotificationDelete from './NotificationDelete'
 import NotificationDone from './NotificationDone'
 import NotificationText from './NotificationText'
 
-const Notification = ({ notifications, procedure, userId }) => {
+const Notification = ({ notifications, procedure, userId, isAdmin }) => {
   const dispatch = useDispatch()
 
   return (
@@ -26,17 +26,20 @@ const Notification = ({ notifications, procedure, userId }) => {
               notifications={notifications}
               procedure={procedure}
               userId={userId}
+              isAdmin={isAdmin}
             />
             <FormGroup>
               <NotificationDone
                 notifications={notifications}
                 procedure={procedure}
                 userId={userId}
+                isAdmin={isAdmin}
               />
               <NotificationDelete
                 notifications={notifications}
                 procedure={procedure}
                 userId={userId}
+                isAdmin={isAdmin}
               />
             </FormGroup>
           </Stack>
@@ -44,10 +47,11 @@ const Notification = ({ notifications, procedure, userId }) => {
             notifications={notifications}
             procedure={procedure}
             userId={userId}
+            isAdmin={isAdmin}
           />
         </Box>
         : <Button
-          disabled={!(procedure.user.id === userId)}
+          disabled={!(procedure.user.id === userId || isAdmin)}
           type='submit'
           variant="contained"
           size="small"

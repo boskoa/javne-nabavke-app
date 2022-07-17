@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux'
 import { deleteNotification } from '../../../reducers/notificationReducer'
 import { removeNotifications } from '../../../reducers/selectedProcedureReducer'
 
-const NotificationDelete = ({ notifications, procedure, userId }) => {
+const NotificationDelete = ({ notifications, procedure, userId, isAdmin }) => {
   const dispatch = useDispatch()
 
   return (
     <FormControlLabel label="obriši" control={
       <IconButton
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         style={{
           pointerEvents: 'auto',
           paddingLeft: '0.5rem',

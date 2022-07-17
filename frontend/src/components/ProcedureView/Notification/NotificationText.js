@@ -3,7 +3,7 @@ import useNotificationInput from '../../../hooks/useNotificationInput'
 import { updateTextThunk } from '../../../reducers/notificationReducer'
 import { changeNotificationText } from '../../../reducers/selectedProcedureReducer'
 
-const NotificationText = ({ notifications, procedure, userId }) => {
+const NotificationText = ({ notifications, procedure, userId, isAdmin }) => {
   const propertyName = 'text'
   const [
     text, setText, handleText
@@ -18,7 +18,7 @@ const NotificationText = ({ notifications, procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         multiline
         size="small"
         label="Tekst"
