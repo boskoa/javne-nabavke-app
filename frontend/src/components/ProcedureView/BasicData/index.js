@@ -1,9 +1,13 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
+import ChangeBasicDataModal from './ChangeBasicDataModal'
 
-const BasicData = ({ procedure }) => {
+const BasicData = ({ procedure, userId, isAdmin }) => {
   return (
     <Box sx={{ p: 1 }}>
-      <Typography variant="subtitle1" sx={{ mb: 1 }}>Osnovni podaci</Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="subtitle1">Osnovni podaci</Typography>
+        <ChangeBasicDataModal procedure={procedure} userId={userId} isAdmin={isAdmin} />
+      </Stack>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',

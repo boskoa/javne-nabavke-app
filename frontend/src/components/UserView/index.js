@@ -18,14 +18,13 @@ const UserView = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(change(`Korisnik ${pathUser.name}`))
+    dispatch(change(`Korisnik ${pathUser?.name}`))
     dispatch(getSelectedUserThunk(id))
   }, [])
 
-  if (!user.id) {
+  if (!user.id || !pathUser) {
     return <Loading />
   }
-  console.log('USERVIEW', user)
 
   return (
     <Stack>

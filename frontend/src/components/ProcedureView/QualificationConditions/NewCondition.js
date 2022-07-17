@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material'
 import useNewCondition from '../../../hooks/useNewCondition'
 import { addRequirement } from '../../../reducers/requirementReducer'
 
-const NewCondition = ({ id, procedure, userId }) => {
+const NewCondition = ({ id, procedure, userId, isAdmin }) => {
   const [
     requirement, setRequirement, handleNewRequirement
   ] = useNewCondition(id, addRequirement)
@@ -15,7 +15,7 @@ const NewCondition = ({ id, procedure, userId }) => {
       onSubmit={handleNewRequirement}
     >
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         id="condition"
         label="Novi uslov"
         value={requirement}

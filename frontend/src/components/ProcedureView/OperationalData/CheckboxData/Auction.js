@@ -4,7 +4,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import useBooleanInput from '../../../../hooks/useBooleanInput'
 
-const Auction = ({ procedure, userId }) => {
+const Auction = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'auction'
   const [
     auction, handleAuction
@@ -13,7 +13,7 @@ const Auction = ({ procedure, userId }) => {
   return (
     <FormControlLabel
       control={<Checkbox
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         checked={auction}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}

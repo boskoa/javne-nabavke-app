@@ -24,12 +24,14 @@ const columns = [
   {
     id: 'authority',
     label: 'Ugovorni organ',
-    minWidth: 170
+    minWidth: 170,
+    align: 'center'
   },
   {
     id: 'name',
     label: 'Naziv postupka',
-    minWidth: 150
+    minWidth: 150,
+    align: 'center'
   },
   {
     id: 'endDate',
@@ -46,14 +48,14 @@ const columns = [
   {
     id: 'budget',
     label: 'Budžet',
-    minWidth: 100,
+    minWidth: 80,
     align: 'right',
     format: (value) => value.toLocaleString('sr-BA', { minimumFractionDigits: 2 })
   },
   {
     id: 'phase',
     label: 'Faza postupka',
-    minWidth: 170,
+    minWidth: 190,
     align: 'center'
   },
   {
@@ -127,7 +129,7 @@ const ProceduresTable = () => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
-
+  //unos novog postupka da bude fiksirani krug u donjem desnom uglu
   return (
     <Box>
       <Stack sx={{
@@ -150,7 +152,7 @@ const ProceduresTable = () => {
         </Stack>
       </Stack>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

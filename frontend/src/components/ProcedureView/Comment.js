@@ -2,7 +2,7 @@ import { Box, FormControl, TextField, Typography } from '@mui/material'
 import useInput from '../../hooks/useInput'
 import { updateOneThunk } from '../../reducers/selectedProcedureReducer'
 
-const Comment = ({ procedure, userId }) => {
+const Comment = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'comment'
   const [
     comment, setComment, handleComment
@@ -13,7 +13,7 @@ const Comment = ({ procedure, userId }) => {
       <Typography variant="subtitle1" sx={{ mb: 2 }}>Komentar</Typography>
       <FormControl fullWidth>
         <TextField
-          disabled={!(procedure.user.id === userId)}
+          disabled={!(procedure.user.id === userId || isAdmin)}
           multiline
           size="small"
           label="Tekst"

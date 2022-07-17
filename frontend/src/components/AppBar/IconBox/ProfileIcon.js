@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducers/loginReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { ClickAwayListener } from '@mui/base'
-import Loading from '../../Loading'
 import styled from '@emotion/styled'
 
 export const MyMenu = styled(Menu)(({ theme }) => ({
@@ -23,7 +22,7 @@ const ProfileIcon = ({ user }) => {
   const avatar = user.avatar
 
   if (!avatar) {
-    <Loading />
+    return <div />
   }
 
   const handleClick = (event) => {

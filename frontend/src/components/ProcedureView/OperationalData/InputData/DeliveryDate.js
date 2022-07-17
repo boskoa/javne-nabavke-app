@@ -2,7 +2,7 @@ import { FormControl, TextField } from '@mui/material'
 import useIntInput from '../../../../hooks/useIntInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const DeliveryDate = ({ procedure, userId }) => {
+const DeliveryDate = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'deliveryDate'
   const [
     deliveryDate, setDeliveryDate, handleDeliveryDate
@@ -11,7 +11,7 @@ const DeliveryDate = ({ procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         size="small"
         label="Rok isporuke (u danima)"
         id="deliveryDate"

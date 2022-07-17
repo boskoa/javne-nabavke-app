@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import useSelectInput from '../../../../hooks/useSelectInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const Criterion = ({ procedure, userId }) => {
+const Criterion = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'criterion'
   const [
     criterion, handleCriterion
@@ -17,7 +17,7 @@ const Criterion = ({ procedure, userId }) => {
         Kriterijum odabira ponude
       </InputLabel>
       <Select
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         labelId="criterion"
         id="selectCriterion"
         value={criterion}

@@ -4,7 +4,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import useBooleanInput from '../../../../hooks/useBooleanInput'
 
-const FrameworkAgreement = ({ procedure, userId }) => {
+const FrameworkAgreement = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'frameworkAgreement'
   const [
     framework, handleFramework
@@ -18,7 +18,7 @@ const FrameworkAgreement = ({ procedure, userId }) => {
   return (
     <FormControlLabel
       control={<Checkbox
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         checked={framework}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}

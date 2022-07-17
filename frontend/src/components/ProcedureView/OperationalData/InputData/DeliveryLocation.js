@@ -1,8 +1,8 @@
 import { FormControl, TextField } from '@mui/material'
-import useInput from '../../hooks/useInput'
-import { updateOneThunk } from '../../reducers/selectedProcedureReducer'
+import useInput from '../../../../hooks/useInput'
+import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const DeliveryLocation = ({ procedure, userId }) => {
+const DeliveryLocation = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'deliveryLocation'
   const [
     location, setLocation, handleLocation
@@ -11,7 +11,7 @@ const DeliveryLocation = ({ procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         size="small"
         label="Mesto isporuke"
         id="deliveryLocation"

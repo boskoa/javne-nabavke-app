@@ -2,7 +2,7 @@ import { FormControl, TextField } from '@mui/material'
 import useIntInput from '../../../../hooks/useIntInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const Payment = ({ procedure, userId }) => {
+const Payment = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'payment'
   const [
     payment, setPayment, handlePayment
@@ -11,7 +11,7 @@ const Payment = ({ procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         size="small"
         label="Rok plaćanja (u danima)"
         id="payment"

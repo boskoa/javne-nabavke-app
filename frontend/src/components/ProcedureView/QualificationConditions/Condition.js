@@ -3,12 +3,12 @@ import CloseIcon from '@mui/icons-material/Close'
 import { deleteRequirement, updateRequirement } from '../../../reducers/requirementReducer'
 import useCondition from '../../../hooks/useCondition'
 
-const Condition = ({ r, procedure, userId }) => {
+const Condition = ({ r, procedure, userId, isAdmin }) => {
   const [done, handleCheckbox, handleDelete] = useCondition(r.id, r.done, updateRequirement, deleteRequirement)
 
   return (
     <Chip
-      disabled={!(procedure.user.id === userId)}
+      disabled={!(procedure.user.id === userId || isAdmin)}
       label={<Typography variant="body2">{r.name}</Typography>}
       onDelete={handleDelete}
       deleteIcon={<CloseIcon fontSize="small" sx={{ p: 0, height: '1.2rem' }} />}

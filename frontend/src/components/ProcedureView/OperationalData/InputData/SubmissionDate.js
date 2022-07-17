@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 import useDateInput from '../../../../hooks/useDateInput'
 
-const SubmissionDate = ({ procedure, userId }) => {
+const SubmissionDate = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'submissionDate'
   const [
     submissionDate, setSubmissionDate, setFinalDate
@@ -14,7 +14,7 @@ const SubmissionDate = ({ procedure, userId }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateTimePicker
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         fullWidth
         ampm={false}
         renderInput={(props) => <TextField {...props} />}

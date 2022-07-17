@@ -2,7 +2,7 @@ import { FormControl, TextField } from '@mui/material'
 import useCurrencyInput from '../../../../hooks/useCurrencyInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const Amount = ({ procedure, userId }) => {
+const Amount = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'amount'
   const [
     amount, setAmount, handleAmount
@@ -11,7 +11,7 @@ const Amount = ({ procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         size="small"
         label="Vrednost ponude"
         id="amount"

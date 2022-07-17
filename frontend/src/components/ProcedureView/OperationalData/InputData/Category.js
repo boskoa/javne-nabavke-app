@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import useSelectInput from '../../../../hooks/useSelectInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const Category = ({ procedure, userId }) => {
+const Category = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'category'
   const [
     category, handleCategory
@@ -17,14 +17,13 @@ const Category = ({ procedure, userId }) => {
       Vrsta postupka
       </InputLabel>
       <Select
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         labelId="procedureType"
         id="selectType"
         value={category}
         sx={{ height: '2.5rem', fontSize: '1rem' }}
         label="Vrsta postupka"
         onChange={(e) => {
-          console.log('CHANGESELECT', e.target.value)
           handleCategory(e.target.value)
         }}
       >

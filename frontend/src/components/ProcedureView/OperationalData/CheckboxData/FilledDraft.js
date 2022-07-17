@@ -4,7 +4,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import useBooleanInput from '../../../../hooks/useBooleanInput'
 
-const FilledDraft = ({ procedure, userId }) => {
+const FilledDraft = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'filledDraft'
   const [
     draft, handleDraft
@@ -13,7 +13,7 @@ const FilledDraft = ({ procedure, userId }) => {
   return (
     <FormControlLabel
       control={<Checkbox
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         checked={draft}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}

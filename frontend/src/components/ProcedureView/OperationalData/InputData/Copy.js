@@ -2,7 +2,7 @@ import { FormControl, TextField } from '@mui/material'
 import useIntInput from '../../../../hooks/useIntInput'
 import { updateOneThunk } from '../../../../reducers/selectedProcedureReducer'
 
-const Copy = ({ procedure, userId }) => {
+const Copy = ({ procedure, userId, isAdmin }) => {
   const propertyName = 'copy'
   const [
     copy, setCopy, handleCopy
@@ -11,7 +11,7 @@ const Copy = ({ procedure, userId }) => {
   return (
     <FormControl fullWidth>
       <TextField
-        disabled={!(procedure.user.id === userId)}
+        disabled={!(procedure.user.id === userId || isAdmin)}
         size="small"
         label="Broj kopija ponude"
         id="copy"

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { updateOneThunk } from '../../reducers/selectedProcedureReducer'
 import { updateProcedurePhase } from '../../reducers/procedureReducer'
 
-const PhaseStepperView = ({ procedure, userId }) => {
+const PhaseStepperView = ({ procedure, userId, isAdmin }) => {
   const steps = [
     '01 Pregledana TD',
     '02 Pronađena roba/usluge',
@@ -16,7 +16,7 @@ const PhaseStepperView = ({ procedure, userId }) => {
     '05 Poslata ponuda',
     '06 Zakazana eAukcija',
     '07 Dostavljeni dokazi i ostalo',
-    '08 Dostavljen potpisan ugovor i garancija ukoliko je zahtevana',
+    '08 Dostavljen potpisan ugovor (i garancija)',
     '09 Roba/usluga dobavljena',
     '10 Isporučeno i fakturisano',
     '11 Ne izlazimo',
@@ -58,7 +58,7 @@ const PhaseStepperView = ({ procedure, userId }) => {
   const handleComplete = async (index, label) => {
     handleCompleted(index)
     const data = { id: procedure.id, data: { phase: label } }
-    if (procedure.user.id === userId) {
+    if (procedure.user.id === userId || isAdmin) {
       dispatch(updateOneThunk(data))
       dispatch(updateProcedurePhase({ id: procedure.id, label }))
     }
@@ -72,7 +72,6 @@ const PhaseStepperView = ({ procedure, userId }) => {
             <StepButton
               color="inherit"
               onClick={() => {
-                console.log('INDEX', index)
                 handleComplete(index, label)
               }}
             >

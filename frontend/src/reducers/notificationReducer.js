@@ -31,7 +31,6 @@ export const updateAlarmThunk = createAsyncThunk(
   async ({ id, alarm }) => {
     try {
       const response = await notificationServices.updateOne( id, { alarm })
-      console.log('RESULT ALARM', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -44,7 +43,6 @@ export const updateDoneThunk = createAsyncThunk(
   async ({ id, done }) => {
     try {
       const response = await notificationServices.updateOne( id, { done: !done })
-      console.log('RESULT DONE', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -57,7 +55,6 @@ export const updateTextThunk = createAsyncThunk(
   async ({ id, text }) => {
     try {
       const response = await notificationServices.updateOne( id, { text })
-      console.log('RESULT TEXT', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -70,7 +67,6 @@ export const addNotificationsThunk = createAsyncThunk(
   async (data) => {
     try {
       const response = await notificationServices.addNotification(data)
-      console.log('ADDED NOTIFICATION', response)
       return response
     } catch (exception) {
       return exception.response.data
@@ -81,7 +77,6 @@ export const addNotificationsThunk = createAsyncThunk(
 export const deleteNotification = createAsyncThunk(
   'requirement/deleteNotification',
   async (id) => {
-    console.log('DELETING', id)
     await notificationServices.deleteNotification(id)
     return { id }
   }

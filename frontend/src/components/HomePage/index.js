@@ -7,7 +7,6 @@ import ProceduresReview from './ProceduresReview'
 import styled from '@emotion/styled'
 
 const MyBox = styled(Box)(({ theme }) => ({
-  marginBottom: 5,
   color: theme.palette.primary.contrastText,
   borderRadius: 2
 }))
@@ -64,19 +63,19 @@ const HomePage = () => {
       <FilterSwitch text="samo moji postupci" setFilter={() => setFilter(!filter)} />
       <Stack spacing={2} sx={{ flexWrap: 'wrap' }}>
         <MyBox sx={{ backgroundColor: 'boxes.light' }}>
-          <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
+          <Typography variant="h6" sx={{ margin: 2 }}>
             Ponude spremne za slanje
           </Typography>
           <ProceduresReview procedures={procedures1} />
         </MyBox>
         <MyBox sx={{ backgroundColor: 'boxes.main' }}>
-          <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
+          <Typography variant="h6" sx={{ margin: 2 }}>
             Pripremljena dokumentacija
           </Typography>
           <ProceduresReview procedures={procedures2} />
         </MyBox>
         <MyBox sx={{ backgroundColor: 'boxes.dark' }}>
-          <Typography variant="h6" sx={{ margin: 2, marginBottom: 0 }}>
+          <Typography variant="h6" sx={{ margin: 2 }}>
             Tek započeti postupci
           </Typography>
           <ProceduresReview procedures={procedures3} />

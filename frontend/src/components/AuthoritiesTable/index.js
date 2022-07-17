@@ -22,7 +22,8 @@ const columns = [
   {
     id: 'authority',
     label: 'Ugovorni organ',
-    minWidth: 170
+    minWidth: 170,
+    align: 'center'
   },
   {
     id: 'numOfProcedures',
@@ -124,7 +125,7 @@ const AuthoritiesTable = () => {
       </Modal>
       <Box>
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>

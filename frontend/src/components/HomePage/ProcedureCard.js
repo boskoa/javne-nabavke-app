@@ -14,7 +14,7 @@ const formatter = new Intl.NumberFormat('sr-Latn-BA', {
 
 const ProcedureCard = ({ p }) => {
   return (
-    <MyCard sx={{ maxWidth: 345, m: 2 }}>
+    <MyCard sx={{ maxWidth: 345, m: 2, mt: 0 }}>
       <CardContent>
         <Typography gutterBottom variant="body1" component="div">
           {p.contractingAuthority.name}
