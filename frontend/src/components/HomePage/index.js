@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { change } from '../../reducers/pathReducer'
 import { Box, Stack, Typography } from '@mui/material'
-import FilterSwitch from './FilterSwitch'
 import { useDispatch, useSelector } from 'react-redux'
 import ProceduresReview from './ProceduresReview'
 import styled from '@emotion/styled'
+import ProceduresFilter from './ProceduresFIlter'
 
 const MyBox = styled(Box)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
@@ -60,8 +60,8 @@ const HomePage = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <FilterSwitch text="samo moji postupci" setFilter={() => setFilter(!filter)} />
-      <Stack spacing={2} sx={{ flexWrap: 'wrap' }}>
+      <ProceduresFilter filter={filter} setFilter={setFilter} />
+      <Stack spacing={2} sx={{ flexWrap: 'wrap', mt: 1 }}>
         <MyBox sx={{ backgroundColor: 'boxes.light' }}>
           <Typography variant="h6" sx={{ margin: 2 }}>
             Ponude spremne za slanje

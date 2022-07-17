@@ -31,6 +31,6 @@ export const defaultTheme = createTheme({
       main: '#E8F0F2',
       light: '#187498',
       contrastText: '#e0e6b2',
-    }
+    },
   },
 })

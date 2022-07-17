@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { change } from '../../reducers/pathReducer'
 import AvatarComponent from './AvatarComponent'
+import PersonalData from './PersonalData'
 
 const ProfileSettings = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const ProfileSettings = () => {
   return (
     <Stack>
       {user.name}
+      <PersonalData />
       <AvatarComponent />
     </Stack>
   )
