@@ -25,6 +25,12 @@ export const defaultTheme = createTheme({
       main: '#36AE7C',
       light: '#187498',
       contrastText: '#e0e6b2',
+    },
+    chips: {
+      dark: '#FF5B00',
+      main: '#E8F0F2',
+      light: '#187498',
+      contrastText: '#e0e6b2',
     }
   },
 })

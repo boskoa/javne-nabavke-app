@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
-import FilterSwitch from '../HomePage/FilterSwitch'
+import NotificationsFilter from './NotificationsFilter'
 import SingleNotification from './SingleNotification'
 
 const Notifications = () => {
@@ -26,13 +26,10 @@ const Notifications = () => {
 
   return (
     <Stack spacing={2}>
-      <Stack direction="row" flexWrap="wrap">
-        <FilterSwitch
-          text="samo aktivni podsetnici"
-          color="primary"
-          setFilter={() => setNotificationsFilter(!notificationsFilter)}
-        />
-      </Stack>
+      <NotificationsFilter
+        notificationsFilter={notificationsFilter}
+        setNotificationsFilter={setNotificationsFilter}
+      />
       <Stack direction="row" flexWrap="wrap">
         {notifications.map((n) => <SingleNotification key={ n.id } notification={ n } />)}
       </Stack>

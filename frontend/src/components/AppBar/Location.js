@@ -2,7 +2,7 @@ import { Chip, /*Typography*/ } from '@mui/material'
 import styled from '@emotion/styled'
 import { useSelector } from 'react-redux'
 
-const MyChip = styled(Chip, {
+export const MyChip = styled(Chip, {
   shouldForwardProp: (prop) => prop !== 'showSearch'
 })(({ theme, showSearch }) => ({
   marginRight: 5,

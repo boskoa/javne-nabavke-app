@@ -10,7 +10,7 @@ const ActiveProcedures = ({ procedures }) => {//dodati senku pri hoveru
     <Paper
       elevation={3}
       sx={{
-        p: 1, ml: 2, mb: 2, backgroundColor: '#F5FFFA'
+        p: 1, ml: 2, mb: 2, backgroundColor: 'custom.contrastText'
       }}
     >
       <Stack>

@@ -1,9 +1,11 @@
-import { Button, Modal, Paper, TextField, Box, Autocomplete } from '@mui/material'
+import { Button, Modal, Paper, TextField, Box, Autocomplete, Tooltip } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllThunk, newAuthorityThunk } from '../../reducers/authorityReducer'
 import { clean, initProcedures, newProcedure } from '../../reducers/procedureReducer'
-import { removeSnack, sendSnack } from '../../reducers/snackReducer'
+import Fab from '@mui/material/Fab'
+import AddIcon from '@mui/icons-material/Add'
+import useTimedSnack from '../../hooks/useTimedSnack'
 
 const style = {
   position: 'absolute',
@@ -93,6 +95,7 @@ const NewProcedureModal = () => {
   const [name, setName] = useState('')
   const [open, setOpen] = useState(false)
   const [openAuth, setOpenAuth] = useState(false)
+  const activateSnack = useTimedSnack()
 
   const dispatch = useDispatch()
 
@@ -126,25 +129,23 @@ const NewProcedureModal = () => {
     }))
     dispatch(clean())
     setTimeout(() => dispatch(initProcedures()), 200)
-    dispatch(sendSnack({
-      open: true,
-      severity: 'success',
-      message: 'Postupak uspešno unet'
-    }))
-    setTimeout(() => dispatch(removeSnack()), 3000)
+    activateSnack('success', 'Postupak uspešno unet')
     handleClose()
   }
 
   return (
     <div>
-      <Button
-        variant="contained"
-        size="small"
-        sx={{ textTransform: 'none', mb: 1 }}
-        onClick={handleOpen}
-      >
-        Unesi novi postupak
-      </Button>
+      <Tooltip title="Unesi novi postupak">
+        <Fab
+          color="primary"
+          aria-label="add"
+          size="small"
+          sx={{ position: 'fixed', bottom: 10, right: 10 }}
+          onClick={handleOpen}
+        >
+          <AddIcon />
+        </Fab>
+      </Tooltip>
       <Modal
         open={open}
         onClose={handleClose}

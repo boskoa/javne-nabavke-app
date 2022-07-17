@@ -9,44 +9,30 @@ import { useDispatch } from 'react-redux'
 import register from '../../services/register'
 import { loginThunk } from '../../reducers/loginReducer'
 import { useNavigate } from 'react-router-dom'
-import { removeSnack, sendSnack } from '../../reducers/snackReducer'
+import useTimedSnack from '../../hooks/useTimedSnack'
 
 const Register = ({ open, handleClose }) => {
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+  const activateSnack = useTimedSnack()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleRegister = async () => {
     if (!(username && password && name)) {
-      dispatch(sendSnack({
-        open: true,
-        severity: 'error',
-        message: 'Unesite odgovarajuće podatke'
-      }))
-      setTimeout(() => dispatch(removeSnack()), 3000)
+      activateSnack('error', 'Unesite odgovarajuće podatke')
     } else {
       console.log(username, name, password)
       try {
         await register({ username, name, password })
         navigate('/')
         handleClose()
-        dispatch(sendSnack({
-          open: true,
-          severity: 'success',
-          message: 'Uspešno ste se registrovali. Možete se prijaviti.'
-        }))
-        setTimeout(() => dispatch(removeSnack()), 3000)
+        activateSnack('success', 'Uspešno ste se registrovali. Možete se prijaviti.')
         dispatch(loginThunk({ username, password }))
       } catch (error) {
-        dispatch(sendSnack({
-          open: true,
-          severity: 'error',
-          message: `${error.response.data.error}`
-        }))
-        setTimeout(() => dispatch(removeSnack()), 3000)
+        activateSnack('error', error.response.data.error)
       }
     }
   }

@@ -8,27 +8,23 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginThunk } from '../../reducers/loginReducer'
 import { useNavigate } from 'react-router-dom'
-import { removeSnack, sendSnack } from '../../reducers/snackReducer'
 import notificationService from '../../services/notifications'
 import avatarService from '../../services/avatar'
 import procedureService from '../../services/procedures'
 import { getAllNotificationsThunk } from '../../reducers/notificationReducer'
+import useTimedSnack from '../../hooks/useTimedSnack'
 
 const Login = ({ open, handleClose }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const activateSnack = useTimedSnack()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleLogin = async () => {
     if (!(username && password)) {
-      dispatch(sendSnack({
-        open: true,
-        severity: 'error',
-        message: 'Unesite odgovarajuće podatke'
-      }))
-      setTimeout(() => dispatch(removeSnack()), 3000)
+      activateSnack('error', 'Unesite odgovarajuće podatke')
     } else {
       const result = await dispatch(loginThunk({ username, password }))
       setUsername('')
@@ -36,22 +32,12 @@ const Login = ({ open, handleClose }) => {
       handleClose()
       navigate('/')
       if (result?.payload?.error) {
-        dispatch(sendSnack({
-          open: true,
-          severity: 'error',
-          message: `${result.payload.error}`
-        }))
-        setTimeout(() => dispatch(removeSnack()), 3000)
+        activateSnack('error', result.payload.error)
       } else {
         notificationService.setToken(result.payload.token)
         avatarService.setToken(result.payload.token)
         procedureService.setToken(result.payload.token)
-        dispatch(sendSnack({
-          open: true,
-          severity: 'success',
-          message: 'Uspešno ste se ulogovali'
-        }))
-        setTimeout(() => dispatch(removeSnack()), 3000)
+        activateSnack('success', 'Uspešno ste se ulogovali')
         dispatch(getAllNotificationsThunk())
       }
     }

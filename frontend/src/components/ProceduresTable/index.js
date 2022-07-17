@@ -1,5 +1,5 @@
 import {
-  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Avatar, Stack
+  Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Stack
 } from '@mui/material'
 import { useState, useEffect } from 'react'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -10,8 +10,9 @@ import { change } from '../../reducers/pathReducer'
 import NewProcedureModal from './NewProcedureModal'
 import { Link } from 'react-router-dom'
 import EmergencyFlag from './EmergencyFlag'
-import FilterSwitch from '../HomePage/FilterSwitch'
 import { cleanSelected } from '../../reducers/selectedProcedureReducer'
+import Filters from './Filters'
+import UserChip from './UserChip'
 
 const ColumnLabel = styled('span')({
   '&:hover': {
@@ -129,7 +130,7 @@ const ProceduresTable = () => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
-  //unos novog postupka da bude fiksirani krug u donjem desnom uglu
+
   return (
     <Box>
       <Stack sx={{
@@ -137,21 +138,15 @@ const ProceduresTable = () => {
         justifyContent: 'space-between',
         mb: 1
       }}>
+        <Filters
+          userFilter={userFilter}
+          phaseFilter={phaseFilter}
+          setUserFilter={setUserFilter}
+          setPhaseFilter={setPhaseFilter}
+        />
         <NewProcedureModal />
-        <Stack sx={{ alignItems: 'start' }}>
-          <FilterSwitch
-            text="samo moji postupci"
-            color="primary"
-            setFilter={() => setUserFilter(!userFilter)}
-          />
-          <FilterSwitch
-            text="samo aktivni postupci"
-            color="secondary"
-            setFilter={() => setPhaseFilter(!phaseFilter)}
-          />
-        </Stack>
       </Stack>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Paper sx={{ width: '100%', overflow: 'hidden', mb: 5 }}>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -212,19 +207,7 @@ const ProceduresTable = () => {
                         } else if (column.id === 'user') {
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              <Chip
-                                label={
-                                  <Link
-                                    to={`/userview/${row.userId}`}
-                                    style={{ color: 'inherit', textDecoration: 'none' }}
-                                  >{row.user}</Link>
-                                }
-                                size="small"
-                                color="primary"
-                                avatar={
-                                  <Avatar src={row.avatar} />
-                                }
-                              />
+                              <UserChip row={row} />
                             </TableCell>
                           )
                         }else {

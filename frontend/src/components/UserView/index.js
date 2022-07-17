@@ -15,6 +15,7 @@ const UserView = () => {
   const pathUser = useSelector(
     (state) => state.users.data.find((u) => u.id === parseInt(id))
   )
+  const avatar = `/${user.avatar}`
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const UserView = () => {
     dispatch(getSelectedUserThunk(id))
   }, [])
 
-  if (!user.id || !pathUser) {
+  if (!user.id || !pathUser || !avatar) {
     return <Loading />
   }
 
@@ -31,15 +32,15 @@ const UserView = () => {
       <Paper
         elevation={3}
         sx={{
-          p: 1, ml: 2, mb: 2, backgroundColor: '#F5FFFA'
+          p: 1, ml: 2, mb: 2, backgroundColor: 'custom.contrastText'
         }}
       >
         <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
           <Avatar
             sx={{
-              backgroundColor: '#A0D995', height: '8rem', width: '8rem', mr:3
+              backgroundColor: 'primary.main', height: '8rem', width: '8rem', mr:3
             }}
-            src={user.avatar}
+            src={avatar}
           />
           <UserStats user={user} />
         </Stack>
@@ -50,7 +51,7 @@ const UserView = () => {
           p: 1,
           ml: 2,
           mb: 2,
-          backgroundColor: '#F5FFFA',
+          backgroundColor: 'custom.contrastText',
           minWidth: '15rem'
         }}
       >

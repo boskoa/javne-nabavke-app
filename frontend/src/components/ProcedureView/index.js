@@ -14,6 +14,7 @@ import BasicData from './BasicData'
 import Notification from './Notification'
 import QualificationConditions from './QualificationConditions'
 import OperationalData from './OperationalData'
+import useTimedSnack from '../../hooks/useTimedSnack'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -45,6 +46,7 @@ const ProcedureView = () => {
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure?.id)
   const userId = useSelector((state) => state.login.data.id)
   const isAdmin = useSelector((state) => state.users.currentUser.admin)
+  const activateSnack = useTimedSnack()
 
   useEffect(() => {
     dispatch(getOneThunk(parseInt(id)))
@@ -59,6 +61,13 @@ const ProcedureView = () => {
       }
     }
   }, [procedure])
+
+  const handleNotAuth = () => {
+    if (!(procedure.user.id === userId || isAdmin)) {
+      console.log('HANDLE NOT AUTH')
+      return activateSnack('info', 'Niste ovlašćeni za unos podataka na ovom postupku.')
+    }
+  }
 
   if (!procedure?.contractingAuthority && !notifications[0]) {
     return <Loading />
@@ -75,6 +84,7 @@ const ProcedureView = () => {
           sx={{
             p: 1, width: '100%', height: '100%', backgroundColor: '#F5FFFA'
           }}
+          onClick={handleNotAuth}
         >
           <BasicData procedure={procedure} userId={userId} isAdmin={isAdmin} />
           <Divider sx={{ mb: 2, mt: 2 }} />

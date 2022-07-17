@@ -66,6 +66,9 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id, {
+      attributes: {
+        exclude: ['passwordHash']
+      },
       include: [
         {
           model: Procedure,

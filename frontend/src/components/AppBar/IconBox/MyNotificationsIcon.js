@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MyMenu } from './ProfileIcon'
-import { sendSnack } from '../../../reducers/snackReducer'
 import { getAllNotificationsThunk } from '../../../reducers/notificationReducer'
+import useAutoSnack from '../../../hooks/useAutoSnack'
 
 const MyNotificationsIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const login = useSelector((state) => state.login.data)
   const dispatch = useDispatch()
+  const activateSnack = useAutoSnack()
 
   useEffect(() => {
     if (login?.token) {
@@ -30,14 +31,13 @@ const MyNotificationsIcon = () => {
         const deadline = new Date(alarmedNotifications[i].alarm).getTime()
         const now = new Date().getTime()
         const timer = deadline > now ? deadline - now : i * 20000
-        setTimeout(() => dispatch(sendSnack({
-          open: true,
-          alarm: true,
-          severity: 'warning',
-          message: alarmedNotifications[i].text,
-          authority: alarmedNotifications[i].procedure.contractingAuthority.name,
-          procedure: alarmedNotifications[i].procedure.name
-        })), timer)
+        activateSnack(
+          timer,
+          'warning',
+          alarmedNotifications[i].text,
+          alarmedNotifications[i].procedure.contractingAuthority.name,
+          alarmedNotifications[i].procedure.name
+        )
       }
     }
   }, [notifications])

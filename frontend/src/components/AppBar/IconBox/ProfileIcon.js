@@ -19,7 +19,7 @@ const ProfileIcon = ({ user }) => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const avatar = user.avatar
+  const avatar = `/${user.avatar}`
 
   if (!avatar) {
     return <div />
