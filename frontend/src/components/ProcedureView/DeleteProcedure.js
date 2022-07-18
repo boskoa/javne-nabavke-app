@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogTitle, Paper } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -29,9 +29,6 @@ const DeleteProcedure = ({ procedure }) => {
     >
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
         <DialogTitle>Potvrdi brisanje postupka</DialogTitle>
-        <DialogContent>
-          Prvo obriši sve podsetnike i kvalifikacione uslove
-        </DialogContent>
         <DialogActions
           sx={{
             display: 'flex', flexDirection: 'row', justifyContent: 'space-between'
