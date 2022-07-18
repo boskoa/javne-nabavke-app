@@ -65,7 +65,10 @@ const PhaseStepperView = ({ procedure, userId, isAdmin }) => {
   }
 
   return (
-    <Paper elevation={10} sx={{ p: 1, width: '100%', backgroundColor: '#F5FFFA' }}>
+    <Paper
+      elevation={10}
+      sx={{ p: 1, width: '100%' }}
+    >
       <Stepper nonLinear activeStep={-1} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>

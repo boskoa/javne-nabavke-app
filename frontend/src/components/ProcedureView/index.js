@@ -15,6 +15,7 @@ import Notification from './Notification'
 import QualificationConditions from './QualificationConditions'
 import OperationalData from './OperationalData'
 import useTimedSnack from '../../hooks/useTimedSnack'
+import DeleteProcedure from './DeleteProcedure'
 
 const StepperBox = styled(Box)(({ theme }) => ({
   maxWidth: '28%',
@@ -77,13 +78,12 @@ const ProcedureView = () => {
     <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
       <StepperBox>
         <PhaseStepperView procedure={procedure} userId={userId} isAdmin={isAdmin} />
+        <DeleteProcedure procedure={procedure} />
       </StepperBox>
       <DataBox>
         <Paper
           elevation={10}
-          sx={{
-            p: 1, width: '100%', height: '100%', backgroundColor: '#F5FFFA'
-          }}
+          sx={{ p: 1, width: '100%', height: '100%' }}
           onClick={handleNotAuth}
         >
           <BasicData procedure={procedure} userId={userId} isAdmin={isAdmin} />

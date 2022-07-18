@@ -33,6 +33,14 @@ export const getForAuthority = createAsyncThunk(
   }
 )
 
+export const deleteOneProcedureThunk = createAsyncThunk(
+  'procedure/deleteOneProcedureThunk',
+  async (id) => {
+    await procedureService.deleteOne(id)
+    return id
+  }
+)
+
 const initialState = {
   status: null,
   data: [],
@@ -77,6 +85,10 @@ const procedureSlice = createSlice({
     })
     builder.addCase(getForAuthority.fulfilled, (state, action) => {
       state.forAuthority = action.payload
+    })
+    builder.addCase(deleteOneProcedureThunk.fulfilled, (state, action) => {
+      console.log('PEJLOAD', action.payload)
+      state.data = state.data.filter((p) => p.id !== action.payload)
     })
   }
 })

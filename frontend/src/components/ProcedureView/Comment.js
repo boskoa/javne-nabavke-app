@@ -9,7 +9,7 @@ const Comment = ({ procedure, userId, isAdmin }) => {
   ] = useInput(procedure.id, propertyName, procedure.comment, updateOneThunk)
 
   return (
-    <Box elevation={0} sx={{ mb: 2, p: 1, background: '#F5FFFA' }}>
+    <Box elevation={0} sx={{ mb: 2, p: 1 }}>
       <Typography variant="subtitle1" sx={{ mb: 2 }}>Komentar</Typography>
       <FormControl fullWidth>
         <TextField

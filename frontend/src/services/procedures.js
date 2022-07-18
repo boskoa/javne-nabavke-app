@@ -44,6 +44,13 @@ const updateOne = async (id, data) => {
   return response.data
 }
 
+const deleteOne = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  await axios.delete(`${baseUrl}/${id}`, config)
+}
+
 export default {
   getAll,
   newProcedure,
@@ -51,5 +58,6 @@ export default {
   getAllAnalysis,
   getForAuthority,
   updateOne,
+  deleteOne,
   setToken
 }

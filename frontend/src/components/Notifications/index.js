@@ -8,6 +8,7 @@ import SingleNotification from './SingleNotification'
 const Notifications = () => {
   const notificationsUnfiltered = useSelector((state) => state.notifications.data)
   const [notificationsFilter, setNotificationsFilter] = useState(false)
+  const filter = useSelector(state => state.search.value.toLowerCase())
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -31,7 +32,10 @@ const Notifications = () => {
         setNotificationsFilter={setNotificationsFilter}
       />
       <Stack direction="row" flexWrap="wrap">
-        {notifications.map((n) => <SingleNotification key={ n.id } notification={ n } />)}
+        {notifications
+          .filter((n) => n.procedure.name.toLowerCase().includes(filter)
+            || n.procedure.contractingAuthority.name.toLowerCase().includes(filter))
+          .map((n) => <SingleNotification key={ n.id } notification={ n } />)}
       </Stack>
     </Stack>
   )

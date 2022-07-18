@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import { IconButton } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { searchString } from '../../reducers/searchReducer'
 
 const Search = styled('div', {
@@ -64,6 +64,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchComponent = ({ showSearch, setShowSearch }) => {
   const dispatch = useDispatch()
+  const path = useSelector((state) => state.path.value)
+
+  const disabled = path && [
+    'Početna', 'Analiza', 'Podešava', 'Korisnik', 'Pregled'
+  ].includes(path.slice(0, 8))
+    ? true
+    : false
 
   return (
     <Search showSearch={showSearch}>
@@ -71,6 +78,7 @@ const SearchComponent = ({ showSearch, setShowSearch }) => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        disabled={disabled}
         placeholder="Pretraga..."
         inputProps={{ 'aria-label': 'search' }}
         fullWidth

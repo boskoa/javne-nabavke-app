@@ -8,7 +8,9 @@ import SingleUser from './SingleUser'
 
 const Users = () => {
   const dispatch = useDispatch()
-  const users = useSelector((state) => state.users.data)
+  const usersUnfiltered = useSelector((state) => state.users.data)
+  const filter = useSelector(state => state.search.value.toLowerCase())
+  const users = usersUnfiltered.filter((u) => u.name.toLowerCase().includes(filter))
 
   useEffect(() => {
     dispatch(change('Korisnici'))

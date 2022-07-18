@@ -2,6 +2,7 @@ import { Stack, Input, Button, Paper, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateAvatar } from '../../reducers/loginReducer'
+import { initProcedures } from '../../reducers/procedureReducer'
 import avatarServices from '../../services/avatar'
 
 
@@ -17,6 +18,7 @@ const AvatarComponent = () => {
     formData.append('file', file)
     const result = await avatarServices.uploadAvatar(formData)
     dispatch(updateAvatar(result))
+    dispatch(initProcedures())
     const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
     const user = JSON.parse(loggedUserJSON)
     user.avatar = result.path

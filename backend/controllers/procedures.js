@@ -154,15 +154,8 @@ router.delete('/:id', tokenExtractor, async (req, res, next) => {
         { model: Notification, attributes: ['id'] }
       ]
     })
-
-    if (!(procedureToDelete.requirements[0] || procedureToDelete.notifications[0])) {
-      procedureToDelete.destroy({ where: { id: req.params.id } }) //doesn't need argument
-      res.status(200).end()
-    } else {
-      res.status(401).json({
-        error: 'There are requirements and/or notifications connected to this procedure.'
-      })
-    }
+    procedureToDelete.destroy({ where: { id: req.params.id } }) //doesn't need argument
+    res.status(200).end()
   } catch (error) {
     next(error)
   }
