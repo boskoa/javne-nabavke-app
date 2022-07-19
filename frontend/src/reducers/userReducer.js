@@ -72,8 +72,7 @@ const usersSlice = createSlice({
     })
     builder.addCase(updateOneUserThunk.fulfilled, (state, action) => {
       state.data = state.data.map((u) => {
-        const newValues = action.payload.data
-        const updatedUser = { ...u, ...newValues }
+        const updatedUser = { ...action.payload }
         return u.id !== action.payload.id ? u : updatedUser
       })
     })

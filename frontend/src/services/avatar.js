@@ -16,4 +16,12 @@ const uploadAvatar = async (data) => {
   return response.data
 }
 
-export default { uploadAvatar, setToken }
+const removeAvatar = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/remove/${id}`, config)
+  return response.data
+}
+
+export default { uploadAvatar, removeAvatar, setToken }

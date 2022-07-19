@@ -43,4 +43,21 @@ router.post('/', tokenExtractor, upload.single('file'), async (req, res, next) =
   }
 })
 
+router.get('/remove/:id', tokenExtractor, async (req, res, next) => {
+  try {
+    const userAdmin = await User.findByPk(req.decodedToken.id)
+    const user = await User.findByPk(req.params.id)
+
+    if (!userAdmin.admin) {
+      res.status(401).json({ error: 'You are not authorized for this action.' })
+    }
+
+    user.set({ avatar: 'public/data/uploads/user_avatar' })
+    await user.save()
+    res.send({ path: user.avatar })
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router

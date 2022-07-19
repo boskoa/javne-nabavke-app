@@ -24,6 +24,7 @@ import notificationService from './services/notifications'
 import avatarService from './services/avatar'
 import procedureService from './services/procedures'
 import userService from './services/users'
+import AccountSettings from './components/AccountSettings'
 
 
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
             <Route path='/profile' element={<ProfileSettings />} />
             <Route path='/userview/:id' element={<UserView />} />
             <Route path='/users' element={<Users />} />
+            <Route path='/account-settings/:id' element={<AccountSettings />} />
             <Route path='/authorities' element={<AuthoritiesTable />} />
             <Route path='/analysis' element={<Analysis />} />
             <Route

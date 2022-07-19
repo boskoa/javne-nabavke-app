@@ -7,11 +7,13 @@ import { getSelectedUserThunk } from '../../reducers/userReducer'
 import Loading from '../Loading'
 import ActiveProcedures from './ActiveProcedures'
 import NotificationsBox from './NotificationsBox'
+import SettingsButton from './SettingsButton'
 import UserStats from './UserStats'
 
 const UserView = () => {
   const { id } = useParams()
   const user = useSelector((state) => state.users.selectedUser)
+  const adminLogged = useSelector((state) => state.login.data.admin)
   const pathUser = useSelector(
     (state) => state.users.data.find((u) => u.id === parseInt(id))
   )
@@ -35,7 +37,11 @@ const UserView = () => {
           p: 1, ml: 2, mb: 2, backgroundColor: 'custom.contrastText'
         }}
       >
-        <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
+        <Stack
+          direction="row"
+          sx={{ flexWrap: 'wrap' }}
+          style={{ position: 'relative' }}
+        >
           <Avatar
             sx={{
               backgroundColor: 'primary.main', height: '8rem', width: '8rem', mr:3
@@ -43,6 +49,7 @@ const UserView = () => {
             src={avatar}
           />
           <UserStats user={user} />
+          {adminLogged && <SettingsButton user={user} />}
         </Stack>
       </Paper>
       <Paper
