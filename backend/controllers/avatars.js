@@ -30,6 +30,11 @@ const upload = multer({
 router.post('/', tokenExtractor, upload.single('file'), async (req, res, next) => {
   try {
     const user = await User.findByPk(req.decodedToken.id)
+
+    if (user.disabled) {
+      return res.status(401).json({ error: 'Account disabled' })
+    }
+
     user.set({ avatar: req.file.path })
     await user.save()
 

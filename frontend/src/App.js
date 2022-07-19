@@ -24,6 +24,8 @@ import notificationService from './services/notifications'
 import avatarService from './services/avatar'
 import procedureService from './services/procedures'
 import userService from './services/users'
+import authorityService from './services/authorities'
+import requirementService from './services/requirements'
 import AccountSettings from './components/AccountSettings'
 
 
@@ -31,6 +33,7 @@ const App = () => {
   const dispatch = useDispatch()
   const snackValues = useSelector((state) => state.snack.data)
   const currentUser = useSelector((state) => state.login.data)
+  const banned = useSelector((state) => state.users.currentUser)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedTenderUser')
@@ -41,6 +44,8 @@ const App = () => {
       avatarService.setToken(user.token)
       procedureService.setToken(user.token)
       userService.setToken(user.token)
+      authorityService.setToken(user.token)
+      requirementService.setToken(user.token)
     }
   }, [])
 
@@ -48,6 +53,10 @@ const App = () => {
     if (reason === 'clickaway') {
       dispatch(removeSnack())
     }
+  }
+
+  if (banned?.error === 'Account disabled') {
+    return <div>Deaktiviran nalog</div>
   }
 
   if (currentUser?.token) {

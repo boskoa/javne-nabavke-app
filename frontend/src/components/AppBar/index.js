@@ -24,8 +24,12 @@ const MyAppBar = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initProcedures())
-    dispatch(getAllOverviewThunk())
+    try {
+      dispatch(getAllOverviewThunk())
+      dispatch(initProcedures())
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
 
   return(

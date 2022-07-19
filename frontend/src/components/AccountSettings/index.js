@@ -83,9 +83,6 @@ const AccountSettings = () => {
 
 export default AccountSettings
 
-// Dodati async/await u ProfileIcon u handleLogout funkciju
-// Centrirati rok za predaju u tabeli za postupke
-
 /*
 Napraviti novi kontroler 'statistics' za sve analize, ne treba redux (i riđuseri); kontroleri posebni prema sufiku, a period uzima
 iz query stringa (`?start=${start}&end=${end}`)

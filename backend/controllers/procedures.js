@@ -4,7 +4,13 @@ const tokenExtractor = require('../utils/tokenExtractor')
 const { Op } = require('sequelize')
 const { sequelize } = require('../models/user')
 
-router.get('/', async (req, res, next) => {
+router.get('/', tokenExtractor, async (req, res, next) => {
+  const user = await User.findByPk(req.decodedToken.id)
+
+  if (user?.disabled) {
+    return res.status(401).json({ error: 'Account disabled' })
+  }
+
   let where = {}
   let order = []
 
@@ -37,8 +43,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/analysis', async (req, res, next) => {
+router.get('/analysis', tokenExtractor, async (req, res, next) => {
   try {
+    const user = await User.findByPk(req.decodedToken.id)
+
+    if (user.disabled) {
+      return res.status(401).json({ error: 'Account disabled' })
+    }
+
     const result = await sequelize.query(
       `SELECT
         procedures.contracting_authority_id,
@@ -67,8 +79,14 @@ router.get('/analysis', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', tokenExtractor, async (req, res, next) => {
   try {
+    const user = await User.findByPk(req.decodedToken.id)
+
+    if (user.disabled) {
+      return res.status(401).json({ error: 'Account disabled' })
+    }
+
     const procedure = await Procedure.findByPk(req.params.id, {
       include: [
         { model: User , attributes: {
@@ -95,6 +113,10 @@ router.post('/', async (req, res, next) => {
       where: { username: req.body.username }
     })
 
+    if (user.disabled) {
+      return res.status(401).json({ error: 'Account disabled' })
+    }
+
     const authority = await ContractingAuthority.findOne({
       where: { jib: req.body.jib }
     })
@@ -118,6 +140,11 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', tokenExtractor, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.decodedToken.id)
+
+    if (user.disabled) {
+      return res.status(401).json({ error: 'Account disabled' })
+    }
+
     const procedureToChange = await Procedure.findByPk(req.params.id, {
       include: [
         { model: User, attributes: {
@@ -143,6 +170,10 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
 
 router.delete('/:id', tokenExtractor, async (req, res, next) => {
   const user = await User.findByPk(req.decodedToken.id)
+
+  if (user?.disabled) {
+    return res.status(401).json({ error: 'Account disabled' })
+  }
 
   if (!user.admin) {
     res.status(401).json({ error: 'You are not authorized for this action.' })

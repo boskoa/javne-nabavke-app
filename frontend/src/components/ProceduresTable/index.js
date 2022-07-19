@@ -38,7 +38,7 @@ const columns = [
     id: 'endDate',
     label: 'Rok za predaju',
     minWidth: 175,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'user',

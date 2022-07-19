@@ -9,12 +9,18 @@ const setToken = (newToken) => {
 }
 
 const getAllOverview = async () => {
-  const response = await axios.get(`${baseUrl}/overview`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/overview`, config)
   return response.data
 }
 
 const getOne = async (id) => {
-  const response = await axios.get(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/${id}`, config)
   return response.data
 }
 

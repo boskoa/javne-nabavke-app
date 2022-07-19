@@ -9,22 +9,34 @@ const setToken = (newToken) => {
 }
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(baseUrl, config)
   return response.data
 }
 
 const getOne = async (id) => {
-  const response = await axios.get(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/${id}`, config)
   return response.data
 }
 
 const getAllAnalysis = async () => {
-  const response = await axios.get(`${baseUrl}/analysis`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/analysis`, config)
   return response.data
 }
 
 const getForAuthority = async (id) => {
-  const response = await axios.get(`${baseUrl}?searchAuthority=${id}`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}?searchAuthority=${id}`, config)
   return response.data
 }
 
