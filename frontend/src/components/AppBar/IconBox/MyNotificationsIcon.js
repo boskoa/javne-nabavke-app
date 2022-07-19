@@ -24,6 +24,7 @@ const MyNotificationsIcon = () => {
 
   useEffect(() => {
     if (notifications && notifications.length) {
+      console.log('NOTIFICATIONS', notifications)
       const alarmedNotifications = notifications
         ? notifications.filter((n) => n.alarm && !(n.done))
         : []
