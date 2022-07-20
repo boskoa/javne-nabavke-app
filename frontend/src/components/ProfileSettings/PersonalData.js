@@ -26,7 +26,7 @@ const PersonalData = ({ user }) => {
       password
     } }))
     activateSnack('success', 'Korisnik uspešno ažuriran. Prijavi se ponovo.')
-    setTimeout(() => dispatch(logout()), 3000)
+    setTimeout(() => dispatch(logout()), 3000)// Ovo verovatno više ne treba nakon što je popravljen riđuser
   }
 
   return (

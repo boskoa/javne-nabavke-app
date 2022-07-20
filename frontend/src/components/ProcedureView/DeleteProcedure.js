@@ -12,10 +12,7 @@ const DeleteProcedure = ({ procedure }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  console.log('DELETE', procedure.notifications, procedure.requirements)
-
   const handleRemove = async () => {
-    console.log('DELETE RESULT', procedure.notifications, procedure.requirements)
     await dispatch(deleteOneProcedureThunk(parseInt(procedure.id)))
     setOpen(false)
     navigate('/procedures')

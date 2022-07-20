@@ -26,8 +26,8 @@ import procedureService from './services/procedures'
 import userService from './services/users'
 import authorityService from './services/authorities'
 import requirementService from './services/requirements'
+import analysisService from './services/analysis'
 import AccountSettings from './components/AccountSettings'
-
 
 const App = () => {
   const dispatch = useDispatch()
@@ -46,6 +46,7 @@ const App = () => {
       userService.setToken(user.token)
       authorityService.setToken(user.token)
       requirementService.setToken(user.token)
+      analysisService.setToken(user.token)
     }
   }, [])
 

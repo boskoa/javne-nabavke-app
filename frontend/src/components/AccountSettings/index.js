@@ -92,21 +92,3 @@ napraviti stejt za odabir godine (posle možda i meseca) kao polazne tačke (uzi
 taj stejt će koristiti u svako zahtevu - baza selektuje postupke na osnovu toga i
 vraća samo ono što je potrebno za konkretnu analizu (odraditi preko sequelize-a)
 */
-
-/*
-Dodati u sve kontrolere u kojima već ima tokenExtractor:
-
-if (user.disabled) {
-  return res.status(401).json({ error: 'Account disabled' })
-}
-
-a ako nema, dodati ga:
-
-router.delete('/:id', tokenExtractor, async (req, res, next) => {
-  const user = await User.findByPk(req.decodedToken.id)
-
-  if (user.disabled) {
-    return res.status(401).json({ error: 'Account disabled' })
-  }
-  ...
-*/

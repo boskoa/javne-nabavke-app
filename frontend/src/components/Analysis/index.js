@@ -6,8 +6,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
+import AnalysisDatePicker from './AnalysisDatePicker'
+import ProceduresByMonth from './ProceduresByMonth'
 
 const Analysis = () => {
+  const [start, setStart] = useState(new Date())
+  const [end, setEnd] = useState(new Date())
   const [expanded, setExpanded] = useState(false)
   const dispatch = useDispatch()
 
@@ -15,12 +19,17 @@ const Analysis = () => {
     dispatch(change('Analiza'))
   }, [])
 
+  useEffect(() => {
+    console.log(start)
+  }, [start])
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
   }
 
   return (
     <div>
+      <AnalysisDatePicker start={start} setStart={setStart} end={end} setEnd={setEnd} />
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -30,13 +39,12 @@ const Analysis = () => {
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
             Broj postupaka po mesecu
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>Pregled za tri prethodne godine</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            Pregled za tri prethodne godine
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
-          </Typography>
+          <ProceduresByMonth start={start} end={end} />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
