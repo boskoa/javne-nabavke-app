@@ -10,8 +10,9 @@ import AnalysisDatePicker from './AnalysisDatePicker'
 import ProceduresByMonth from './ProceduresByMonth'
 
 const Analysis = () => {
-  const [start, setStart] = useState(new Date())
-  const [end, setEnd] = useState(new Date())
+  const year = new Date().getFullYear()
+  const [start, setStart] = useState(new Date(year, 0, 1))
+  const [end, setEnd] = useState(Date())
   const [expanded, setExpanded] = useState(false)
   const dispatch = useDispatch()
 
@@ -30,7 +31,12 @@ const Analysis = () => {
   return (
     <div>
       <AnalysisDatePicker start={start} setStart={setStart} end={end} setEnd={setEnd} />
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <Accordion
+        expanded={expanded === 'panel1'}
+        onChange={handleChange('panel1')}
+        TransitionProps={{ unmountOnExit: true }}
+        sx={{ minWidth: 800 }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
@@ -40,7 +46,8 @@ const Analysis = () => {
             Broj postupaka po mesecu
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            Pregled za tri prethodne godine
+            Pregled broja postupaka u svakom mesecu za odabrani period,
+            prema datumu unosa postupka i roku za predaju ponude.
           </Typography>
         </AccordionSummary>
         <AccordionDetails>

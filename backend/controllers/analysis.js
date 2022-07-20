@@ -14,10 +14,17 @@ router.get('/procs-by-month', tokenExtractor, async (req, res, next) => {
     const start = req.query.start
     const end = req.query.end
 
-    const proceduresCount = await Procedure.count({
-      where: { submission_date: { [Op.gt]: start, [Op.lt]: end } }
+    console.log('STARTEND', start, end)
+
+    const procedures = await Procedure.findAll({
+      where: { [Op.or]: [
+        { created_at: { [Op.gt]: start, [Op.lt]: end } },
+        { submission_date: { [Op.gt]: start, [Op.lt]: end } }
+      ] },
+      attributes: ['id', 'created_at', 'submission_date']
     })
-    res.json(proceduresCount)
+    console.log('PROCEDURES', procedures)
+    res.json(procedures)
   } catch (error) {
     next(error)
   }
