@@ -13,13 +13,24 @@ const getProcsByMonth = async (start, end) => {
     headers: { Authorization: token },
   }
 
+  const response = await axios.get(
+    `${baseUrl}/procs-by-month?start=${start}&end=${end}`, config
+  )
+  return response.data
+}
+
+const getProcsByUsers = async (start, end) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
   console.log(start, end)
 
   const response = await axios.get(
-    `${baseUrl}/procs-by-month?start=${start}&end=${end}`, config
+    `${baseUrl}/procs-by-users?start=${start}&end=${end}`, config
   )
   console.log(response)
   return response.data
 }
 
-export default { getProcsByMonth, setToken }
+export default { getProcsByMonth, getProcsByUsers, setToken }

@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { change } from '../../reducers/pathReducer'
 import AnalysisDatePicker from './AnalysisDatePicker'
 import ProceduresByMonth from './ProceduresByMonth'
+import ProceduresByUser from './ProceduresByUser'
 
 const Analysis = () => {
   const year = new Date().getFullYear()
@@ -35,7 +36,6 @@ const Analysis = () => {
         expanded={expanded === 'panel1'}
         onChange={handleChange('panel1')}
         TransitionProps={{ unmountOnExit: true }}
-        sx={{ minWidth: 800 }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -54,63 +54,25 @@ const Analysis = () => {
           <ProceduresByMonth start={start} end={end} />
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+      <Accordion
+        expanded={expanded === 'panel2'}
+        onChange={handleChange('panel2')}
+        TransitionProps={{ unmountOnExit: true }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>Prolaznost - UO</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            Prolaznost na postupcima kod izabranog ugovornog organa
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-            varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-            laoreet.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            Prolaznost - korisnici
+            Broj postupaka po korisnicima
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            Prolaznost na postupcima po izabranom korisniku
+            Ukupan broj postupaka, broj uspešnih, neuspešnih i postupaka u toku
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            Prosečna vrednost ugovora
-          </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            Pregled prosečne vrednosti ugovora za sve korisnike
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
+          <ProceduresByUser start={start} end={end} />
         </AccordionDetails>
       </Accordion>
     </div>
