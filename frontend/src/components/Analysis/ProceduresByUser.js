@@ -50,8 +50,6 @@ const ProceduresByUser = ({ start, end }) => {
     return { active_count, name, success_count, total_count, unsuccessful_count }
   })
 
-  console.log('DATA', data, finishedData)
-
   return (
     <Chart data={finishedData}>
       <ValueScale name="Ukupno postupaka" />

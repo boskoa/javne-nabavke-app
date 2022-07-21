@@ -136,7 +136,6 @@ const AuthoritiesTable = () => {
                       onClick={() => {
                         setSortCriterium(column.id)
                         setSortAscending(!sortAscending)
-                        console.log(sortAscending, sortCriterium)
                       }}
                     >
                       <ColumnLabel>{column.label}</ColumnLabel>

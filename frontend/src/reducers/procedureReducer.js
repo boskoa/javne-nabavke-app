@@ -87,7 +87,6 @@ const procedureSlice = createSlice({
       state.forAuthority = action.payload
     })
     builder.addCase(deleteOneProcedureThunk.fulfilled, (state, action) => {
-      console.log('PEJLOAD', action.payload)
       state.data = state.data.filter((p) => p.id !== action.payload)
     })
   }

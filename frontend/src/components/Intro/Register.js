@@ -24,7 +24,6 @@ const Register = ({ open, handleClose }) => {
     if (!(username && password && name)) {
       activateSnack('error', 'Unesite odgovarajuće podatke')
     } else {
-      console.log(username, name, password)
       try {
         await register({ username, name, password })
         navigate('/')

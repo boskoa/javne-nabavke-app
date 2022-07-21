@@ -21,10 +21,6 @@ const Analysis = () => {
     dispatch(change('Analiza'))
   }, [])
 
-  useEffect(() => {
-    console.log(start)
-  }, [start])
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
   }

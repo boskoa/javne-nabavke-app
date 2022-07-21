@@ -162,7 +162,6 @@ const ProceduresTable = () => {
                     onClick={() => {
                       setSortCriterium(column.id)
                       setSortAscending(!sortAscending)
-                      console.log('SORTING', sortAscending, sortCriterium)
                     }}
                   >
                     <ColumnLabel>{column.label}</ColumnLabel>

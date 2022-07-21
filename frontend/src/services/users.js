@@ -5,7 +5,6 @@ const baseUrl = '/api/users'
 let token = null
 
 const setToken = (newToken) => {
-  console.log('SETTOKEN', newToken)
   token = `bearer ${newToken}`
 }
 
@@ -21,7 +20,7 @@ const getOne = async (id) => {
   const config = {
     headers: { Authorization: token },
   }
-  console.log('TKO ME ZOVE', config)
+
   const response = await axios.get(`${baseUrl}/${id}`, config)
   return response.data
 }

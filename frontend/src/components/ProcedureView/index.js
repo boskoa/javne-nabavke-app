@@ -68,7 +68,6 @@ const ProcedureView = () => {
 
   const handleNotAuth = () => {
     if (!(procedure.user.id === userId || isAdmin)) {
-      console.log('HANDLE NOT AUTH')
       return activateSnack('info', 'Niste ovlašćeni za unos podataka na ovom postupku.')
     }
   }

@@ -82,13 +82,3 @@ const AccountSettings = () => {
 }
 
 export default AccountSettings
-
-/*
-Napraviti novi kontroler 'statistics' za sve analize, ne treba redux (i riđuseri); kontroleri posebni prema sufiku, a period uzima
-iz query stringa (`?start=${start}&end=${end}`)
-direktno šalje zahteve (napraviti novi servis); koristiti kastom hukove;
-napraviti komponente za svaku analizu;
-napraviti stejt za odabir godine (posle možda i meseca) kao polazne tačke (uzima u obzir sve postupke nakon toga, >= );
-taj stejt će koristiti u svako zahtevu - baza selektuje postupke na osnovu toga i
-vraća samo ono što je potrebno za konkretnu analizu (odraditi preko sequelize-a)
-*/

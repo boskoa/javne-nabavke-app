@@ -36,7 +36,6 @@ const MyNotificationsIcon = () => {
   if (!notifications || !(notifications instanceof Array)) {
     return <div />
   }
-  console.log('NOTIFICATION', typeof(notifications))
 
   const activeNotifications = notifications.length
     ? notifications.filter((n) => !(n.done))

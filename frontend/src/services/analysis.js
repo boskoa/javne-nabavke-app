@@ -15,11 +15,11 @@ const getProcsByMonth = async (startRaw, endRaw) => {
 
   const start = encodeURIComponent(startRaw)
   const end = encodeURIComponent(endRaw)
-  console.log(start, end)
 
   const response = await axios.get(
     `${baseUrl}/procs-by-month?start=${start}&end=${end}`, config
   )
+
   return response.data
 }
 
@@ -30,12 +30,11 @@ const getProcsByUsers = async (startRaw, endRaw) => {
 
   const start = encodeURIComponent(startRaw)
   const end = encodeURIComponent(endRaw)
-  console.log(start, end)
 
   const response = await axios.get(
     `${baseUrl}/procs-by-users?start=${start}&end=${end}`, config
   )
-  console.log(response)
+
   return response.data
 }
 

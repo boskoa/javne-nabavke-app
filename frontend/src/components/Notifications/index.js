@@ -16,10 +16,9 @@ const Notifications = () => {
   }, [])
 
   if (!notificationsUnfiltered[0]) {
-    console.log('NOTIF UNFILTERED', notificationsUnfiltered)
     return <Typography variant="body2">Nema podsetnika</Typography>
   }
-  console.log('NOTIF', notificationsUnfiltered)
+
   const notifications = notificationsFilter
     ? [ ...notificationsUnfiltered ]
       .filter((n) => !(n.done))
