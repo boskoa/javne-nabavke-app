@@ -14,6 +14,7 @@ const UserView = () => {
   const { id } = useParams()
   const user = useSelector((state) => state.users.selectedUser)
   const adminLogged = useSelector((state) => state.login.data.admin)
+  const loggedIn = useSelector((state) => state.login.data.token)
   const pathUser = useSelector(
     (state) => state.users.data.find((u) => u.id === parseInt(id))
   )
@@ -22,8 +23,10 @@ const UserView = () => {
 
   useEffect(() => {
     dispatch(change(`Korisnik ${pathUser?.name}`))
-    dispatch(getSelectedUserThunk(id))
-  }, [])
+    if (loggedIn) {
+      dispatch(getSelectedUserThunk(id))
+    }
+  }, [loggedIn])
 
   if (!user.id || !pathUser || !avatar) {
     return <Loading />

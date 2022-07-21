@@ -31,6 +31,7 @@ const ChangeBasicDataModal = ({ procedure, userId, isAdmin }) => {
   const authorities = authoritiesObjects.map((a) => a.name)
   const authorityObject = authoritiesObjects.find((a) => a.name === authority) || {}
   const userObjects = useSelector((state) => state.users.data)
+  const loggedIn = useSelector((state) => state.login.data.token)
   const usernames = userObjects.map((u) => u.name)
   const userObject = userObjects.find((u) => u.name === user)
 
@@ -48,15 +49,17 @@ const ChangeBasicDataModal = ({ procedure, userId, isAdmin }) => {
     setOpen(false)
   }
   const handleSend = async () => {
-    dispatch(updateOneThunk({ id: procedure.id, data: {
-      name,
-      number: procNum,
-      contractingAuthorityId: authorityObject.id,
-      userId: userObject.id
-    } }))
-    dispatch(getOneThunk(procedure.id))
-    dispatch(initProcedures())
-    activateSnack('success', 'Postupak uspešno ažuriran')
+    if (loggedIn) {
+      dispatch(updateOneThunk({ id: procedure.id, data: {
+        name,
+        number: procNum,
+        contractingAuthorityId: authorityObject.id,
+        userId: userObject.id
+      } }))
+      dispatch(getOneThunk(procedure.id))
+      dispatch(initProcedures())
+      activateSnack('success', 'Postupak uspešno ažuriran')
+    }
     handleClose()
     setName(procedure.name)
     setProcNum(procedure.number)

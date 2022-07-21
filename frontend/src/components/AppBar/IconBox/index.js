@@ -35,7 +35,7 @@ const IconsBox = ({ showSearch, setShowSearch }) => {
       >
         <SearchIcon />
       </SearchIconButton>
-      <MyPendingActions user={user} />
+      <MyPendingActions />
       <MyNotificationsIcon />
       <ProfileIcon user={user} />
     </MyBox>

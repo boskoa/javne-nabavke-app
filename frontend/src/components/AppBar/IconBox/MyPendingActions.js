@@ -6,17 +6,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOneUserThunk } from '../../../reducers/userReducer'
 import { MyMenu } from './ProfileIcon'
 
-const MyPendingActions = ({ user }) => {
+const MyPendingActions = () => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const loggedUser = useSelector((state) => state.login.data)
   const dispatch = useDispatch()
 
   const open = Boolean(anchorEl)
 
   useEffect(() => {
-    if (user?.id) {
-      dispatch(getOneUserThunk(user.id))
+    if (loggedUser.token) {
+      setTimeout(() => dispatch(getOneUserThunk(loggedUser.id)), 200)
     }
-  }, [user])
+  }, [loggedUser])
 
   const currentUser = useSelector((state) => state.users.currentUser)
 

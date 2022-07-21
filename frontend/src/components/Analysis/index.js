@@ -36,6 +36,7 @@ const Analysis = () => {
         expanded={expanded === 'panel1'}
         onChange={handleChange('panel1')}
         TransitionProps={{ unmountOnExit: true }}
+        sx={{ minWidth: 800 }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

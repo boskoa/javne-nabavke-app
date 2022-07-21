@@ -22,6 +22,7 @@ const AuthorityForm = ({ setOpen, setAuthority }) => {
   const [name, setName] = useState('')
   const [jib, setJib] = useState('')
   const [ajnCode, setAjnCode] = useState(0)
+  const loggedIn = useSelector((state) => state.login.data.token)
 
   const dispatch = useDispatch()
 
@@ -30,7 +31,9 @@ const AuthorityForm = ({ setOpen, setAuthority }) => {
     setAuthority('')
   }
   const handleSend = async () => {
-    dispatch(newAuthorityThunk({ name, jib, ajnCode: new Number(ajnCode) }))
+    if (loggedIn) {
+      dispatch(newAuthorityThunk({ name, jib, ajnCode: new Number(ajnCode) }))
+    }
     setName('')
     setJib('')
     setAjnCode(0)

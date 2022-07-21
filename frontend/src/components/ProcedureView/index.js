@@ -47,13 +47,16 @@ const ProcedureView = () => {
   const notifications = notificationsUnfiltered.filter((n) => n.procedureId === procedure?.id)
   const userId = useSelector((state) => state.login.data.id)
   const isAdmin = useSelector((state) => state.users.currentUser.admin)
+  const loggedIn = useSelector((state) => state.login.data.token)
   const activateSnack = useTimedSnack()
 
   useEffect(() => {
-    dispatch(getOneThunk(parseInt(id)))
-    dispatch(getByProcedure(parseInt(id)))
+    if (loggedIn) {
+      dispatch(getOneThunk(parseInt(id)))
+      dispatch(getByProcedure(parseInt(id)))
+    }
     dispatch(change('Pregled postupka'))
-  }, [id])
+  }, [id, loggedIn])
 
   useEffect(() => {
     if (procedure?.budget) {
@@ -78,7 +81,7 @@ const ProcedureView = () => {
     <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
       <StepperBox>
         <PhaseStepperView procedure={procedure} userId={userId} isAdmin={isAdmin} />
-        <DeleteProcedure procedure={procedure} />
+        {isAdmin && <DeleteProcedure procedure={procedure} />}
       </StepperBox>
       <DataBox>
         <Paper

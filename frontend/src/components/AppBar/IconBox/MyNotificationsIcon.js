@@ -1,30 +1,21 @@
 import { IconButton, Badge, ClickAwayListener, MenuItem, Divider, Typography } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MyMenu } from './ProfileIcon'
-import { getAllNotificationsThunk } from '../../../reducers/notificationReducer'
 import useAutoSnack from '../../../hooks/useAutoSnack'
 
 const MyNotificationsIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const login = useSelector((state) => state.login.data)
-  const dispatch = useDispatch()
   const activateSnack = useAutoSnack()
-
-  useEffect(() => {
-    if (login?.token) {
-      dispatch(getAllNotificationsThunk())
-    }
-  }, [login])
 
   const notifications = useSelector((state) => state.notifications.data)
 
   useEffect(() => {
     if (notifications && notifications.length) {
-      const alarmedNotifications = notifications
+      const alarmedNotifications = notifications instanceof Array
         ? notifications.filter((n) => n.alarm && !(n.done))
         : []
       for (let i = 0; i < alarmedNotifications.length; i++) {
@@ -42,11 +33,14 @@ const MyNotificationsIcon = () => {
     }
   }, [notifications])
 
-  if (!notifications) {
+  if (!notifications || !(notifications instanceof Array)) {
     return <div />
   }
+  console.log('NOTIFICATION', typeof(notifications))
 
-  const activeNotifications = notifications.filter((n) => !(n.done))
+  const activeNotifications = notifications.length
+    ? notifications.filter((n) => !(n.done))
+    : []
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)

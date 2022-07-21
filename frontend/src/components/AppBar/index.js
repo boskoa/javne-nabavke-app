@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react'
 import Location from './Location'
 import { getAllOverviewThunk } from '../../reducers/userReducer'
 import { initProcedures } from '../../reducers/procedureReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllNotificationsThunk } from '../../reducers/notificationReducer'
 
 const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.custom.dark,
@@ -21,16 +22,20 @@ const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
 
 const MyAppBar = () => {
   const [showSearch, setShowSearch] = useState(false)
+  const loggedIn = useSelector((state) => state.login.data.token)
   const dispatch = useDispatch()
-
+  // staviti uslov u ovaj (i ostale) juz efekte - login stejt; da ne bi slao zahteve bez tokena); ovo bi
+  // trebalo da reši problem odbijanja kod logovanja bez rifreša
+  // takođe, srediti y osu na analizi broj 2
   useEffect(() => {
-    try {
-      dispatch(getAllOverviewThunk())
-      dispatch(initProcedures())
-    } catch (error) {
-      console.log(error)
+    if (loggedIn) {
+      setTimeout(() => {
+        dispatch(initProcedures())
+        dispatch(getAllOverviewThunk())
+        dispatch(getAllNotificationsThunk())
+      }, 200)
     }
-  }, [])
+  }, [loggedIn])
 
   return(
     <MyStyledAppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>

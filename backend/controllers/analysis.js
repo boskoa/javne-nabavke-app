@@ -12,8 +12,10 @@ router.get('/procs-by-month', tokenExtractor, async (req, res, next) => {
       return res.status(401).json({ error: 'Account disabled' })
     }
 
-    const start = req.query.start
-    const end = req.query.end
+    const start = new Date(Date.parse(decodeURIComponent(req.query.start)))
+    const end = new Date(Date.parse(decodeURIComponent(req.query.end)))
+
+    console.log('DECODED', start, end)
 
     const procedures = await Procedure.findAll({
       where: { [Op.or]: [

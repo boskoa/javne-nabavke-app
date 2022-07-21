@@ -11,7 +11,10 @@ import { useNavigate } from 'react-router-dom'
 import notificationService from '../../services/notifications'
 import avatarService from '../../services/avatar'
 import procedureService from '../../services/procedures'
-import { getAllNotificationsThunk } from '../../reducers/notificationReducer'
+import userService from '../../services/users'
+import authorityService from '../../services/authorities'
+import requirementService from '../../services/requirements'
+import analysisService from '../../services/analysis'
 import useTimedSnack from '../../hooks/useTimedSnack'
 
 const Login = ({ open, handleClose }) => {
@@ -37,8 +40,11 @@ const Login = ({ open, handleClose }) => {
         notificationService.setToken(result.payload.token)
         avatarService.setToken(result.payload.token)
         procedureService.setToken(result.payload.token)
+        userService.setToken(result.payload.token)
+        authorityService.setToken(result.payload.token)
+        requirementService.setToken(result.payload.token)
+        analysisService.setToken(result.payload.token)
         activateSnack('success', 'Uspešno ste se ulogovali')
-        dispatch(getAllNotificationsThunk())
       }
     }
   }

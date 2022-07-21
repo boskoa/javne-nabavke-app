@@ -9,6 +9,8 @@ import {
 import { Stack, Animation } from '@devexpress/dx-react-chart'
 import Loading from '../Loading'
 import { useEffect, useState } from 'react'
+import { easeBounceOut } from 'd3-ease'
+import { useSelector } from 'react-redux'
 
 const months = [
   'Januar',
@@ -37,12 +39,15 @@ const Label = (props) => (
 
 const ProceduresByMonth = ({ start, end }) => {
   const [dataRaw, setDataRaw] = useState([])
+  const loggedIn = useSelector((state) => state.login.data.token)
 
   useEffect(() => {
-    analysis
-      .getProcsByMonth(start, end)
-      .then((response) => setDataRaw(response))
-  }, [])
+    if (loggedIn) {
+      analysis
+        .getProcsByMonth(start, end)
+        .then((response) => setDataRaw(response))
+    }
+  }, [loggedIn])
 
   if (!dataRaw[0]) {
     return <Loading />
@@ -50,12 +55,12 @@ const ProceduresByMonth = ({ start, end }) => {
 
   const data = months.map((m) => {
     const creations = dataRaw
-      .filter((d) => months[parseInt(d.created_at.slice(5, 7)) - 1] === m)
-      .length
+      ? dataRaw.filter((d) => months[parseInt(d.created_at.slice(5, 7)) - 1] === m).length
+      : 0
     const submissions = dataRaw
-      .filter((d) => months[parseInt(new Date(d.submission_date)
-        .toISOString().slice(5, 7)) - 1] === m)
-      .length
+      ? dataRaw.filter((d) => months[parseInt(new Date(d.submission_date)
+        .toISOString().slice(5, 7)) - 1] === m).length
+      : 0
 
     return { month: m, creations, submissions }
   })
@@ -76,7 +81,7 @@ const ProceduresByMonth = ({ start, end }) => {
         argumentField="month"
         color="teal"
       />
-      <Animation />
+      <Animation duration={1500} easing={easeBounceOut} />
       <Legend position="bottom" rootComponent={Root} labelComponent={Label} />
       <Stack />
     </Chart>

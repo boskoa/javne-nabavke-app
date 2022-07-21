@@ -11,11 +11,14 @@ const Users = () => {
   const usersUnfiltered = useSelector((state) => state.users.data)
   const filter = useSelector(state => state.search.value.toLowerCase())
   const users = usersUnfiltered.filter((u) => u.name.toLowerCase().includes(filter))
+  const loggedIn = useSelector((state) => state.login.data.token)
 
   useEffect(() => {
     dispatch(change('Korisnici'))
-    dispatch(getAllOverviewThunk())
-  }, [])
+    if (loggedIn) {
+      dispatch(getAllOverviewThunk())
+    }
+  }, [loggedIn])
 
   if (!users) {
     return <Loading />

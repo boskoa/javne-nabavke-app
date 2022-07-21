@@ -1,3 +1,4 @@
+import * as React from 'react'
 import analysis from '../../services/analysis'
 import {
   Chart,
@@ -6,9 +7,12 @@ import {
   BarSeries,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui'
-import { Stack } from '@devexpress/dx-react-chart'
+import { scaleBand } from '@devexpress/dx-chart-core'
+import { ArgumentScale, Stack, ValueScale, Animation } from '@devexpress/dx-react-chart'
+import { easeBounceOut } from 'd3-ease'
 import Loading from '../Loading'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const Root = (props) => (
   <Legend.Root
@@ -22,47 +26,63 @@ const Label = (props) => (
 
 const ProceduresByUser = ({ start, end }) => {
   const [data, setData] = useState([])
-
+  const loggedIn = useSelector((state) => state.login.data.token)
+  //const loggedIn = JSON.parse(window.localStorage.getItem("token"))
   useEffect(() => {
-    analysis
-      .getProcsByUsers(start, end)
-      .then((response) => setData(response))
-  }, [])
+    if (loggedIn) {
+      analysis
+        .getProcsByUsers(start, end)
+        .then((response) => setData(response))
+    }
+  }, [loggedIn])
 
   if (!data[0]) {
     return <Loading />
   }
 
-  console.log('DATA', data)
+  const finishedData = data.map((d) => {
+    const active_count = parseInt(d.active_count)
+    const name = d.name
+    const success_count = parseInt(d.success_count)
+    const total_count = parseInt(d.total_count)
+    const unsuccessful_count = parseInt(d.unsuccessful_count)
+
+    return { active_count, name, success_count, total_count, unsuccessful_count }
+  })
+
+  console.log('DATA', data, finishedData)
 
   return (
-    <Chart data={data}>
+    <Chart data={finishedData}>
+      <ValueScale name="Ukupno postupaka" />
+      <ValueScale name="Uspešni postupci" />
+      <ValueScale name="Postupci u toku" />
+      <ValueScale name="Neuspešni postupci" />
+      <ArgumentScale factory={scaleBand} />
       <ArgumentAxis />
       <ValueAxis />
+
       <BarSeries
-        name="Ukupno postupaka"
         valueField="total_count"
         argumentField="name"
-        color="orange"
+        name="Ukupno postupaka"
       />
       <BarSeries
-        name="Uspešni postupci"
         valueField="success_count"
         argumentField="name"
-        color="green"
+        name="Uspešni postupci"
       />
       <BarSeries
-        name="Postupci u toku"
         valueField="active_count"
         argumentField="name"
-        color="blue"
+        name="Postupci u toku"
       />
       <BarSeries
-        name="Neuspešni postupci"
         valueField="unsuccessful_count"
         argumentField="name"
-        color="red"
+        name="Neuspešni postupci"
       />
+      <Animation duration={1500} easing={easeBounceOut} />
       <Legend position="bottom" rootComponent={Root} labelComponent={Label} />
       <Stack />
     </Chart>

@@ -79,10 +79,13 @@ const ProceduresTable = () => {
   const filter = useSelector(state => state.search.value.toLowerCase())
 
   const user = useSelector((state) => state.login.data.name)
+  const loggedIn = useSelector((state) => state.login.data.token)
 
   useEffect(() => {
-    dispatch(change('Postupci'))
-  }, [])
+    if (loggedIn) {
+      dispatch(change('Postupci'))
+    }
+  }, [loggedIn])
 
   const rawRows = userFilter
     ? useSelector(state => state.procedure.data).filter((r) => r.user.name === user)

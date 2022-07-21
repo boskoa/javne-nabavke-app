@@ -16,9 +16,10 @@ const Notifications = () => {
   }, [])
 
   if (!notificationsUnfiltered[0]) {
+    console.log('NOTIF UNFILTERED', notificationsUnfiltered)
     return <Typography variant="body2">Nema podsetnika</Typography>
   }
-
+  console.log('NOTIF', notificationsUnfiltered)
   const notifications = notificationsFilter
     ? [ ...notificationsUnfiltered ]
       .filter((n) => !(n.done))
@@ -33,7 +34,7 @@ const Notifications = () => {
       />
       <Stack direction="row" flexWrap="wrap">
         {notifications
-          .filter((n) => n.procedure.name.toLowerCase().includes(filter)
+          .filter((n) => n.procedure?.name.toLowerCase().includes(filter)
             || n.procedure.contractingAuthority.name.toLowerCase().includes(filter))
           .map((n) => <SingleNotification key={ n.id } notification={ n } />)}
       </Stack>

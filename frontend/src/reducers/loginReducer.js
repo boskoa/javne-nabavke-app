@@ -9,7 +9,6 @@ export const loginThunk = createAsyncThunk(
       window.localStorage.setItem('loggedTenderUser', JSON.stringify(response))
       return response
     } catch (exception) {
-      console.log('BANNED', exception.response.data)
       return exception.response.data
     }
   }

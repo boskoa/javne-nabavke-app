@@ -8,10 +8,14 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
 
-const getProcsByMonth = async (start, end) => {
+const getProcsByMonth = async (startRaw, endRaw) => {
   const config = {
     headers: { Authorization: token },
   }
+
+  const start = encodeURIComponent(startRaw)
+  const end = encodeURIComponent(endRaw)
+  console.log(start, end)
 
   const response = await axios.get(
     `${baseUrl}/procs-by-month?start=${start}&end=${end}`, config
@@ -19,11 +23,13 @@ const getProcsByMonth = async (start, end) => {
   return response.data
 }
 
-const getProcsByUsers = async (start, end) => {
+const getProcsByUsers = async (startRaw, endRaw) => {
   const config = {
     headers: { Authorization: token },
   }
 
+  const start = encodeURIComponent(startRaw)
+  const end = encodeURIComponent(endRaw)
   console.log(start, end)
 
   const response = await axios.get(
