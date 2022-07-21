@@ -49,7 +49,7 @@ const ProceduresByMonth = ({ start, end }) => {
     }
   }, [loggedIn])
 
-  if (!dataRaw[0]) {
+  if (!(dataRaw[0]?.id)) {
     return <Loading />
   }
 
