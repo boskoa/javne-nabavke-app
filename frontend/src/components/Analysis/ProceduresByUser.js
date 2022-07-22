@@ -36,9 +36,12 @@ const ProceduresByUser = ({ start, end }) => {
     }
   }, [loggedIn])
 
-  if (!data[0]) {
+  if (!(data[0]?.name)) {
+    console.log('DATA')
     return <Loading />
   }
+
+  console.log('DATA2', data)
 
   const finishedData = data.map((d) => {
     const active_count = parseInt(d.active_count)
