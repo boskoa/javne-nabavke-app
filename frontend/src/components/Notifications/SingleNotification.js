@@ -19,6 +19,15 @@ const MyStyledCard = styled(Card)(({ theme }) => ({
   width: 300,
 }))
 
+const options = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}
+
 const SingleNotification = ({ notification }) => {
   const dispatch = useDispatch()
 
@@ -49,7 +58,9 @@ const SingleNotification = ({ notification }) => {
         <Divider sx={{ mb: 1.5, mt: 1.5 }} />
         <Typography variant="body2" color="text.secondary">
           <span style={{ fontWeight: 600 }}>Alarm: </span>
-          {notification.alarm ? notification.alarm.slice(0, 24) : <i>nije podešen</i>}
+          {notification.alarm
+            ? new Date(notification.alarm).toLocaleDateString('sr-Latn-RS', options)
+            : <i>nije podešen</i>}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <span style={{ fontWeight: 600 }}>UO: </span>{notification.procedure

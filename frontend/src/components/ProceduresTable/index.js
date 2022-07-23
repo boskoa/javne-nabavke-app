@@ -102,15 +102,25 @@ const ProceduresTable = () => {
     ? rawRows.filter((p) => !inactivePhases.includes(p.phase))
     : rawRows
 
+  const options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  }
+
   const rows = rawRowsWithPhase.map((proc) => {
     if (proc.contractingAuthority) {
-      const date = proc.submissionDate ? proc.submissionDate : ''
+      const date = proc.submissionDate
+        ? new Date(proc.submissionDate).toLocaleDateString('sr-Latn-RS', options)
+        : ''
 
       return {
         id: proc.id,
         authority: proc.contractingAuthority.name,
         name: proc.name,
-        endDate: date.slice(4, 24),
+        endDate: date,
         user: proc.user.name,
         budget: proc.budget,
         phase: proc.phase,

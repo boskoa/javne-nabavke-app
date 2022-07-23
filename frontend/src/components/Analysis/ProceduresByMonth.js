@@ -58,8 +58,9 @@ const ProceduresByMonth = ({ start, end }) => {
       ? dataRaw.filter((d) => months[parseInt(d.created_at.slice(5, 7)) - 1] === m).length
       : 0
     const submissions = dataRaw
-      ? dataRaw.filter((d) => months[parseInt(new Date(d.submission_date)
-        .toISOString().slice(5, 7)) - 1] === m).length
+      ? dataRaw.filter((d) => d.submission_date
+        && months[parseInt(new Date(d.submission_date)
+          .toISOString().slice(5, 7)) - 1] === m).length
       : 0
 
     return { month: m, creations, submissions }
