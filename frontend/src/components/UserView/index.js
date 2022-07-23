@@ -22,11 +22,14 @@ const UserView = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(change(`Korisnik ${pathUser?.name}`))
     if (loggedIn) {
       dispatch(getSelectedUserThunk(id))
     }
   }, [loggedIn])
+
+  useEffect(() => {
+    dispatch(change(`Korisnik ${pathUser?.name}`))
+  }, [pathUser])
 
   if (!user.id || !pathUser || !avatar) {
     return <Loading />

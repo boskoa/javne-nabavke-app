@@ -24,9 +24,6 @@ const MyAppBar = () => {
   const [showSearch, setShowSearch] = useState(false)
   const loggedIn = useSelector((state) => state.login.data.token)
   const dispatch = useDispatch()
-  // staviti uslov u ovaj (i ostale) juz efekte - login stejt; da ne bi slao zahteve bez tokena); ovo bi
-  // trebalo da reši problem odbijanja kod logovanja bez rifreša
-  // takođe, srediti y osu na analizi broj 2
   useEffect(() => {
     if (loggedIn) {
       setTimeout(() => {
