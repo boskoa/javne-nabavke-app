@@ -6,6 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOneUserThunk } from '../../../reducers/userReducer'
 import { MyMenu } from './ProfileIcon'
 
+const options = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}
+
 const MyPendingActions = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const loggedUser = useSelector((state) => state.login.data)
@@ -72,7 +80,8 @@ const MyPendingActions = () => {
                   } - ${
                     p.name
                   } | ${
-                    p.submissionDate.slice(4, 21)
+                    p?.submissionDate && new Date(p.submissionDate)
+                      .toLocaleDateString('sr-Latn-RS', options)
                   }
                 `}
                 </Typography>

@@ -6,6 +6,14 @@ import { Link } from 'react-router-dom'
 import { MyMenu } from './ProfileIcon'
 import useAutoSnack from '../../../hooks/useAutoSnack'
 
+const options = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}
+
 const MyNotificationsIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -79,7 +87,8 @@ const MyNotificationsIcon = () => {
               <Link to="/notifications" style={{ textDecoration: 'none' }}>
                 <Typography variant="body2" sx={{ color: 'custom.contrastText' }}>
                   {`${
-                    n.alarm?.slice(4, 21)
+                    n?.alarm && new Date(n.alarm)
+                      .toLocaleDateString('sr-Latn-RS', options)
                   } - ${
                     n.procedure?.contractingAuthority.name
                   } - ${
