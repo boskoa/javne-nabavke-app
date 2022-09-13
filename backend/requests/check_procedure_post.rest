@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/procedures
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY28iLCJpZCI6MSwiaWF0IjoxNjU0OTQ2MjQyfQ.xt-DYExeSA1Db_K7v996AU8Jb3IRZ5q8U5yjIvHWuKk
+Authorization: bearer
 
 {
   "jib": "440266337007874",
